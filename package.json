@@ -19,5 +19,10 @@
   "homepage": "https://github.com/eduardorivas09/pagina-servimo#readme",
   "devDependencies": {
     "lite-server": "^2.5.4"
+  },
+  "dependencies": {
+    "bootstrap": "^4.5.3",
+    "jquery": "^3.5.1",
+    "popper.js": "^1.16.1"
   }
 }
