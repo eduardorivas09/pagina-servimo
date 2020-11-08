@@ -11,17 +11,13 @@
     width: 100%;
 }
 
-footer {
-    padding: 10px 10px 0 10px;
-    background-color: #fffa19;
-    margin-top: 10px;
-    margin-bottom: 0px; }
 
 .card-hotel {
-    flex: 1 200px;
+    flex: 1 500px;
     padding: 2px 0px 2px 0px;
     margin-top: 10px;
-    margin-bottom: 0px; }
+    margin-bottom: 0px;
+}
 
 .btn-reserva {
     width: 100%;
@@ -32,10 +28,6 @@ footer {
 
 .card-img-top {
     height: 200px; }
-
-.img-carosel {
-    width: 800px;
-    height: 400px; }
 
 .tab-content {
     padding-top: 10px; }
@@ -50,5 +42,14 @@ h5 {
 
 .card-text{
     text-align: justify;
+}
+
+/* footer */
+footer {
+    padding: 10px 10px 0 10px;
+    margin-top: 10px;
+    margin-bottom: 0px;
+    color: white;
+    
 }
 
