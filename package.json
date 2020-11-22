@@ -4,25 +4,38 @@
   "description": "Proyecto de diseno de internet",
   "main": "index.html",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "lite-server"
+    "test": "react-scripts test",
+    "dev": "lite-server",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "eject": "react-scripts eject"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/eduardorivas09/pagina-servimo.git"
-  },
-  "author": "Eduardo Rivas",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/eduardorivas09/pagina-servimo/issues"
-  },
-  "homepage": "https://github.com/eduardorivas09/pagina-servimo#readme",
   "devDependencies": {
     "lite-server": "^2.5.4"
   },
   "dependencies": {
+    "@testing-library/jest-dom": "^5.11.6",
+    "@testing-library/react": "^11.2.2",
+    "@testing-library/user-event": "^12.2.2",
     "bootstrap": "^4.5.3",
     "jquery": "^3.5.1",
-    "popper.js": "^1.16.1"
+    "popper.js": "^1.16.1",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "4.0.0",
+    "web-vitals": "^0.2.4"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }
