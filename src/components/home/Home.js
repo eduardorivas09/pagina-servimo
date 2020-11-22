@@ -10,6 +10,7 @@ import dataJson from './home_data.json'
 // import 'popper.js'
 import Footer from "../footer/Footer";
 
+
 export default class Home extends React.Component{
 
     render() {
@@ -23,7 +24,7 @@ export default class Home extends React.Component{
                         <img src={homeImage} className="img-fluid img-principal" alt="Responsive image" />
                     </div>
 
-                    <div className="d-flex flex-wrap">
+                    <div className="dback-flex flex-wrap">
                         {
                             // console.log(dataJson)
                             Object.keys(dataJson).map(key => (
