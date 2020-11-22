@@ -15,7 +15,7 @@ export default class Nav extends React.Component{
                         <NavItem href="/" text="Home" />
                         <NavItem href="/nosotros" text="Nosotros"/>
                         <NavItem href="/servicios" text="Servicios"/>
-                        <NavItem href="/contacto" text="Contacto"/>
+                        <NavItem href="/contact" text="Contacto"/>
                         {/*<li className="nav-item active"><a href="/" className="nav-link">Home</a></li>*/}
                         {/*<li className="nav-item"><a href="./about.html" className="nav-link">Nosotros</a></li>*/}
                         {/*<li className="nav-item"><a href="./servicio.html" className="nav-link">Servicios</a></li>*/}
