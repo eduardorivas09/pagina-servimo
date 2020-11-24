@@ -34,6 +34,9 @@ export default class Main extends React.Component{
         if (selectedItem === this.state.selectedItem)
             return
 
+        if (tree.length > 1)
+            tree.forEach((e, index) => {if (tree.length > 1) tree.pop()})
+
         let arr = selectedItem.split(' ')
 
         arr.forEach(e => {
@@ -87,7 +90,7 @@ export default class Main extends React.Component{
                                     <a onClick={this.onItemClick}>Clientes Natural</a>
                                 </li>
                                 <li>
-                                    <a href="#">Clientes Juridio</a>
+                                    <a onClick={this.onItemClick} href="#">Clientes Juridio</a>
                                 </li>
                             </ul>
                         </li>
@@ -111,7 +114,7 @@ export default class Main extends React.Component{
                     <nav className="navbar navbar-expand-lg navbar-light bg-light">
                         <div className="container-fluid">
 
-                            <button type="button" id="sidebarCollapse" className="btn btn-info" onClick={this.onClickMenu}>
+                            <button type="button" id="sidebarCollapse" className="btn btn-dark" onClick={this.onClickMenu}>
                                 <span><img src={menu} alt="Menu"/></span>
                             </button>
                             <BreadCrumb tree={this.state.tree}/>
