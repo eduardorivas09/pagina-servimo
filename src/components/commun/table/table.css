@@ -1,0 +1,12 @@
+.my-custom-scrollbar {
+    position: relative;
+    height: 20em;
+    overflow: auto;
+}
+.table-wrapper-scroll-y {
+    display: block;
+}
+
+tbody tr:hover {
+    cursor: pointer;
+}
