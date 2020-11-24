@@ -76,27 +76,27 @@ export default class ClienteNatural extends React.Component {
             return c;
         });
 
-        const tree = [
-            {
-                id: 1,
-                text: "Home",
-                href: "/",
-                isActive: false
-            }
-            ,
-            {
-                id: 2,
-                text: "Clientes",
-                href: "/clientes",
-                isActive: false
-            },
-            {
-                id: 3,
-                text: "Natural",
-                href: "/clientes/natural",
-                isActive: true
-            }
-        ]
+        // const tree = [
+        //     {
+        //         id: 1,
+        //         text: "Home",
+        //         href: "/",
+        //         isActive: false
+        //     }
+        //     ,
+        //     {
+        //         id: 2,
+        //         text: "Clientes",
+        //         href: "/clientes",
+        //         isActive: false
+        //     },
+        //     {
+        //         id: 3,
+        //         text: "Natural",
+        //         href: "/clientes/natural",
+        //         isActive: true
+        //     }
+        // ]
         return (
             <div className="row mb-5">
 
@@ -104,7 +104,7 @@ export default class ClienteNatural extends React.Component {
 
                     <div className="bg-white p-5 rounded">
                         {/*Banda de navegacion*/}
-                        <BreadCrumb tree={tree}/>
+                        {/*<BreadCrumb tree={tree}/>*/}
                         {/*titulo*/}
                         <h1 className="display-4">Clientes Naturales</h1>
                         {/*Campo de busqueda*/}

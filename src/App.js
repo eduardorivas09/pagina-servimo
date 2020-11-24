@@ -5,7 +5,7 @@ import {BrowserRouter, Switch, Route} from 'react-router-dom';
 import React from "react";
 import Contact from './components/contact/Contac';
 import ClienteNatural from "./components/clientes/natural/ClienteNatural";
-
+import Main from "./components/main/Main";
 function App() {
     return (
         <BrowserRouter>
@@ -17,10 +17,15 @@ function App() {
                     {/*llamada a la clase contact*/}
                     <Contact/>
                 </Route>
-                <Route exact path="/clientes/natural">
+                <Route exact path="/main">
+                    {/*llamada a la clase contact*/}
+                    <Main/>
+                </Route>
+                <Route exact path="/main/clientes/natural">
                     {/*llamada a la clase contact*/}
                     <ClienteNatural/>
                 </Route>
+
             </Switch>
         </BrowserRouter>
     );
