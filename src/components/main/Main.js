@@ -29,13 +29,15 @@ export default class Main extends React.Component{
     pushObject(event){
 
         let tree = this.state.tree;
+        let firstNode = this.state.tree[0];
         let selectedItem = event.target.textContent;
 
         if (selectedItem === this.state.selectedItem)
             return
 
-        if (tree.length > 1)
-            tree.forEach((e, index) => {if (tree.length > 1) tree.pop()})
+        tree= []
+
+        tree.push(firstNode);
 
         let arr = selectedItem.split(' ')
 
@@ -81,7 +83,7 @@ export default class Main extends React.Component{
                     </div>
 
                     <ul className="list-unstyled components">
-                        <p>Dummy Heading</p>
+                        <p>Administracion</p>
                         <li className="active">
                             <a href="#clienteSubmenu" data-toggle="collapse" aria-expanded="false"
                                className="dropdown-toggle">Clientes</a>
@@ -90,7 +92,7 @@ export default class Main extends React.Component{
                                     <a onClick={this.onItemClick}>Clientes Natural</a>
                                 </li>
                                 <li>
-                                    <a onClick={this.onItemClick} href="#">Clientes Juridio</a>
+                                    <a onClick={this.onItemClick} href="#">Clientes Juridicos</a>
                                 </li>
                             </ul>
                         </li>
@@ -99,10 +101,10 @@ export default class Main extends React.Component{
                                className="dropdown-toggle">Contratos</a>
                             <ul className="collapse list-unstyled" id="contratoSubmenu">
                                 <li>
-                                    <a >Contrato Clientes Natural</a>
+                                    <a onClick={this.onItemClick}>Contrato Clientes Natural</a>
                                 </li>
                                 <li>
-                                    <a href="#">Contrato Clientes Juridio</a>
+                                    <a onClick={this.onItemClick}>Contrato Clientes Juridio</a>
                                 </li>
                             </ul>
                         </li>
@@ -121,8 +123,13 @@ export default class Main extends React.Component{
                         </div>
                     </nav>
                     {
-                        (this.state.selectedItem === "Clientes Natural") ? <ClienteNatural/> : <Fragment></Fragment>
+                        (this.state.selectedItem === "Clientes Natural") ? <ClienteNatural/> :
+                            (this.state.selectedItem === "Clientes Juridicos") ? <Fragment>Aca clientes juridicos</Fragment> :
+                                (this.state.selectedItem === "Contrato Clientes Natural") ? <Fragment>Aca Contrato Clientes Natural</Fragment> :
+                                    (this.state.selectedItem === "Contrato Clientes Juridio") ? <Fragment>Aca Contrato Clientes Juridio</Fragment> :
+                                        <Fragment></Fragment>
                     //    agregar condicionales igual a la linea anterior
+
                     }
                 </div>
 
