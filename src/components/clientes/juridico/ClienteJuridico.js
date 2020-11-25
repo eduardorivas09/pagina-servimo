@@ -5,7 +5,7 @@ import Table from "../../commun/table/Table";
 import setting from '../../../ApiSetting.json';
 import 'bootstrap';
 
-export default class ClienteNatural extends React.Component {
+export default class ClienteJuridico extends React.Component {
 
     constructor(props) {
         super(props);
@@ -45,7 +45,7 @@ export default class ClienteNatural extends React.Component {
 
     loadData(search){
 
-        let url = setting.url + "clientes/natural"
+        let url = setting.url + "clientes/Juridico"
         url += (search != null && search.trim().length > 0) ? `/?search=${search}` : ""
 
         fetch(url ,
@@ -69,46 +69,35 @@ export default class ClienteNatural extends React.Component {
     render() {
         const temp = this.state.data.map(o => {
             let c = Object.assign({}, o);
-            delete c.direccion; delete c.edad;
-            delete c.segundoApellido;
-            delete c.segundoNombre;
-            delete c.estadoCivil;
+            delete c.noRuc; delete c.nombre;
+            delete c.correo;
+            delete c.telefono;
+            delete  c.direccion;
+
             return c;
         });
 
-        const tree = [
-            {
-                id: 1,
-                text: "Home",
-                href: "/",
-                isActive: false
-            }
-            ,
-            {
-                id: 2,
-                text: "Clientes",
-                href: "/clientes",
-                isActive: false
-            },
-            {
-                id: 3,
-                text: "Natural",
-                href: "/clientes/natural",
-                isActive: false
-            },
-            {
-                id: 4,
-                text: "Juridico",
-                href: "/clientes/juridico",
-                isActive: false
-            },
-            {
-                id: 5,
-                text: "contrato",
-                href: "contrato/clientes/juridico",
-                isActive: false
-            }
-        ]
+        // const tree = [
+        //     {
+        //         id: 1,
+        //         text: "Home",
+        //         href: "/",
+        //         isActive: false
+        //     }
+        //     ,
+        //     {
+        //         id: 2,
+        //         text: "Clientes",
+        //         href: "/clientes",
+        //         isActive: false
+        //     },
+        //     {
+        //         id: 3,
+        //         text: "Natural",
+        //         href: "/clientes/natural",
+        //         isActive: true
+        //     }
+        // ]
         return (
             <div className="row mb-5">
 
@@ -118,7 +107,7 @@ export default class ClienteNatural extends React.Component {
                         {/*Banda de navegacion*/}
                         {/*<BreadCrumb tree={tree}/>*/}
                         {/*titulo*/}
-                        <h1 className="display-4">Clientes Naturales</h1>
+                        <h1 className="display-4">Clientes Juridico</h1>
                         {/*Campo de busqueda*/}
                         <SearchField onSearchChange={this.onSearchChange} placeholder="Qué cliente buscará?"
                                      onSubmit={this.buscar}/>

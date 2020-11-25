@@ -1,7 +1,7 @@
 {
   "name": "pagina-servimo",
   "version": "1.0.0",
-  "description": "Proyecto de diseno de internet",
+  "description": "Proyecto de diseño de internet",
   "main": "index.html",
   "scripts": {
     "test": "react-scripts test",
