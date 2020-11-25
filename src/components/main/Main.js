@@ -4,6 +4,8 @@ import $ from 'jquery';
 import menu from '../../icons/icons8-menu-24.png';
 import ClienteNatural from "../clientes/natural/ClienteNatural";
 import BreadCrumb from "../nav/breadcrumb/BreadCrumb";
+import ClienteJuridico from "../clientes/juridico/ClienteJuridico";
+import ContratoClientesJuridico from "../contrato/clientes/juridico/ContratoClientesJuridico";
 
 export default class Main extends React.Component{
 
@@ -92,7 +94,7 @@ export default class Main extends React.Component{
                                     <a onClick={this.onItemClick}>Clientes Natural</a>
                                 </li>
                                 <li>
-                                    <a onClick={this.onItemClick} href="#">Clientes Juridicos</a>
+                                    <a onClick={this.onItemClick} >Clientes Juridicos</a>
                                 </li>
                             </ul>
                         </li>
@@ -104,7 +106,7 @@ export default class Main extends React.Component{
                                     <a onClick={this.onItemClick}>Contrato Clientes Natural</a>
                                 </li>
                                 <li>
-                                    <a onClick={this.onItemClick}>Contrato Clientes Juridio</a>
+                                    <a onClick={this.onItemClick}>Contrato Clientes Juridico</a>
                                 </li>
                             </ul>
                         </li>
@@ -124,10 +126,10 @@ export default class Main extends React.Component{
                     </nav>
                     {
                         (this.state.selectedItem === "Clientes Natural") ? <ClienteNatural/> :
-                            (this.state.selectedItem === "Clientes Juridicos") ? <Fragment>Aca clientes juridicos</Fragment> :
-                                (this.state.selectedItem === "Contrato Clientes Natural") ? <Fragment>Aca Contrato Clientes Natural</Fragment> :
-                                    (this.state.selectedItem === "Contrato Clientes Juridio") ? <Fragment>Aca Contrato Clientes Juridio</Fragment> :
-                                        <Fragment></Fragment>
+                            (this.state.selectedItem === "Clientes Juridicos") ? <Fragment><ClienteJuridico/></Fragment> :
+                                (this.state.selectedItem === "contrato Clientes Natural") ? <Fragment>Aca Contrato Clientes Natural</Fragment> :
+                                    (this.state.selectedItem === "contrato clientes juridico") ? <Fragment><ContratoClientesJuridico/></Fragment>  : "Servimos s.a "
+                                        // <Fragment></Fragment>
                     //    agregar condicionales igual a la linea anterior
 
                     }

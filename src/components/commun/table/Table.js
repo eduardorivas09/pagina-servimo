@@ -1,5 +1,5 @@
 import React, {Fragment} from 'react';
-import './table.css'
+import './table.css';
 
 export default class Table extends React.Component {
 

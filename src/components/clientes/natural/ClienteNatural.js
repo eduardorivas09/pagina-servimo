@@ -2,8 +2,8 @@ import React, {Fragment} from 'react';
 import BreadCrumb from "../../nav/breadcrumb/BreadCrumb";
 import SearchField from "../../commun/field/SearchField";
 import Table from "../../commun/table/Table";
-import setting from '../../../ApiSetting.json'
-import 'bootstrap'
+import setting from '../../../ApiSetting.json';
+import 'bootstrap';
 
 export default class ClienteNatural extends React.Component {
 
@@ -76,27 +76,39 @@ export default class ClienteNatural extends React.Component {
             return c;
         });
 
-        // const tree = [
-        //     {
-        //         id: 1,
-        //         text: "Home",
-        //         href: "/",
-        //         isActive: false
-        //     }
-        //     ,
-        //     {
-        //         id: 2,
-        //         text: "Clientes",
-        //         href: "/clientes",
-        //         isActive: false
-        //     },
-        //     {
-        //         id: 3,
-        //         text: "Natural",
-        //         href: "/clientes/natural",
-        //         isActive: true
-        //     }
-        // ]
+        const tree = [
+            {
+                id: 1,
+                text: "Home",
+                href: "/",
+                isActive: false
+            }
+            ,
+            {
+                id: 2,
+                text: "Clientes",
+                href: "/clientes",
+                isActive: false
+            },
+            {
+                id: 3,
+                text: "Natural",
+                href: "/clientes/natural",
+                isActive: false
+            },
+            {
+                id: 4,
+                text: "Juridico",
+                href: "/clientes/juridico",
+                isActive: false
+            },
+            {
+                id: 5,
+                text: "contrato",
+                href: "contrato/clientes/juridico",
+                isActive: false
+            }
+        ]
         return (
             <div className="row mb-5">
 
