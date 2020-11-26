@@ -1,7 +1,8 @@
 import React, {Fragment} from 'react';
-import BreadCrumb from "../../nav/breadcrumb/BreadCrumb";
+import $ from 'jquery';
 import SearchField from "../../commun/field/SearchField";
 import Table from "../../commun/table/Table";
+import ClienteNaturalModal from "./ClienteNaturalModal";
 import setting from '../../../ApiSetting.json';
 import 'bootstrap';
 
@@ -11,10 +12,12 @@ export default class ClienteNatural extends React.Component {
         super(props);
         this.state = {
             busqueda: "",
-            data : []
+            data: []
         }
-        this.buscar = this.buscar.bind(this)
-        this.onSearchChange = this.onSearchChange.bind(this)
+
+        this.buscar = this.buscar.bind(this);
+        this.onSearchChange = this.onSearchChange.bind(this);
+        this.rowClicked = this.rowClicked.bind(this);
     }
 
     buscar(e) {
@@ -39,16 +42,41 @@ export default class ClienteNatural extends React.Component {
             this.loadData()
     }
 
+    rowClicked(e) {
+        let rowId = e.target.parentNode.firstChild.textContent;
+        let url = setting.url + `clientes/natural/${rowId}`
+        let arr = []
+        fetch(url,
+            {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Origin': ''
+                }
+            })
+            .then(resp => resp.ok ? Promise.resolve(resp) : Promise.reject(resp))
+            .then(resp => resp.json())
+            .then(resp => {
+                arr.push(resp);
+            })
+
+        $('#exampleModal').on('modal', function () {
+            console.log("Abre el modal")
+        })
+
+    }
+
     componentDidMount() {
         this.loadData();
     }
 
-    loadData(search){
+    loadData(search) {
 
         let url = setting.url + "clientes/natural"
         url += (search != null && search.trim().length > 0) ? `/?search=${search}` : ""
 
-        fetch(url ,
+        fetch(url,
             {
                 method: 'GET',
                 headers: {
@@ -61,7 +89,7 @@ export default class ClienteNatural extends React.Component {
             .then(resp => resp.json())
             .then(resp => {
                 this.setState({
-                    data : resp
+                    data: resp
                 })
             })
     }
@@ -69,7 +97,8 @@ export default class ClienteNatural extends React.Component {
     render() {
         const temp = this.state.data.map(o => {
             let c = Object.assign({}, o);
-            delete c.direccion; delete c.edad;
+            delete c.direccion;
+            delete c.edad;
             delete c.segundoApellido;
             delete c.segundoNombre;
             delete c.estadoCivil;
@@ -122,8 +151,16 @@ export default class ClienteNatural extends React.Component {
                         {/*Campo de busqueda*/}
                         <SearchField onSearchChange={this.onSearchChange} placeholder="Qué cliente buscará?"
                                      onSubmit={this.buscar}/>
+
+                        {/*Boton que activa el modal*/}
+                        <button type="button" className="btn btn-primary mb-2 mr-auto" data-toggle="modal"
+                                data-target="#exampleModal">Agregar
+                        </button>
+
+                        {/*Modal*/}
+                        <ClienteNaturalModal/>
                         {/*Tabla*/}
-                        <Table data={temp}/>
+                        <Table onClick={this.rowClicked} data={temp}/>
                     </div>
                 </div>
             </div>

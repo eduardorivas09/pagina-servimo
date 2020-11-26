@@ -118,7 +118,7 @@ export default class Main extends React.Component{
                     <nav className="navbar navbar-expand-lg navbar-light bg-light">
                         <div className="container-fluid">
 
-                            <button type="button" id="sidebarCollapse" className="btn btn-dark" onClick={this.onClickMenu}>
+                            <button type="button" id="sidebarCollapse" className="btn btn-primary" onClick={this.onClickMenu}>
                                 <span><img src={menu} alt="Menu"/></span>
                             </button>
                             <BreadCrumb tree={this.state.tree}/>
