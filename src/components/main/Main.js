@@ -6,6 +6,7 @@ import ClienteNatural from "../clientes/natural/ClienteNatural";
 import BreadCrumb from "../nav/breadcrumb/BreadCrumb";
 import ClienteJuridico from "../clientes/juridico/ClienteJuridico";
 import ContratoClientesJuridico from "../contrato/clientes/juridico/ContratoClientesJuridico";
+import ContratoClientesNatural from "../contrato/clientes/natural/ContratoClientesNatural";
 
 export default class Main extends React.Component{
 
@@ -127,8 +128,8 @@ export default class Main extends React.Component{
                     {
                         (this.state.selectedItem === "Clientes Natural") ? <ClienteNatural/> :
                             (this.state.selectedItem === "Clientes Juridicos") ? <Fragment><ClienteJuridico/></Fragment> :
-                                (this.state.selectedItem === "contrato Clientes Natural") ? <Fragment>Aca Contrato Clientes Natural</Fragment> :
-                                    (this.state.selectedItem === "contrato clientes juridico") ? <Fragment><ContratoClientesJuridico/></Fragment>  : "Servimos s.a "
+                                (this.state.selectedItem === "Contrato Clientes Natural") ? <Fragment><ContratoClientesNatural/></Fragment> :
+                                    (this.state.selectedItem === "Contrato Clientes Juridico") ? <Fragment><ContratoClientesJuridico/></Fragment>: "Servimos s.a"
                                         // <Fragment></Fragment>
                     //    agregar condicionales igual a la linea anterior
 

@@ -7,6 +7,7 @@ import Contact from './components/contact/Contac';
 import ClienteNatural from "./components/clientes/natural/ClienteNatural";
 import ClienteJuridico from "./components/clientes/juridico/ClienteJuridico";
 import Main from "./components/main/Main";
+import ContratoClientesNatural from "./components/contrato/clientes/natural/ContratoClientesNatural";
 import ContratoClientesJuridico from "./components/contrato/clientes/juridico/ContratoClientesJuridico";
 function App() {
     return (
@@ -30,6 +31,10 @@ function App() {
                 <Route exact path="/main/clientes/Juridico">
                     {/*llamada a la clase cliente juridico*/}
                     <ClienteJuridico/>
+                </Route>
+                <Route exact path="/contrato/clientes/natural">
+                    {/*llamada a la clase contrato clientes juridico*/}
+                    <ContratoClientesNatural/>
                 </Route>
                 <Route exact path="/contrato/clientes/juridico">
                     {/*llamada a la clase contrato clientes juridico*/}

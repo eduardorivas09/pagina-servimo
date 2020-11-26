@@ -69,7 +69,8 @@ export default class ClienteNatural extends React.Component {
     render() {
         const temp = this.state.data.map(o => {
             let c = Object.assign({}, o);
-            delete c.direccion; delete c.edad;
+            delete c.direccion;
+            delete c.edad;
             delete c.segundoApellido;
             delete c.segundoNombre;
             delete c.estadoCivil;
@@ -118,7 +119,7 @@ export default class ClienteNatural extends React.Component {
                         {/*Banda de navegacion*/}
                         {/*<BreadCrumb tree={tree}/>*/}
                         {/*titulo*/}
-                        <h1 className="display-4">Clientes Naturales</h1>
+                        <h1 className="display-4">Cliente natural</h1>
                         {/*Campo de busqueda*/}
                         <SearchField onSearchChange={this.onSearchChange} placeholder="Qué cliente buscará?"
                                      onSubmit={this.buscar}/>
