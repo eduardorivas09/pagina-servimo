@@ -78,19 +78,19 @@ export default class ClienteNaturalModal extends React.Component {
                     'Content-Type': 'application/json',
                     'Origin': ''
                 },
-                body:{
+                body: JSON.stringify({
                     primerNombre: pnombre,
                     segundoNombre: snombre,
                     primerApellido: papellido,
                     segundoApellido: sapellido,
                     noCedula: cedula,
                     edad: 0,
-                    sexo: genero,
+                    sexo: genero.charAt(0),
                     estadoCivil: estadoCivil,
                     telefono: telefono,
                     correo: correo,
                     direccion:direccion
-                }
+                })
             })
             .then(resp => resp.ok ? Promise.resolve(resp) : Promise.reject(resp))
             .then(resp => resp.json())
