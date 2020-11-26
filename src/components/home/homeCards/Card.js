@@ -5,6 +5,7 @@ import img3 from '../../../img/gps.svg'
 import img4 from '../../../img/recepcion.svg'
 import img5 from '../../../img/acceso.jpg'
 import img6 from '../../../img/alarma2.svg'
+import "../../../css/index.css"
 
 export default class Card extends React.Component{
 

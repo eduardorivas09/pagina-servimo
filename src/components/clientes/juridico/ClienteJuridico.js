@@ -69,7 +69,9 @@ export default class ClienteJuridico extends React.Component {
     render() {
         const temp = this.state.data.map(o => {
             let c = Object.assign({}, o);
+          
             delete  c.direccion;
+
             return c;
         });
 
@@ -84,13 +86,13 @@ export default class ClienteJuridico extends React.Component {
             {
                 id: 2,
                 text: "Clientes",
-                href: "/clientes",
+                href: "/",
                 isActive: false
             },
             {
                 id: 3,
-                text: "Juridicos",
-                href: "/clientes/juridicos",
+                text: "Juridico",
+                href: "/clientes/Juridico",
                 isActive: true
             }
         ]

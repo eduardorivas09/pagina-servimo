@@ -2,7 +2,6 @@
   {
     "cardTitle" : "Seguridad fisica y proteccion de instalaciones",
     "buttonTitle" : "Promocion",
-    "buttonDataContent" : "Ofrece el 10% por la reserva de mas de 1 habitacion",
     "cardText" : "Se conoce como seguridad física al conjunto de elementos\n                        que conforman un plan de seguridad, para proteger un espacio determinado con el\n                        fin de evitar daños y minimizar amenazas. Para prestar un buen servicio de\n                        seguridad es necesario identificar los posibles riesgos y amenazas que hay en el\n                        lugar y buscar los elementos físicos que se requieran para suministrar una\n                        excelente protección.\n                        Las amenazas que se pueden bloquear con los elementos de la seguridad física,\n                        son los incendios, robos, secuestros, homicidios, suplantación y robo de\n                        información, que se analizan y designan según la probabilidad de amenaza",
     "mainButtonText" : "Reservar",
     "imageIndex" : "0"
@@ -10,7 +9,6 @@
   {
     "cardTitle" : "Elaboracion de planes de seguridad",
     "buttonTitle" : "Promocion",
-    "buttonDataContent" : "El hotel ofrece el uso de la piscina de manera gratis en este mes patrio",
     "cardText" : "El plan de seguridad de una empresa consiste en un conjunto de medidas a aplicar en caso de vulnerabilidades, emergencias o eventos inesperados, que pongan en riesgo la integridad estructural, patrimonial y humana de la compañía.\n              Por lo tanto, todo plan de seguridad empresarial debe contemplar las características de la empresa, así como también la manera más idónea de afrontar las situaciones que puedan presentarse. Igualmente, la asignación de responsabilidades será fundamental.",
     "mainButtonText" : "Reservar",
     "imageIndex" : "1"
@@ -18,7 +16,6 @@
   {
     "cardTitle" : "GPS vehicular o personal",
     "buttonTitle" : "Promocion",
-    "buttonDataContent" : "El hotel ofrece el uso de la piscina de manera gratis en este mes patrio",
     "cardText" : "Los sistemas de GPS vehicular son herramientas que, usadas en el transporte logístico, permiten planificar y monitorizar el traslado de los productos. Así, al Implementarlos se logra aumentar la productividad y la rentabilidad de la logística de transporte, en especial en etapas tan cruciales como la última milla. Sin embargo, es necesario seleccionar concienzudamente un sistema de GPS vehicular efectivo, que permita atender todas las necesidades logísticas relacionadas con la geolocalización y la planificación de rutas.",
     "mainButtonText" : "Reservar",
     "imageIndex" : "2"
@@ -34,7 +31,6 @@
   {
     "cardTitle" : "Sistema de control de acceso",
     "buttonTitle" : "Promocion",
-    "buttonDataContent" : "El hotel ofrece el uso de la piscina de manera gratis en este mes patrio",
     "cardText" : "Un sistema de control de acceso para es aquél que permite o restringe la entrada a una persona en determinado recinto mediante su identificación. Cuando la persona está autorizada, al identificarse genera el impulso eléctrico que activa un relé y abre la puerta, torno o barrera de acceso. Son sistemas muy prácticos para prescindir del uso de llaves, evitar la entrada de intrusos, aumentar  la seguridad de cualquier recinto e incluso para escalonar dentro de un mismo espacio distintas áreas más y menos restringidas.",
     "mainButtonText" : "Reservar",
     "imageIndex" : "4"
@@ -42,7 +38,6 @@
   {
     "cardTitle" : "Sistemas de alarmas",
     "buttonTitle" : "Promocion",
-    "buttonDataContent" : "El hotel ofrece el uso de la piscina de manera gratis en este mes patrio",
     "cardText" : "Un sistema de alarma consiste en la instalación de una serie de equipos electrónicos en los lugares de su hogar o empresa considerados estratégicos desde el punto de vista de la seguridad y que están conectados hacia la Central de Monitoreo de ADT. Estos dispositivos pueden ser sensores de movimiento, contactos magnéticos, detectores de humo, botón de pánico, entre otros, y éstos envían señales en forma periódica a nuestra Central de Monitoreo durante las 24 horas del día.",
     "mainButtonText" : "Reservar",
     "imageIndex" : "5"

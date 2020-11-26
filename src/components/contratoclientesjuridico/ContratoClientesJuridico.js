@@ -1,8 +1,9 @@
-import React, {Fragment} from 'react';
-import SearchField from "../../../commun/field/SearchField";
-import Table from "../../../commun/table/Table";
-import setting from '../../../../ApiSetting.json';
+import React from 'react';
+import SearchField from "../commun/field/SearchField";
+import Table from "../commun/table/Table";
+import setting from '../../ApiSetting.json';
 import 'bootstrap';
+import BreadCrumb from "../nav/breadcrumb/BreadCrumb";
 
 
 export default class ContratoClientesJuridico extends React.Component {
@@ -45,7 +46,7 @@ export default class ContratoClientesJuridico extends React.Component {
 
     loadData(search){
 
-        let url = setting.url + "contrato/clientes/juridico"
+        let url = setting.url + "/contrato/clientes/juridico"
         url += (search != null && search.trim().length > 0) ? `/?search=${search}` : ""
 
         fetch(url ,
@@ -69,8 +70,15 @@ export default class ContratoClientesJuridico extends React.Component {
     render() {
         const temp = this.state.data.map(o => {
             let c = Object.assign({}, o);
-            delete c.costoServicio;
-            delete c.moneda;
+            delete c.codigoContrato;
+            delete c.fechaContrato;
+            delete c.fechaInicio;
+            delete c.fechaExpira;
+            delete c.diaPago;
+            delete c.estado;
+            delete c.noRuc;
+
+
 
             return c;
         });
@@ -86,13 +94,13 @@ export default class ContratoClientesJuridico extends React.Component {
         //     {
         //         id: 2,
         //         text: "Clientes",
-        //         href: "/clientes",
+        //         href: "/",
         //         isActive: false
         //     },
         //     {
         //         id: 3,
-        //         text: "Natural",
-        //         href: "/clientes/natural",
+        //         text: "juridico",
+        //         href: "/",
         //         isActive: true
         //     }
         // ]
