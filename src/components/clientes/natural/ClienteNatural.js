@@ -12,7 +12,8 @@ export default class ClienteNatural extends React.Component {
         super(props);
         this.state = {
             busqueda: "",
-            data: []
+            data: [],
+            selectedObject: []
         }
 
         this.buscar = this.buscar.bind(this);
@@ -61,9 +62,11 @@ export default class ClienteNatural extends React.Component {
                 arr.push(resp);
             })
 
-        $('#exampleModal').on('modal', function () {
-            console.log("Abre el modal")
-        })
+        this.setState({
+            selectedObject: arr
+        });
+
+        $('#exampleModal').modal('show');
 
     }
 
@@ -158,7 +161,7 @@ export default class ClienteNatural extends React.Component {
                         </button>
 
                         {/*Modal*/}
-                        <ClienteNaturalModal/>
+                        <ClienteNaturalModal object={this.state.selectedObject}/>
                         {/*Tabla*/}
                         <Table onClick={this.rowClicked} data={temp}/>
                     </div>
