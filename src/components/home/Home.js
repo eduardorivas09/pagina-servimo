@@ -6,6 +6,7 @@ import Card from "./homeCards/Card";
 import homeImage from '../../img/10077.jpg';
 import dataJson from './home_data.json'
 
+
 // import 'jquery'
 // import 'popper.js'
 import Footer from "../footer/Footer";
@@ -24,7 +25,7 @@ export default class Home extends React.Component{
                         <img src={homeImage} className="img-fluid img-principal" alt="Responsive image" />
                     </div>
 
-                    <div className="dback-flex flex-wrap">
+                    <div className="d-flex flex-wrap">
                         {
                             // console.log(dataJson)
                             Object.keys(dataJson).map(key => (

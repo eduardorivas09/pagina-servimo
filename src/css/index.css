@@ -12,7 +12,7 @@
 }
 
 
-.card-hotel {
+.card-hotel{
     flex: 1 500px;
     padding: 2px 0px 2px 0px;
     margin-top: 10px;
@@ -42,6 +42,7 @@ h5 {
 
 .card-text{
     text-align: justify;
+    color: black;
 }
 
 /* footer */

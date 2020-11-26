@@ -1,6 +1,6 @@
 import React, {Fragment} from 'react';
 import './table.css';
-import editImage from '../../../icons/icons8-edit-24.png';
+import editImage from '../../../icons/icons8-menu-24.png';
 export default class Table extends React.Component {
 
     constructor() {

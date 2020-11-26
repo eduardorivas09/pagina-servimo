@@ -2,7 +2,7 @@ import React, {Fragment} from 'react';
 import $ from 'jquery';
 import SearchField from "../../commun/field/SearchField";
 import Table from "../../commun/table/Table";
-import ClienteNaturalModal from "./ClienteNaturalModal";
+//import ClienteNaturalModal from "./ClienteNaturalModal";
 import setting from '../../../ApiSetting.json';
 import 'bootstrap';
 
