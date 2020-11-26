@@ -69,35 +69,33 @@ export default class ClienteJuridico extends React.Component {
     render() {
         const temp = this.state.data.map(o => {
             let c = Object.assign({}, o);
-            delete c.noRuc; delete c.nombre;
-            delete c.correo;
-            delete c.telefono;
+          
             delete  c.direccion;
 
             return c;
         });
 
-        // const tree = [
-        //     {
-        //         id: 1,
-        //         text: "Home",
-        //         href: "/",
-        //         isActive: false
-        //     }
-        //     ,
-        //     {
-        //         id: 2,
-        //         text: "Clientes",
-        //         href: "/clientes",
-        //         isActive: false
-        //     },
-        //     {
-        //         id: 3,
-        //         text: "Natural",
-        //         href: "/clientes/natural",
-        //         isActive: true
-        //     }
-        // ]
+        const tree = [
+            {
+                id: 1,
+                text: "Home",
+                href: "/",
+                isActive: false
+            }
+            ,
+            {
+                id: 2,
+                text: "Clientes",
+                href: "/",
+                isActive: false
+            },
+            {
+                id: 3,
+                text: "Juridico",
+                href: "/clientes/Juridico",
+                isActive: true
+            }
+        ]
         return (
             <div className="row mb-5">
 

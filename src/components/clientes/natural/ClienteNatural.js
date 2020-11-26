@@ -81,13 +81,13 @@ export default class ClienteNatural extends React.Component {
                 id: 1,
                 text: "Home",
                 href: "/",
-                isActive: false
+                isActive: true
             }
             ,
             {
                 id: 2,
                 text: "Clientes",
-                href: "/clientes",
+                href: "/",
                 isActive: false
             },
             {
@@ -95,19 +95,8 @@ export default class ClienteNatural extends React.Component {
                 text: "Natural",
                 href: "/clientes/natural",
                 isActive: false
-            },
-            {
-                id: 4,
-                text: "Juridico",
-                href: "/clientes/juridico",
-                isActive: false
-            },
-            {
-                id: 5,
-                text: "contrato",
-                href: "contrato/clientes/juridico",
-                isActive: false
             }
+
         ]
         return (
             <div className="row mb-5">
@@ -116,7 +105,7 @@ export default class ClienteNatural extends React.Component {
 
                     <div className="bg-white p-5 rounded">
                         {/*Banda de navegacion*/}
-                        {/*<BreadCrumb tree={tree}/>*/}
+                        <BreadCrumb tree={tree}/>
                         {/*titulo*/}
                         <h1 className="display-4">Clientes Naturales</h1>
                         {/*Campo de busqueda*/}

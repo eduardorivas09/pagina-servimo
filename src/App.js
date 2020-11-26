@@ -7,7 +7,7 @@ import Contact from './components/contact/Contac';
 import ClienteNatural from "./components/clientes/natural/ClienteNatural";
 import ClienteJuridico from "./components/clientes/juridico/ClienteJuridico";
 import Main from "./components/main/Main";
-import ContratoClientesJuridico from "./components/contrato/clientes/juridico/ContratoClientesJuridico";
+import ContratoClientesJuridico from "./components/contratoclientesjuridico/ContratoClientesJuridico";
 function App() {
     return (
         <BrowserRouter>
@@ -32,7 +32,7 @@ function App() {
                     <ClienteJuridico/>
                 </Route>
                 <Route exact path="/contrato/clientes/juridico">
-                    {/*llamada a la clase contrato clientes juridico*/}
+                    {/*llamada a la clase contratoclientesjuridico clientes juridico*/}
                     <ContratoClientesJuridico/>
                 </Route>
 
