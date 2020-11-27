@@ -1,8 +1,8 @@
 import React, {Fragment} from 'react';
-import BreadCrumb from "../../nav/breadcrumb/BreadCrumb";
-import SearchField from "../../commun/field/SearchField";
-import Table from "../../commun/table/Table";
-import setting from '../../../ApiSetting.json';
+import BreadCrumb from "../../../nav/breadcrumb/BreadCrumb";
+import SearchField from "../../../commun/field/SearchField";
+import Table from "../../../commun/table/Table";
+import setting from '../../../../ApiSetting.json';
 import 'bootstrap';
 
 export default class ClienteJuridico extends React.Component {

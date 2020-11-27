@@ -1,9 +1,9 @@
 import React from 'react';
-import SearchField from "../commun/field/SearchField";
-import Table from "../commun/table/Table";
-import setting from '../../ApiSetting.json';
+import SearchField from "../../../commun/field/SearchField";
+import Table from "../../../commun/table/Table";
+import setting from '../../../../ApiSetting.json';
 import 'bootstrap';
-import BreadCrumb from "../nav/breadcrumb/BreadCrumb";
+import BreadCrumb from "../../../nav/breadcrumb/BreadCrumb";
 
 
 export default class ContratoClientesJuridico extends React.Component {

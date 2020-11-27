@@ -4,10 +4,10 @@ import Home from './components/home/Home';
 import {BrowserRouter, Switch, Route} from 'react-router-dom';
 import React from "react";
 import Contact from './components/contact/Contac';
-import ClienteNatural from "./components/clientes/natural/ClienteNatural";
-import ClienteJuridico from "./components/clientes/juridico/ClienteJuridico";
+import ClienteNatural from "./components/business/clientes/natural/ClienteNatural";
+import ClienteJuridico from "./components/business/clientes/juridico/ClienteJuridico";
 import Main from "./components/main/Main";
-import ContratoClientesJuridico from "./components/contratoclientesjuridico/ContratoClientesJuridico";
+import ContratoClientesJuridico from "./components/business/contrato/juridico/ContratoClientesJuridico";
 function App() {
     return (
         <BrowserRouter>

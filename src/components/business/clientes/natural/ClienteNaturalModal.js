@@ -1,5 +1,5 @@
 import React from 'react';
-import setting from "../../../ApiSetting.json";
+import setting from "../../../../ApiSetting.json";
 
 export default class ClienteNaturalModal extends React.Component {
 
@@ -7,32 +7,32 @@ export default class ClienteNaturalModal extends React.Component {
         super();
         this.saveData = this.saveData.bind(this);
         this.state = {
-            cedula : "",
-            pnombre : "",
-            snombre : "",
-            papellido : "",
-            sapellido : "",
-            genero : "",
-            estadoCivil : "",
-            telefono : "",
-            correo : "",
-            direccion : ""
+            cedula: "",
+            pnombre: "",
+            snombre: "",
+            papellido: "",
+            sapellido: "",
+            genero: "",
+            estadoCivil: "",
+            telefono: "",
+            correo: "",
+            direccion: ""
         }
     }
 
-    getObject(){
+    getObject() {
         this.props.object.forEach((c, index) => {
             this.setState({
-                cedula : c.noCedula,
-                pnombre : c.primerNombre,
-                snombre :c.segundoNombre,
-                papellido : c.primerApellido,
-                sapellido : c.segundoApellido,
-                genero : c.sexo,
-                estadoCivil :c.estadoCivil,
-                telefono : c.telefono,
-                correo : c.correo,
-                direccion : c.direccion
+                cedula: c.noCedula,
+                pnombre: c.primerNombre,
+                snombre: c.segundoNombre,
+                papellido: c.primerApellido,
+                sapellido: c.segundoApellido,
+                genero: c.sexo,
+                estadoCivil: c.estadoCivil,
+                telefono: c.telefono,
+                correo: c.correo,
+                direccion: c.direccion
             })
         });
 
@@ -41,20 +41,63 @@ export default class ClienteNaturalModal extends React.Component {
         return this.props.object;
     }
 
-    saveData(){
-        // this.setState({
-        //     cedula : document.getElementById('recipient-noCedula').value,
-        //     pnombre : document.getElementById('recipient-noCedula').value,
-        //     snombre :document.getElementById('recipient-noCedula').value,
-        //     papellido : document.getElementById('recipient-noCedula').value,
-        //     sapellido : document.getElementById('recipient-noCedula').value,
-        //     genero : document.getElementById('recipient-noCedula').value,
-        //     estadoCivil :document.getElementById('recipient-noCedula').value,
-        //     telefono : document.getElementById('recipient-noCedula').value,
-        //     correo : document.getElementById('recipient-noCedula').value,
-        //     direccion : document.getElementById('recipient-noCedula').value
-        // })
+    findById(rowId) {
+        console.log("Estamos aca con id " + rowId);
 
+        if (rowId < 0) {
+            this.clear();
+            return;
+        }
+        let url = setting.url + `clientes/natural/${rowId}`
+
+        fetch(url,
+            {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Origin': ''
+                }
+            })
+            .then(resp => resp.ok ? Promise.resolve(resp) : Promise.reject(resp))
+            .then(resp => resp.json())
+            .then(resp => {
+                this.setState({
+                    cedula: resp.noCedula,
+                    pnombre: resp.primerNombre,
+                    snombre: resp.segundoNombre,
+                    papellido: resp.primerApellido,
+                    sapellido: resp.segundoApellido,
+                    genero: resp.sexo,
+                    estadoCivil: resp.estadoCivil,
+                    telefono: resp.telefono,
+                    correo: resp.correo,
+                    direccion: resp.direccion
+                })
+            })
+    }
+
+
+    // componentDidUpdate(prevProps, prevState, snapshot) {
+    //     this.findById();
+    // }
+
+    clear() {
+        this.setState({
+            cedula: "",
+            pnombre: "",
+            snombre: "",
+            papellido: "",
+            sapellido: "",
+            genero: "",
+            estadoCivil: "",
+            telefono: "",
+            correo: "",
+            direccion: ""
+        })
+    }
+
+    saveData() {
         let cedula = document.getElementById("recipient-noCedula").value;
         let pnombre = document.getElementById("recipient-pnombre").value;
         let snombre = document.getElementById("recipient-snombre").value;
@@ -69,7 +112,7 @@ export default class ClienteNaturalModal extends React.Component {
         let direccion = document.getElementById("recipient-direccion").value;
 
         let url = setting.url + "clientes/natural/"
-        
+
         fetch(url,
             {
                 method: 'POST',
@@ -89,7 +132,7 @@ export default class ClienteNaturalModal extends React.Component {
                     estadoCivil: estadoCivil,
                     telefono: telefono,
                     correo: correo,
-                    direccion:direccion
+                    direccion: direccion
                 })
             })
             .then(resp => resp.ok ? Promise.resolve(resp) : Promise.reject(resp))
@@ -117,31 +160,31 @@ export default class ClienteNaturalModal extends React.Component {
                                 <div className="form-group">
                                     <div className="input-group">
                                         <input type="text" className="form-control" id="recipient-noCedula"
-                                               placeholder="Numero de Cedula" /></div>
+                                               placeholder="Numero de Cedula" value={this.state.cedula}/></div>
                                 </div>
                                 <div className="form-group">
                                     <div className="input-group">
                                         <input type="text" className="form-control" id="recipient-pnombre"
-                                               placeholder="Primer Nombre" value={this.props.object.primerNombre}/>
+                                               placeholder="Primer Nombre" value={this.state.pnombre}/>
                                         <input type="text" className="form-control" id="recipient-snombre"
-                                               placeholder="Segundo Nombre" value={this.props.object.segundoNombre}/>
+                                               placeholder="Segundo Nombre" value={this.state.snombre}/>
 
                                     </div>
                                 </div>
                                 <div className="form-group">
                                     <div className="input-group">
                                         <input type="text" className="form-control" id="recipient-papellido"
-                                               placeholder="Primer Apellido" value={this.props.object.primerApellido}/>
+                                               placeholder="Primer Apellido" value={this.state.papellido}/>
                                         <input type="text" className="form-control" id="recipient-sapellido"
-                                               placeholder="Segundo Apellido" value={this.props.object.segundoApellido}/>
+                                               placeholder="Segundo Apellido" value={this.state.sapellido}/>
                                     </div>
                                 </div>
                                 <div className="form-group">
                                     <div className="input-group">
                                         <select class="form-control" id="cbGenero">
                                             <option value="" disabled selected>Genero</option>
-                                            <option value="Masculino">Masculino</option>
-                                            <option value="Femenino">Femenino</option>
+                                            <option value="M">Masculino</option>
+                                            <option value="F">Femenino</option>
                                         </select>
 
                                         <select class="form-control" id="cbEstado">
@@ -153,14 +196,15 @@ export default class ClienteNaturalModal extends React.Component {
                                 </div>
                                 <div className="form-group">
                                     <input type="text" className="form-control" id="recipient-telefono"
-                                           placeholder="Telefono" value={this.props.object.telefono}/>
+                                           placeholder="Telefono" value={this.state.telefono}/>
                                 </div>
                                 <div className="form-group">
                                     <input type="email" className="form-control" id="recipient-email"
-                                           placeholder="Correo" value={this.props.object.correo}/>
+                                           placeholder="Correo" value={this.state.correo}/>
                                 </div>
                                 <div className="form-group">
-                                    <textarea className="form-control" id="recipient-direccion" placeholder="Direccion">{this.props.object.direccion}</textarea>
+                                    <textarea className="form-control" id="recipient-direccion"
+                                              placeholder="Direccion">{this.state.direccion}</textarea>
                                 </div>
                             </form>
                         </div>

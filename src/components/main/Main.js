@@ -2,10 +2,10 @@ import React, {Fragment} from 'react';
 import './main.css';
 import $ from 'jquery';
 import menu from '../../icons/icons8-menu-24.png';
-import ClienteNatural from "../clientes/natural/ClienteNatural";
+import ClienteNatural from "../business/clientes/natural/ClienteNatural";
 import BreadCrumb from "../nav/breadcrumb/BreadCrumb";
-import ClienteJuridico from "../clientes/juridico/ClienteJuridico";
-import ContratoClientesJuridico from "../contratoclientesjuridico/ContratoClientesJuridico";
+import ClienteJuridico from "../business/clientes/juridico/ClienteJuridico";
+import ContratoClientesJuridico from "../business/contrato/juridico/ContratoClientesJuridico";
 
 export default class Main extends React.Component{
 
