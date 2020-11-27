@@ -1,10 +1,10 @@
 import React, {Fragment} from 'react';
 import $ from 'jquery';
-import SearchField from "../../commun/field/SearchField";
-import Table from "../../commun/table/Table";
+import SearchField from "../../../commun/field/SearchField";
+import Table from "../../../commun/table/Table";
 import ClienteNaturalModal from "./ClienteNaturalModal";
-import setting from '../../../ApiSetting.json';
-import BreadCrumb from "../../nav/breadcrumb/BreadCrumb";
+import setting from '../../../../ApiSetting.json';
+import BreadCrumb from "../../../nav/breadcrumb/BreadCrumb";
 import 'bootstrap';
 
 export default class ClienteNatural extends React.Component {
@@ -14,12 +14,13 @@ export default class ClienteNatural extends React.Component {
         this.state = {
             busqueda: "",
             data: [],
-            selectedObject: []
+            rowId: -1
         }
 
         this.buscar = this.buscar.bind(this);
         this.onSearchChange = this.onSearchChange.bind(this);
         this.rowClicked = this.rowClicked.bind(this);
+        this.onButtonClick = this.onButtonClick.bind(this);
     }
 
     buscar(e) {
@@ -46,27 +47,12 @@ export default class ClienteNatural extends React.Component {
 
     rowClicked(e) {
         let rowId = e.target.parentNode.firstChild.textContent;
-        let url = setting.url + `clientes/natural/${rowId}`
-        let arr = []
-        fetch(url,
-            {
-                method: 'GET',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                    'Origin': ''
-                }
-            })
-            .then(resp => resp.ok ? Promise.resolve(resp) : Promise.reject(resp))
-            .then(resp => resp.json())
-            .then(resp => {
-                arr.push(resp);
-            })
 
         this.setState({
-            selectedObject: arr
-        });
+            rowId : rowId
+        })
 
+        this.getModal();
         $('#exampleModal').modal('show');
 
     }
@@ -96,6 +82,19 @@ export default class ClienteNatural extends React.Component {
                     data: resp
                 })
             })
+    }
+
+    getModal(){
+        this.refs.child.findById(this.state.rowId);
+    }
+
+    onButtonClick(e){
+        this.setState({
+            rowId : -1
+        })
+
+        this.getModal();
+        $('#exampleModal').modal('show');
     }
 
     render() {
@@ -147,11 +146,12 @@ export default class ClienteNatural extends React.Component {
 
                         {/*Boton que activa el modal*/}
                         <button type="button" className="btn btn-primary mb-2 mr-auto" data-toggle="modal"
-                                data-target="#exampleModal">Agregar
+                                data-target="#exampleModal" onClick={this.onButtonClick}>Agregar
                         </button>
 
                         {/*Modal*/}
-                        <ClienteNaturalModal object={this.state.selectedObject}/>
+                        <ClienteNaturalModal ref="child" selectedId={this.state.rowId}/>
+
                         {/*Tabla*/}
                         <Table onClick={this.rowClicked} data={temp}/>
                     </div>
