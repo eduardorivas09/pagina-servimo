@@ -1,13 +1,13 @@
 import logo from './logo.svg';
 import './App.css';
-import Home from './components/home/Home';
+import Home from './components/views/home/Home';
 import {BrowserRouter, Switch, Route} from 'react-router-dom';
 import React from "react";
-import Contact from './components/contact/Contac';
-import ClienteNatural from "./components/business/clientes/natural/ClienteNatural";
-import ClienteJuridico from "./components/business/clientes/juridico/ClienteJuridico";
-import Main from "./components/main/Main";
-import ContratoClientesJuridico from "./components/business/contrato/juridico/ContratoClientesJuridico";
+import Contact from './components/views/contact/Contac';
+import ClienteNatural from "./components/views/clientes/natural/ClienteNatural";
+import ClienteJuridico from "./components/views/clientes/juridico/ClienteJuridico";
+import Main from "./components/views/main/Main";
+import ContratoClientesJuridico from "./components/views/contrato/juridico/ContratoClientesJuridico";
 function App() {
     return (
         <BrowserRouter>
