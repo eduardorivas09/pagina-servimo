@@ -1,6 +1,7 @@
 import React from 'react';
 import NavItem from "./navItem/NavItem";
 export default class Nav extends React.Component{
+
     render() {
         return(
             <nav className="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
@@ -16,9 +17,8 @@ export default class Nav extends React.Component{
                         <NavItem href="../contact/" text="Contacto"/>
 
                     </ul>
-                    <button className="btn bg-white px-3 py-2" type="button" data-toggle="collapse">
-                        Login
-                    </button>
+
+                    <a href="#" className="btn bg-white px-3 py-2" >Iniciar Session</a>
                 </div>
             </nav>
         );

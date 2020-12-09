@@ -1,5 +1,6 @@
 import React from 'react';
-import setting from "../../../../services/ApiSetting.json";
+import setting from "../../../../services/Settings.json";
+import {ClienteNaturalService} from "../../../../services/clientes/ClienteNaturalService";
 
 export default class ClienteNaturalModal extends React.Component {
 
@@ -113,28 +114,30 @@ export default class ClienteNaturalModal extends React.Component {
 
         let url = setting.url + "clientes/natural/"
 
-        fetch(url,
-            {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                    'Origin': ''
-                },
-                body: JSON.stringify({
-                    primerNombre: pnombre,
-                    segundoNombre: snombre,
-                    primerApellido: papellido,
-                    segundoApellido: sapellido,
-                    noCedula: cedula,
-                    edad: 0,
-                    sexo: genero.charAt(0),
-                    estadoCivil: estadoCivil,
-                    telefono: telefono,
-                    correo: correo,
-                    direccion: direccion
-                })
-            })
+        new ClienteNaturalService().save()
+
+        // fetch(url,
+        //     {
+        //         method: 'POST',
+        //         headers: {
+        //             'Accept': 'application/json',
+        //             'Content-Type': 'application/json',
+        //             'Origin': ''
+        //         },
+        //         body: JSON.stringify({
+        //             primerNombre: pnombre,
+        //             segundoNombre: snombre,
+        //             primerApellido: papellido,
+        //             segundoApellido: sapellido,
+        //             noCedula: cedula,
+        //             edad: 0,
+        //             sexo: genero.charAt(0),
+        //             estadoCivil: estadoCivil,
+        //             telefono: telefono,
+        //             correo: correo,
+        //             direccion: direccion
+        //         })
+        //     })
             .then(resp => resp.ok ? Promise.resolve(resp) : Promise.reject(resp))
             .then(resp => resp.json())
             .then(resp => {

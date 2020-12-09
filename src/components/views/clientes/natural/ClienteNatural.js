@@ -3,9 +3,11 @@ import $ from 'jquery';
 import SearchField from "../../../controls/field/SearchField";
 import Table from "../../../controls/table/Table";
 import ClienteNaturalModal from "./ClienteNaturalModal";
-import setting from '../../../../services/ApiSetting.json';
+import setting from '../../../../services/Settings.json';
 import BreadCrumb from "../../../panels/nav/breadcrumb/BreadCrumb";
 import 'bootstrap';
+import {ClienteJuridicoService} from "../../../../services/clientes/ClienteJuridicoService";
+import {ClienteNaturalService} from "../../../../services/clientes/ClienteNaturalService";
 
 export default class ClienteNatural extends React.Component {
 
@@ -63,25 +65,17 @@ export default class ClienteNatural extends React.Component {
 
     loadData(search) {
 
-        let url = setting.url + "clientes/natural"
-        url += (search != null && search.trim().length > 0) ? `/?search=${search}` : ""
-
-        fetch(url,
-            {
-                method: 'GET',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                    'Origin': ''
-                }
-            })
-            .then(resp => resp.ok ? Promise.resolve(resp) : Promise.reject(resp))
-            .then(resp => resp.json())
+        new ClienteNaturalService()
+            .getFiltered(search)
             .then(resp => {
-                this.setState({
-                    data: resp
-                })
-            })
+                if (resp.status == 403) {//Forbiden
+                    alert("El usuario no tiene permisos para acceder al api")
+                }else{
+                    this.setState({
+                        data: resp
+                    })
+                }
+            });
     }
 
     getModal(){

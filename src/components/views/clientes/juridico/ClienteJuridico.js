@@ -2,8 +2,9 @@ import React, {Fragment} from 'react';
 import BreadCrumb from "../../../panels/nav/breadcrumb/BreadCrumb";
 import SearchField from "../../../controls/field/SearchField";
 import Table from "../../../controls/table/Table";
-import setting from '../../../../services/ApiSetting.json';
+import setting from '../../../../services/Settings.json';
 import 'bootstrap';
+import {ClienteJuridicoService} from "../../../../services/clientes/ClienteJuridicoService";
 
 export default class ClienteJuridico extends React.Component {
 
@@ -45,25 +46,18 @@ export default class ClienteJuridico extends React.Component {
 
     loadData(search){
 
-        let url = setting.url + "clientes/Juridico"
-        url += (search != null && search.trim().length > 0) ? `/?search=${search}` : ""
-
-        fetch(url ,
-            {
-                method: 'GET',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                    'Origin': ''
-                }
-            })
-            .then(resp => resp.ok ? Promise.resolve(resp) : Promise.reject(resp))
-            .then(resp => resp.json())
+        new ClienteJuridicoService()
+            .getFiltered(search)
+            // .getAll().then(resp => console.log(resp))
             .then(resp => {
-                this.setState({
-                    data : resp
-                })
-            })
+                if (resp.status == 403) {//Forbiden
+                    alert("El usuario no tiene permisos para acceder al api")
+                }else{
+                    this.setState({
+                        data: resp
+                    })
+                }
+            });
     }
 
     render() {

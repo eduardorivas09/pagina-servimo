@@ -1,9 +1,11 @@
 import React from 'react';
 import SearchField from "../../../controls/field/SearchField";
 import Table from "../../../controls/table/Table";
-import setting from '../../../../services/ApiSetting.json';
+import setting from '../../../../services/Settings.json';
 import 'bootstrap';
 import BreadCrumb from "../../../panels/nav/breadcrumb/BreadCrumb";
+import {ClienteNaturalService} from "../../../../services/clientes/ClienteNaturalService";
+import {ContratoClienteJuridicoService} from "../../../../services/contratos/ContratoClienteJuridicoService";
 
 
 export default class ContratoClientesJuridico extends React.Component {
@@ -46,25 +48,17 @@ export default class ContratoClientesJuridico extends React.Component {
 
     loadData(search){
 
-        let url = setting.url + "/contrato/clientes/juridico"
-        url += (search != null && search.trim().length > 0) ? `/?search=${search}` : ""
-
-        fetch(url ,
-            {
-                method: 'GET',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                    'Origin': ''
-                }
-            })
-            .then(resp => resp.ok ? Promise.resolve(resp) : Promise.reject(resp))
-            .then(resp => resp.json())
+        new ContratoClienteJuridicoService()
+            .getFiltered(search)
             .then(resp => {
-                this.setState({
-                    data : resp
-                })
-            })
+                if (resp.status == 403) {//Forbiden
+                    alert("El usuario no tiene permisos para acceder al api")
+                }else{
+                    this.setState({
+                        data: resp
+                    })
+                }
+            });
     }
 
     render() {
