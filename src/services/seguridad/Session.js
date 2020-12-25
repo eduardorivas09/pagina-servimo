@@ -25,6 +25,7 @@ export class Session{
                 )
                 .then(resp => {
                     auth = resp['token'];
+                    Session.token = resp['token'];
                 });
         }else{
             auth = Session.token;
