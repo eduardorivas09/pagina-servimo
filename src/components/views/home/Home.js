@@ -27,7 +27,6 @@ export default class Home extends React.Component{
 
                     <div className="d-flex flex-wrap">
                         {
-                            // console.log(dataJson)
                             Object.keys(dataJson).map(key => (
                                 <Card details={dataJson[key]}/>
                             ))

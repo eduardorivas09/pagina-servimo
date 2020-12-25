@@ -1,8 +1,6 @@
-import React, {Fragment} from 'react';
-import BreadCrumb from "../../../panels/nav/breadcrumb/BreadCrumb";
-import SearchField from "../../../controls/field/SearchField";
+import React from 'react';
+import SearchField from "../../../controls/field/input/search/SearchField";
 import Table from "../../../controls/table/Table";
-import setting from '../../../../services/Settings.json';
 import 'bootstrap';
 import {ClienteJuridicoService} from "../../../../services/clientes/ClienteJuridicoService";
 
@@ -23,7 +21,7 @@ export default class ClienteJuridico extends React.Component {
         if (this.state.busqueda.trim().length > 0) {
             this.loadData(this.state.busqueda);
         }
-        if (this.state.busqueda.trim().length == 0)
+        if (this.state.busqueda.trim().length === 0)
             this.loadData();
 
     }
@@ -36,7 +34,7 @@ export default class ClienteJuridico extends React.Component {
             }
         )
 
-        if (this.state.busqueda.trim().length == 0)
+        if (this.state.busqueda.trim().length === 0)
             this.loadData()
     }
 
@@ -50,7 +48,7 @@ export default class ClienteJuridico extends React.Component {
             .getFiltered(search)
             // .getAll().then(resp => console.log(resp))
             .then(resp => {
-                if (resp.status == 403) {//Forbiden
+                if (resp.status === 403) {//Forbiden
                     alert("El usuario no tiene permisos para acceder al api")
                 }else{
                     this.setState({

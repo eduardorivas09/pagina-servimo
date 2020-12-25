@@ -1,12 +1,10 @@
-import React, {Fragment} from 'react';
+import React from 'react';
 import $ from 'jquery';
-import SearchField from "../../../controls/field/SearchField";
+import SearchField from "../../../controls/field/input/search/SearchField";
 import Table from "../../../controls/table/Table";
 import ClienteNaturalModal from "./ClienteNaturalModal";
-import setting from '../../../../services/Settings.json';
 import BreadCrumb from "../../../panels/nav/breadcrumb/BreadCrumb";
 import 'bootstrap';
-import {ClienteJuridicoService} from "../../../../services/clientes/ClienteJuridicoService";
 import {ClienteNaturalService} from "../../../../services/clientes/ClienteNaturalService";
 
 export default class ClienteNatural extends React.Component {
@@ -30,7 +28,7 @@ export default class ClienteNatural extends React.Component {
         if (this.state.busqueda.trim().length > 0) {
             this.loadData(this.state.busqueda);
         }
-        if (this.state.busqueda.trim().length == 0)
+        if (this.state.busqueda.trim().length === 0)
             this.loadData();
 
     }
@@ -43,7 +41,7 @@ export default class ClienteNatural extends React.Component {
             }
         )
 
-        if (this.state.busqueda.trim().length == 0)
+        if (this.state.busqueda.trim().length === 0)
             this.loadData()
     }
 
@@ -68,7 +66,7 @@ export default class ClienteNatural extends React.Component {
         new ClienteNaturalService()
             .getFiltered(search)
             .then(resp => {
-                if (resp.status == 403) {//Forbiden
+                if (resp.status === 403) {//Forbiden
                     alert("El usuario no tiene permisos para acceder al api")
                 }else{
                     this.setState({
@@ -82,7 +80,7 @@ export default class ClienteNatural extends React.Component {
         this.refs.child.findById(this.state.rowId);
     }
 
-    onButtonClick(e){
+    onButtonClick(){
         this.setState({
             rowId : -1
         })

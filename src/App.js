@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import Home from './components/views/home/Home';
 import {BrowserRouter, Switch, Route} from 'react-router-dom';
@@ -8,12 +7,18 @@ import ClienteNatural from "./components/views/clientes/natural/ClienteNatural";
 import ClienteJuridico from "./components/views/clientes/juridico/ClienteJuridico";
 import Main from "./components/views/main/Main";
 import ContratoClientesJuridico from "./components/views/contrato/juridico/ContratoClientesJuridico";
+import Login from "./components/views/security/login/Login";
+
 function App() {
     return (
         <BrowserRouter>
             <Switch>
                 <Route exact path="/">
                     <Home/>
+                </Route>
+                <Route exact path="/login">
+                    {/*llamada a la clase contratoclientesjuridico clientes juridico*/}
+                    <Login/>
                 </Route>
                 <Route exact path="/contact">
                     {/*llamada a la clase contact*/}

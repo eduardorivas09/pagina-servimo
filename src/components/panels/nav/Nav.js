@@ -18,7 +18,7 @@ export default class Nav extends React.Component{
 
                     </ul>
 
-                    <a href="#" className="btn bg-white px-3 py-2" >Iniciar Session</a>
+                    <a href="/login" className="btn bg-white px-3 py-2" >Iniciar Session</a>
                 </div>
             </nav>
         );
