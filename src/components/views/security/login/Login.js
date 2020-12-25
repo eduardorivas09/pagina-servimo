@@ -27,6 +27,10 @@ export default class Login extends React.Component{
                     <span>|</span>
                     <a href="#" className="link">Registrarse</a>
                 </div>
+
+                <div className="container center-container">
+                    <a href="/" className="btn btn-primary">Inicio</a>
+                </div>
             </div>
         );
     }
