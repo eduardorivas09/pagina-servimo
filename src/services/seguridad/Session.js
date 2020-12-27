@@ -30,6 +30,7 @@ export class Session{
                 .catch(error => {
                     // console.log(error);
                     if (callback !== undefined && callback != null){
+                        console.log(error)
                         callback();
                     }
 

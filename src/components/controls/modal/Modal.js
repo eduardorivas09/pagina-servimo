@@ -28,12 +28,12 @@ export default class Modal extends React.Component {
                             />
                         </div>
                         <div className="modal-body">
-                            EL usuario o contraseña ingresados no son correctos.
+                            El usuario o contraseña ingresados no son correctos.
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" data-bs-dismiss="modal"
-                                    onClick={this.closeModal}
-                            >Close
+                                    onClick={this.closeModal}>
+                                Close
                             </button>
                         </div>
                     </div>

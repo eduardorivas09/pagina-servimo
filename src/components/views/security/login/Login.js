@@ -7,6 +7,7 @@ import SubmitButton from "../../../controls/button/submit/SubmitButton";
 import {Session} from "../../../../services/seguridad/Session";
 import $ from 'jquery';
 import Modal from "../../../controls/modal/Modal";
+import AbstractModal from "../../../controls/modal/AbstractModal";
 
 export default class Login extends React.Component{
 
@@ -19,17 +20,11 @@ export default class Login extends React.Component{
         this.changeState = this.changeState.bind(this);
         this.onSignIn = this.onSignIn.bind(this);
         this.failLogin = this.failLogin.bind(this);
-
-
     }
 
     failLogin(){
-        console.log("Runing a callback")
-        // const modal = document.getElementById("modal")
-        // modal.classList.remove('fade');
         $('#modal').modal('show')
     }
-
 
     changeState(){
         this.setState({
@@ -43,10 +38,11 @@ export default class Login extends React.Component{
         const user = document.getElementsByName("user")[0].value;
         const pass = document.getElementsByName("pass")[0].value;
         if ((user !== null && user.length > 0) && (pass !== null && pass.length > 0)){
-            const token = await new Session().initSession(user,pass, this.failLogin());
+            const token = await new Session().initSession(user,pass, this.failLogin);
             console.log(`Valor del token es ${token}`)
             if (token !== null){
                 localStorage.setItem('token',token);
+                Session.token = token;
                 this.changeState();
             }
         }
@@ -57,12 +53,16 @@ export default class Login extends React.Component{
         const storedToken = localStorage.getItem('token');
         console.log(`Token almancenado como cookie es ${storedToken}`);
         if (storedToken !== undefined && storedToken !== null){
+            Session.token = storedToken;
             this.changeState();
         }
     }
 
     render() {
         console.log(`Condicion this.state.redirect ${this.state.redirect}`)
+        if (this.state.redirect){
+            $('#modal').modal('hide')
+        }
         return(
             (this.state.redirect)
                 ? <Redirect to='/main' />
