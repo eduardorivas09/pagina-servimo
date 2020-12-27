@@ -5,7 +5,7 @@ export class Session{
 
     static token = null;
 
-    async  initSession(username, password){
+    async  initSession(username, password, callback){
         if(
             (username == null || username.length < 0) ||
             (password == null || password.length < 0)
@@ -26,6 +26,13 @@ export class Session{
                 .then(resp => {
                     auth = resp['token'];
                     Session.token = resp['token'];
+                })
+                .catch(error => {
+                    // console.log(error);
+                    if (callback !== undefined && callback != null){
+                        callback();
+                    }
+
                 });
         }else{
             auth = Session.token;

@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom'
 import './login.css'
 import logo from './../../../../static/img/Servimo.jpg';
 import InputText from './../../../controls/field/input/text/InputText';
 import SubmitButton from "../../../controls/button/submit/SubmitButton";
 import {Session} from "../../../../services/seguridad/Session";
+import $ from 'jquery';
+import Modal from "../../../controls/modal/Modal";
 
 export default class Login extends React.Component{
 
@@ -16,17 +18,24 @@ export default class Login extends React.Component{
 
         this.changeState = this.changeState.bind(this);
         this.onSignIn = this.onSignIn.bind(this);
+        this.failLogin = this.failLogin.bind(this);
 
-        const storedToken = localStorage.getItem('token');
-        if (storedToken !== undefined && storedToken !== null){
-            this.changeState();
-        }
+
     }
+
+    failLogin(){
+        console.log("Runing a callback")
+        // const modal = document.getElementById("modal")
+        // modal.classList.remove('fade');
+        $('#modal').modal('show')
+    }
+
 
     changeState(){
         this.setState({
             redirect : true
         });
+        console.log("Cambiando el state en react. Estate Cambiado a " + this.state.redirect)
     }
 
    async onSignIn(e){
@@ -34,7 +43,8 @@ export default class Login extends React.Component{
         const user = document.getElementsByName("user")[0].value;
         const pass = document.getElementsByName("pass")[0].value;
         if ((user !== null && user.length > 0) && (pass !== null && pass.length > 0)){
-            const token = await new Session().initSession(user,pass);
+            const token = await new Session().initSession(user,pass, this.failLogin());
+            console.log(`Valor del token es ${token}`)
             if (token !== null){
                 localStorage.setItem('token',token);
                 this.changeState();
@@ -42,9 +52,19 @@ export default class Login extends React.Component{
         }
     }
 
+    componentDidMount() {
+        console.log("Component didmount!")
+        const storedToken = localStorage.getItem('token');
+        console.log(`Token almancenado como cookie es ${storedToken}`);
+        if (storedToken !== undefined && storedToken !== null){
+            this.changeState();
+        }
+    }
+
     render() {
+        console.log(`Condicion this.state.redirect ${this.state.redirect}`)
         return(
-            (this.state.redirect === false)
+            (this.state.redirect)
                 ? <Redirect to='/main' />
                 :
                 <div id="login">
@@ -71,6 +91,8 @@ export default class Login extends React.Component{
                     <div className="container center-container">
                         <a href="/" className="btn btn-primary"><i className="pi pi-check p-mr-2">Inicio</i></a>
                     </div>
+
+                    <Modal id="modal"/>
                 </div>
         );
     }

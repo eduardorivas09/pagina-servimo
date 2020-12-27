@@ -43,5 +43,6 @@ export class RequestService {
             })
             .then(resp => resp.ok ? Promise.resolve(resp) : Promise.reject(resp))
             .then(resp => resp.json())
+
     }
 }
