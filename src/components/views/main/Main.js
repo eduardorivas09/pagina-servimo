@@ -6,6 +6,8 @@ import ClienteNatural from "../clientes/natural/ClienteNatural";
 import BreadCrumb from "../../panels/nav/breadcrumb/BreadCrumb";
 import ClienteJuridico from "../clientes/juridico/ClienteJuridico";
 import ContratoClientesJuridico from "../contrato/juridico/ContratoClientesJuridico";
+import {Redirect} from "react-router-dom";
+import {Session} from "../../../services/seguridad/Session";
 
 export default class Main extends React.Component{
 
@@ -75,6 +77,9 @@ export default class Main extends React.Component{
 
     render() {
         return(
+            (Session.isLogged() === false)
+                ? <Redirect to='/login' />
+                :
             <div className="wrapper">
 
                 {/*Side bar*/}

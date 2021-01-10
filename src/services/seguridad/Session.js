@@ -30,7 +30,9 @@ export class Session{
                 .then(resp => {
                     auth = resp['#token'];
                     Session.#token = resp['token'];
+                    Session.#logged = true;
                 }).catch(e => {
+                    Session.#logged = false;
                     console.log(e)
                     if (e instanceof Error &&  e.message.includes('NetworkError')){
                         throw new NetworkConnectionError();
@@ -50,5 +52,9 @@ export class Session{
     static getToken = () => {
         // this.#token = new Session().initSession();
         return this.#token;
+    }
+
+    static isLogged = () => {
+        return this.#logged;
     }
 }
