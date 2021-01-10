@@ -29,7 +29,7 @@ export class RequestService {
                 'Origin': ''
             } :
             {
-                'Authorization': token,
+                'Authorization': await Session.getToken(),
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
                 'Origin': ''

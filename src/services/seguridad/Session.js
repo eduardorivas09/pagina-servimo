@@ -1,9 +1,13 @@
 import {RequestService} from "../RequestService";
 import config from './../Settings.json';
+import {NetworkConnectionError} from "../../util/Error/NetworkConnectionError";
+import {AuthenticationError} from "../../util/Error/AuthenticationError";
 
 export class Session{
 
-    static token = null;
+    static #token = null;
+
+    static #logged = false;
 
     async  initSession(username, password){
         if(
@@ -15,7 +19,7 @@ export class Session{
         }
 
         let auth = null;
-        if (Session.token == null){
+        if (Session.getToken() == null){
             console.log("Pidiendo credenciales");
             const request = new RequestService()
             await request.doPost(
@@ -24,18 +28,27 @@ export class Session{
                 false
                 )
                 .then(resp => {
-                    auth = resp['token'];
-                    Session.token = resp['token'];
+                    auth = resp['#token'];
+                    Session.#token = resp['token'];
+                }).catch(e => {
+                    console.log(e)
+                    if (e instanceof Error &&  e.message.includes('NetworkError')){
+                        throw new NetworkConnectionError();
+                    }
+
+                    if (e instanceof Response && e.status === 500){
+                        throw new AuthenticationError();
+                    }
+
                 });
         }else{
-            auth = Session.token;
+            auth = Session.getToken();
         }
         return auth;
-
     }
 
     static getToken = () => {
-        this.token = new Session().initSession();
-        return this.token;
+        // this.#token = new Session().initSession();
+        return this.#token;
     }
 }

@@ -62,9 +62,7 @@ export default class Main extends React.Component{
     }
 
     onItemClick(e){
-
         this.pushObject(e)
-
     }
 
     onClickMenu(e){
@@ -74,6 +72,7 @@ export default class Main extends React.Component{
             });
         });
     }
+
     render() {
         return(
             <div className="wrapper">

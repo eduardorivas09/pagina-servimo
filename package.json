@@ -11,7 +11,7 @@
     "eject": "react-scripts eject"
   },
   "devDependencies": {
-    "lite-server": "^2.5.4"
+    "lite-server": "^2.3.0"
   },
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.6",
@@ -20,7 +20,6 @@
     "bootstrap": "^4.5.3",
     "jquery": "^3.5.1",
     "popper.js": "^1.16.1",
-    "classnames": "^2.2.6",
     "primeicons": "^4.1.0",
     "primereact": "^5.0.2",
     "react": "^17.0.1",
