@@ -14,6 +14,7 @@ export default class Main extends React.Component{
     constructor() {
         super();
         this.state = {
+            redirect : false,
             selectedItem : "",
             tree :  [
                 {
@@ -75,9 +76,20 @@ export default class Main extends React.Component{
         });
     }
 
+    async isLogged(){
+        if (!await Session.isLogged()){
+            this.setState({redirect : true})
+        }
+    }
+
+    componentDidMount() {
+        this.isLogged();
+    }
+
     render() {
+
         return(
-            (Session.isLogged() === false)
+            (this.state.redirect)
                 ? <Redirect to='/login' />
                 :
             <div className="wrapper">

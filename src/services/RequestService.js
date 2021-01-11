@@ -6,7 +6,15 @@ export class RequestService {
     fullPath = () => setting.url;
 
     async doGet(path) {
-        const token = 'Bearer ' + await Session.getToken()
+        let token = 'Bearer ' + await Session.getToken();
+
+        // try{
+        //     token = 'Bearer ' + await Session.getToken();
+        // }catch (e) {
+        //     console.log('Lanzando excepcion desde Request service')
+        //     throw e;
+        // }
+
         return await fetch(
             this.fullPath() + path,
             {

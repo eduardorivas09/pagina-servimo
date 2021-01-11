@@ -3,6 +3,7 @@ import SearchField from "../../../controls/field/input/search/SearchField";
 import Table from "../../../controls/table/Table";
 import 'bootstrap';
 import {ContratoClienteJuridicoService} from "../../../../services/contratos/ContratoClienteJuridicoService";
+import DialogModal from "../../alerts/DialogModal";
 
 
 export default class ContratoClientesJuridico extends React.Component {
@@ -11,7 +12,13 @@ export default class ContratoClientesJuridico extends React.Component {
         super(props);
         this.state = {
             busqueda: "",
-            data : []
+            data : [],
+            modalProps : {
+                modalHeader : null,
+                modalMessage : null,
+                modalType : 'info',
+                visible : false
+            }
         }
         this.buscar = this.buscar.bind(this)
         this.onSearchChange = this.onSearchChange.bind(this)
@@ -48,14 +55,36 @@ export default class ContratoClientesJuridico extends React.Component {
         new ContratoClienteJuridicoService()
             .getFiltered(search)
             .then(resp => {
-                if (resp.status === 403) {//Forbiden
-                    alert("El usuario no tiene permisos para acceder al api")
-                }else{
+                if (resp instanceof Response && resp.status === 200){
                     this.setState({
                         data: resp
                     })
                 }
-            });
+
+            }).catch(e => {
+
+            if (e instanceof Error){
+
+                this.setState({
+                    modalProps : {
+                        modalHeader : 'Acceso denegado',
+                        modalMessage : e.message,
+                        modalType : 'warning',
+                        visible : true
+                    }});
+            }
+        });
+    }
+
+    /**
+     * El metodo show abre el modal.
+     */
+    onHide = () => {
+        this.setState({
+            modalProps : {
+                visible : false
+            }
+        });
     }
 
     render() {
@@ -112,6 +141,13 @@ export default class ContratoClientesJuridico extends React.Component {
                         <Table data={temp}/>
                     </div>
                 </div>
+
+                <DialogModal header={this.state.modalProps.modalHeader}
+                             textBody={this.state.modalProps.modalMessage}
+                             hasYesNotButtons={false}
+                             modalType={this.state.modalProps.modalType}
+                             visible={this.state.modalProps.visible}
+                             onHide={this.onHide}/>
             </div>
 
         );

@@ -21,25 +21,8 @@ export default class Login extends React.Component{
             }
         }
 
-        this.changeState = this.changeState.bind(this);
         this.onSignIn = this.onSignIn.bind(this);
         this.onHide = this.onHide.bind(this);
-    }
-
-    componentDidMount() {
-        const storedToken = localStorage.getItem('token');
-        console.log("Token almacenado " + storedToken);
-        if (storedToken !== undefined && storedToken !== null){
-            this.changeState();
-        }
-
-    }
-
-    changeState(){
-        console.log("Change state!!")
-        this.setState({
-            redirect : true
-        });
     }
 
    async onSignIn(e){
@@ -51,6 +34,9 @@ export default class Login extends React.Component{
 
             try {
                 token = await new Session().initSession(user,pass);
+                if (await Session.isLogged()){
+                    this.setState({redirect : true})
+                }
             }catch (e) {
                 this.setState({
                     modalProps : {
@@ -59,11 +45,6 @@ export default class Login extends React.Component{
                         modalType : 'warning',
                         visible : true
                     }});
-            }
-
-            if (token !== null){
-                localStorage.setItem('token',token);
-                this.changeState();
             }
         }
     }
@@ -79,9 +60,20 @@ export default class Login extends React.Component{
         });
     }
 
+    async isLogged(){
+        if (await Session.isLogged()){
+            this.setState({redirect : true})
+        }
+    }
+
+    componentDidMount() {
+        this.isLogged();
+    }
+
     render() {
+
         return(
-            (this.state.redirect === true)
+            (this.state.redirect)
                 ? <Redirect to='/main' />
                 :
                 <div id="login">
