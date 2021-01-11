@@ -73,7 +73,7 @@ export default class ClienteNatural extends React.Component {
         new ClienteNaturalService()
             .getFiltered(search)
             .then(resp => {
-                if (resp instanceof Response && resp.status === 200){
+                if ((resp instanceof Response && resp.status === 200) || resp instanceof Array){
                     this.setState({
                         data: resp
                     })

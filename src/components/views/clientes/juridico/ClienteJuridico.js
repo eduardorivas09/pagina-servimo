@@ -55,7 +55,7 @@ export default class ClienteJuridico extends React.Component {
             .getFiltered(search)
             // .getAll().then(resp => console.log(resp))
             .then(resp => {
-                if (resp instanceof Response && resp.status === 200){
+                if ((resp instanceof Response && resp.status === 200) || resp instanceof Array){
                     this.setState({
                         data: resp
                     })
