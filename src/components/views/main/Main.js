@@ -34,6 +34,7 @@ export default class Main extends React.Component{
 
     }
 
+
     pushObject(event){
 
         let tree = this.state.tree;
@@ -81,7 +82,7 @@ export default class Main extends React.Component{
 
     async isLogged(){
         try{
-            if (await Session.isLogged()){
+            if (!await Session.isLogged()){
                 this.setState({redirect : true})
             }
         }catch(e){
