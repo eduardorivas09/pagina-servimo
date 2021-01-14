@@ -2,14 +2,29 @@ import {RequestService} from "../RequestService";
 import config from './../Settings.json';
 import {NetworkConnectionError} from "../../util/Error/NetworkConnectionError";
 import {AuthenticationError} from "../../util/Error/AuthenticationError";
-import {AuthorizationError} from "../../util/Error/AuthorizationError";
 
 export class Session{
 
+    /**
+     * Variable de tipo string que almacena el token de authentifacion del usuario actual.
+     * Esta variable es accesible solo en esta clase pero persiste su valor durante la ejecucion de toda la aplicacion.
+     * @type {string}
+     */
     static #token = null;
 
+    /**
+     * Variable de tipo boolean cuyo valor true significa que el usuario ha iniciado sesion y false lo contrario.
+     * Esta variable es accesible solo en esta clase, pero su valor persisten durante la ejecucion de toda la aplicacion
+     * @type {boolean}
+     */
     static #logged = false;
 
+    /**
+     * Metodo de inicio de sesion que realiza una peticion al servidor para verificar si el usuario es valido o no.
+     * @param username  Nombre de usuario
+     * @param password  Contrasena
+     * @returns {Promise<null>}
+     */
     async  initSession(username, password){
         if(
             (username == null || username.length < 0) ||
@@ -36,7 +51,8 @@ export class Session{
                 }).catch(e => {
                     Session.#logged = false;
                     console.log(e)
-                    if (e instanceof Error &&  (e.message.includes('NetworkError') || e.message.includes('NetworkError'))){
+                    if (e instanceof Error &&  (e.message.includes('NetworkError')
+                        || e.message.includes('NetworkError'))){
                         throw new NetworkConnectionError();
                     }
 
@@ -51,6 +67,13 @@ export class Session{
         return auth;
     }
 
+    /**
+     * Metodo que verifica si el token pasado como parametro es valido.
+     * El token es utilizado y necesario para poder acceder a los datos que el api proporciona por lo que verificar
+     * la veracidad del token es indispensable
+     * @param authenticationToken
+     * @returns {Promise<boolean>}
+     */
     static async  verifyToken(authenticationToken){
         let validToken = false;
         if (authenticationToken !== null && authenticationToken !== undefined){
@@ -91,15 +114,19 @@ export class Session{
         return validToken;
     }
 
+    /**
+     * Metodo que devuelve el token global.
+     * @returns {string} token
+     */
+    static getToken = () => { return this.#token; }
 
-
-    static getToken = () => {
-        // if (!this.#logged){
-        //     throw new NoLoggedError();
-        // }
-        return this.#token;
-    }
-
+    /**
+     * Metodo que verifica si el usuario esta logeado.
+     * Cuando el usuario se logea por primera vez se genera un token de autentificacion y este es almacenado en el
+     * navegador, por lo que este metodo verifica si se ha almacenado este token previamente y si es el caso lo recupera
+     * y verifica la veracidad del mismo en el servidor para posteriormente confirmar la autentificacion.
+     * @returns {Promise<boolean>} si el usuario esta logeado.
+     */
      static  isLogged = async () => {
          if (!this.#logged) {
              const storedToken = localStorage.getItem('token');

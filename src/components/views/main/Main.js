@@ -11,10 +11,13 @@ import {Session} from "../../../services/seguridad/Session";
 
 export default class Main extends React.Component{
 
+    /**
+     * Constructor de la clase donde se establecen los estodos y eventos vinculados al componente.
+     */
     constructor() {
         super();
         this.state = {
-            redirect : false,
+            redirect : false,   //  Propiedad de tipo boolean que si es true la pagina se redirigira hacia el login.
             selectedItem : "",
             tree :  [
                 {
@@ -77,8 +80,18 @@ export default class Main extends React.Component{
     }
 
     async isLogged(){
-        if (!await Session.isLogged()){
-            this.setState({redirect : true})
+        try{
+            if (await Session.isLogged()){
+                this.setState({redirect : true})
+            }
+        }catch(e){
+            this.setState({
+                modalProps : {
+                    modalHeader : 'Error del lado del servidor',
+                    modalMessage : e.message,
+                    modalType : 'warning',
+                    visible : true
+                }});
         }
     }
 

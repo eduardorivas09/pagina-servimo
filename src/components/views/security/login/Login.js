@@ -9,35 +9,45 @@ import DialogModal from "../../alerts/DialogModal";
 
 export default class Login extends React.Component{
 
+    /**
+     * Constructor del componente en el que se inicializan los estados del mismo.
+     * @param props
+     */
     constructor(props) {
         super(props);
         this.state = {
-            redirect : false,
-            modalProps : {
-                modalHeader : null,
-                modalMessage : null,
-                modalType : 'info',
-                visible : false
+            redirect : false,       //  Propiedad de tipo boolean que si es true la pagina se redirigira hacia el login.
+            modalProps : {          //  Objeto que almacena las propiedades que contiene el modal de alerta.
+                modalHeader : null, //  Cabecera del mensaje
+                modalMessage : null,//  Cuerpo del mensaje.
+                modalType : 'info', //  Tipo de modal, los tipos admitidos son info (default), warninng, success
+                visible : false     //  Propiedad de tipo boolean que si es true el modal se muestra.
             }
         }
 
-        this.onSignIn = this.onSignIn.bind(this);
-        this.onHide = this.onHide.bind(this);
+        this.onSignIn = this.onSignIn.bind(this);   //Bindeo obligatorio del evento de click en iniciar sesion.
+        this.onHide = this.onHide.bind(this);       //Bindeo obligatorio del boton de cerrar el modal de alerta.
     }
 
+    /**
+     * Metodo de iniciar sesion que obtiene los valores digitados por el usuario y envia dichos datos al servidor.
+     * Si los campos o alguno de ellos esta vacios no se realiza la peticion al servidor.
+     * @param e evento
+     * @returns {Promise<void>}
+     */
    async onSignIn(e){
         e.preventDefault();
-        const user = document.getElementsByName("user")[0].value;
-        const pass = document.getElementsByName("pass")[0].value;
+        const user = document.getElementsByName("user")[0].value;           //  Obtiene el nombre de usuario
+        const pass = document.getElementsByName("pass")[0].value;           //  Obtiene la contrasenha
         if ((user !== null && user.length > 0) && (pass !== null && pass.length > 0)){
             let token = null;
 
             try {
-                token = await new Session().initSession(user,pass);
+                token = await new Session().initSession(user,pass);                //  Envia datos al servidor.
                 if (await Session.isLogged()){
-                    this.setState({redirect : true})
+                    this.setState({redirect : true})                         //  Tras un logeo exitoso se redirige
                 }
-            }catch (e) {
+            }catch (e) {                                            //  Tras un error se muestra un mensaje.
                 this.setState({
                     modalProps : {
                         modalHeader : 'Error al iniciar sesion',
@@ -50,7 +60,7 @@ export default class Login extends React.Component{
     }
 
     /**
-     * El metodo show abre el modal.
+     * El metodo que oculta el modal cambiando el estado del mismo a visible false
      */
     onHide = () => {
         this.setState({
@@ -60,18 +70,40 @@ export default class Login extends React.Component{
         });
     }
 
+    /**
+     * Metodo que verifica si el usuario actualmente esta logeado
+     * @returns {Promise<void>}
+     */
     async isLogged(){
-        if (await Session.isLogged()){
-            this.setState({redirect : true})
+        try{
+            if (await Session.isLogged()){
+                this.setState({redirect : true})
+            }
+        }catch(e){
+            this.setState({
+                modalProps : {
+                    modalHeader : 'Error del lado del servidor',
+                    modalMessage : e.message,
+                    modalType : 'warning',
+                    visible : true
+                }});
         }
+
     }
 
+    /**
+     * Tras el renderizado de la pagina el metodo de manejo del ciclo de vida del componente 'componentDidMount'
+     * se ejecuta y en ese se aprovecha para verificar si el usuario ya se habia logeado.
+     */
     componentDidMount() {
         this.isLogged();
     }
 
+    /**
+     * Renderiza la vista
+     * @returns {JSX.Element}
+     */
     render() {
-
         return(
             (this.state.redirect)
                 ? <Redirect to='/main' />
@@ -101,15 +133,12 @@ export default class Login extends React.Component{
                         <a href="/" className="btn btn-primary"><i className="pi pi-check p-mr-2">Inicio</i></a>
                     </div>
 
-                    {
-
                         <DialogModal header={this.state.modalProps.modalHeader}
                                      textBody={this.state.modalProps.modalMessage}
                                      hasYesNotButtons={false}
                                      modalType={this.state.modalProps.modalType}
                                      visible={this.state.modalProps.visible}
                                      onHide={this.onHide}/>
-                    }
                 </div>
         );
     }
