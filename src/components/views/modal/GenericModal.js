@@ -1,24 +1,20 @@
-import React, {useState} from 'react';
-import {Dialog} from 'primereact/dialog';
-import {Button} from 'primereact/button';
-import './dialogModal.css';
-import GenericModal from "../modal/GenericModal";
+import React from 'react';
+import {Button} from "primereact/button";
+import {Dialog} from "primereact/dialog";
 
 /**
- * AbstractModal es una clase que define las propiedades y comportamiento basico de un modal.
+ * @class GenericModal es una clase que permite mostrar una pantalla en forma de modal.
+ * @export default GenericModal
+ * @export Component
  */
-export default class DialogModal extends React.Component {
+export default class GenericModal extends React.Component{
 
-    constructor() {
-        // super(props);
-        super();
-        // this.props.body = this.dialogBody();
+
+    constructor(props) {
+        super(props);
+        this.props = props;
         this.renderFooter = this.renderFooter.bind(this);
     }
-
-    // dialogBody = () => {
-    //     return <p className={`alert alert-${modalType}`}>{this.props.textBody}</p>
-    // }
 
     renderFooter = () => {
         return (
@@ -46,7 +42,7 @@ export default class DialogModal extends React.Component {
                      style={{ width: '50vw' }}
                      footer={this.props.hasYesNotButtons ? this.renderFooter() : <React.Fragment/>}
                      onHide={() => this.props.onHide()} >
-                <p className={`alert alert-${modalType}`}>{this.props.textBody}</p>
+                {this.props.body}
             </Dialog>
         );
     }
