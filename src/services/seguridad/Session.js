@@ -67,6 +67,7 @@ export class Session{
         return auth;
     }
 
+
     /**
      * Metodo que verifica si el token pasado como parametro es valido.
      * El token es utilizado y necesario para poder acceder a los datos que el api proporciona por lo que verificar
