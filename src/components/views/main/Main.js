@@ -8,6 +8,12 @@ import ClienteJuridico from "../clientes/juridico/ClienteJuridico";
 import ContratoClientesJuridico from "../contrato/juridico/ContratoClientesJuridico";
 import {Redirect} from "react-router-dom";
 import {Session} from "../../../services/seguridad/Session";
+import {MenusService} from "../../../services/MenusService";
+import {Menubar} from "primereact/menubar";
+import {Menu} from "primereact/menu";
+import {Button} from "primereact/button";
+import {Panel} from "primereact/panel";
+import Customer from "../clientes/Customer";
 
 export default class Main extends React.Component{
 
@@ -19,6 +25,7 @@ export default class Main extends React.Component{
         this.state = {
             redirect : false,   //  Propiedad de tipo boolean que si es true la pagina se redirigira hacia el login.
             selectedItem : "",
+            menuItems : [],
             tree :  [
                 {
                     id: 1,
@@ -96,77 +103,39 @@ export default class Main extends React.Component{
         }
     }
 
-    componentDidMount() {
-        this.isLogged();
-    }
-
     render() {
 
         return(
             (this.state.redirect)
                 ? <Redirect to='/login' />
                 :
-            <div className="wrapper">
+                <Fragment>
+                    <Menubar model={this.state.menuItems}
+                        // start={<InputText placeholder="Search" type="text"/>}
+                             end={<Fragment>
+                                 <Menu model={this.state.popUpMenu} popup ref={el => this.menu = el} id="popup_menu" />
+                                 <Button label="Mas" icon="pi pi-bars" onClick={(event) => this.menu.toggle(event)} aria-controls="popup_menu" aria-haspopup />
+                             </Fragment>
+                             }
+                    />
+                    <Panel>
+                        <Customer/>
+                    </Panel>
+                </Fragment>
+    );
+    }
 
-                {/*Side bar*/}
-                <nav id="sidebar">
-                    <div className="sidebar-header">
-                        <h3>Servimo SA</h3>
-                    </div>
+    componentDidMount() {
+        this.isLogged();
 
-                    <ul className="list-unstyled components">
-                        <p>Administracion</p>
-                        <li className="active">
-                            <a href="#clienteSubmenu" data-toggle="collapse" aria-expanded="false"
-                               className="dropdown-toggle">Clientes</a>
-                            <ul className="collapse list-unstyled" id="clienteSubmenu">
-                                <li>
-                                    <a onClick={this.onItemClick}>Clientes Natural</a>
-                                </li>
-                                <li>
-                                    <a onClick={this.onItemClick} >Clientes Juridicos</a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="#contratoSubmenu" data-toggle="collapse" aria-expanded="false"
-                               className="dropdown-toggle">Contratos</a>
-                            <ul className="collapse list-unstyled" id="contratoSubmenu">
-                                <li>
-                                    <a onClick={this.onItemClick}>Contrato Clientes Natural</a>
-                                </li>
-                                <li>
-                                    <a onClick={this.onItemClick}>Contrato Clientes Juridico</a>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                </nav>
+        const service = new MenusService();
+        service.getMainMenuItems().then(resp => {
+            this.setState({menuItems : resp});
+        });
 
-                {/*Contenido de la pagina*/}
-                <div id="content">
-                    <nav className="navbar navbar-expand-lg navbar-light bg-light">
-                        <div className="container-fluid">
-
-                            <button type="button" id="sidebarCollapse" className="btn btn-dark" onClick={this.onClickMenu}>
-                                <span><img src={menu} alt="Menu"/></span>
-                            </button>
-                            <BreadCrumb tree={this.state.tree}/>
-                        </div>
-                    </nav>
-                    {
-                        (this.state.selectedItem === "Clientes Natural") ? <ClienteNatural/> :
-                            (this.state.selectedItem === "Clientes Juridicos") ? <Fragment><ClienteJuridico/></Fragment> :
-                                (this.state.selectedItem === "Contrato Clientes Natural") ? <Fragment>Aca Contrato Clientes Natural</Fragment> :
-                                    (this.state.selectedItem === "Contrato Clientes Juridico") ? <Fragment><ContratoClientesJuridico/></Fragment>  : "Servimos s.a "
-                                        // <Fragment></Fragment>
-                    //    agregar condicionales igual a la linea anterior
-
-                    }
-                </div>
-
-            </div>
-        );
+        service.getPopUpMenuItems().then(resp => {
+            this.setState({popUpMenu: resp});
+        });
     }
 
 }

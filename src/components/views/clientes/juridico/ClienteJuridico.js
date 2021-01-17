@@ -1,6 +1,6 @@
 import React from 'react';
 import SearchField from "../../../controls/field/input/search/SearchField";
-import Table from "../../../controls/table/Table";
+import OldTable from "../../../controls/table/OldTable";
 import 'bootstrap';
 import {ClienteJuridicoService} from "../../../../services/clientes/ClienteJuridicoService";
 import DialogModal from "../../alerts/DialogModal";
@@ -130,7 +130,7 @@ export default class ClienteJuridico extends React.Component {
                         <SearchField onSearchChange={this.onSearchChange} placeholder="Qué cliente buscará?"
                                      onSubmit={this.buscar}/>
                         {/*Tabla*/}
-                        <Table data={temp}/>
+                        <OldTable data={temp}/>
                     </div>
                 </div>
 
