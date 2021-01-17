@@ -52,7 +52,7 @@ export class Session{
                     Session.#logged = false;
                     console.log(e)
                     if (e instanceof Error &&  (e.message.includes('NetworkError')
-                        || e.message.includes('NetworkError'))){
+                        || e.message.includes('Failed to fetch'))){
                         throw new NetworkConnectionError();
                     }
 
