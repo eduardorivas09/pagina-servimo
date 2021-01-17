@@ -1,9 +1,12 @@
 import React from 'react';
+import $ from 'jquery';
 import SearchField from "../../../controls/field/input/search/SearchField";
 import OldTable from "../../../controls/table/OldTable";
 import 'bootstrap';
-import {ClienteJuridicoService} from "../../../../services/clientes/ClienteJuridicoService";
+import { ClienteJuridicoService } from "../../../../services/clientes/ClienteJuridicoService";
 import DialogModal from "../../alerts/DialogModal";
+import { Fragment } from "react";
+import Table from "../../../controls/table/Table";
 
 export default class ClienteJuridico extends React.Component {
 
@@ -11,16 +14,17 @@ export default class ClienteJuridico extends React.Component {
         super(props);
         this.state = {
             busqueda: "",
-            data : [],
-            modalProps : {
-                modalHeader : null,
-                modalMessage : null,
-                modalType : 'info',
-                visible : false
+            data: [],
+            modalProps: {
+                modalHeader: null,
+                modalMessage: null,
+                modalType: 'info',
+                visible: false
             }
         }
         this.buscar = this.buscar.bind(this)
         this.onSearchChange = this.onSearchChange.bind(this)
+
     }
 
     buscar(e) {
@@ -49,13 +53,13 @@ export default class ClienteJuridico extends React.Component {
         this.loadData();
     }
 
-    loadData(search){
+    loadData(search) {
 
         new ClienteJuridicoService()
             .getFiltered(search)
             // .getAll().then(resp => console.log(resp))
             .then(resp => {
-                if ((resp instanceof Response && resp.status === 200) || resp instanceof Array){
+                if ((resp instanceof Response && resp.status === 200) || resp instanceof Array) {
                     this.setState({
                         data: resp
                     })
@@ -63,16 +67,17 @@ export default class ClienteJuridico extends React.Component {
 
             }).catch(e => {
 
-            if (e instanceof Error){
-                this.setState({
-                    modalProps : {
-                        modalHeader : 'Acceso denegado',
-                        modalMessage : e.message,
-                        modalType : 'warning',
-                        visible : true
-                    }});
-            }
-        });
+                if (e instanceof Error) {
+                    this.setState({
+                        modalProps: {
+                            modalHeader: 'Acceso denegado',
+                            modalMessage: e.message,
+                            modalType: 'warning',
+                            visible: true
+                        }
+                    });
+                }
+            });
     }
 
     /**
@@ -86,61 +91,66 @@ export default class ClienteJuridico extends React.Component {
         });
     }
 
+
+    visibledColumns = () => {
+        return [
+            {
+                field: "noRuc",
+                header: "Ruc",
+                sortable: false
+            }, {
+                field: "nombre",
+                header: "Nombre ",
+                sortable: true
+            }, {
+                field: "direccion",
+                header: "Direccion",
+                sortable: false
+            }, {
+                field: "telefono",
+                header: "Telefono",
+                sortable: false
+            }, {
+                field: "correo",
+                header: "Correo",
+                sortable: false
+            },
+
+        ]
+
+    }
+
+
     render() {
         const temp = this.state.data.map(o => {
             let c = Object.assign({}, o);
-          
-            delete  c.direccion;
+
+            delete c.direccion;
 
             return c;
         });
 
-        const tree = [
-            {
-                id: 1,
-                text: "Home",
-                href: "/",
-                isActive: false
-            }
-            ,
-            {
-                id: 2,
-                text: "Clientes",
-                href: "/",
-                isActive: false
-            },
-            {
-                id: 3,
-                text: "Juridico",
-                href: "/clientes/Juridico",
-                isActive: true
-            }
-        ]
+
         return (
-            <div className="row mb-5">
 
-                <div className="col-lg-12 mx-auto">
+            <Fragment>
 
-                    <div className="bg-white p-5 rounded">
-                        {/*Banda de navegacion*/}
-                        {/*<BreadCrumb tree={tree}/>*/}
-                        {/*titulo*/}
-                        <h1 className="display-4">Clientes Juridico</h1>
-                        {/*Campo de busqueda*/}
-                        <SearchField onSearchChange={this.onSearchChange} placeholder="Qué cliente buscará?"
-                                     onSubmit={this.buscar}/>
-                        {/*Tabla*/}
-                        <OldTable data={temp}/>
-                    </div>
-                </div>
+                <Table promise={this.state.data}
+                    columns={this.visibledColumns()}
+                    entity="Cliente Juridico" />
+
+                {/*Modal de dialogo*/}
 
                 <DialogModal header={this.state.modalProps.modalHeader}
-                             textBody={this.state.modalProps.modalMessage}
-                             hasYesNotButtons={false}
-                             modalType={this.state.modalProps.modalType}
-                             visible={this.state.modalProps.visible}
-                             onHide={this.onHide}/>
-            </div>
+                    textBody={this.state.modalProps.modalMessage}
+                    hasYesNotButtons={false}
+                    modalType={this.state.modalProps.modalType}
+                    visible={this.state.modalProps.visible}
+                    onHide={this.onHide} />
+
+            </Fragment>
+
+
 
         );
     }
