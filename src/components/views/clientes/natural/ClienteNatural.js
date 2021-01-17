@@ -1,12 +1,13 @@
-import React from 'react';
+import React, {Fragment} from 'react';
 import $ from 'jquery';
 import SearchField from "../../../controls/field/input/search/SearchField";
-import Table from "../../../controls/table/Table";
+import OldTable from "../../../controls/table/OldTable";
 import ClienteNaturalModal from "./ClienteNaturalModal";
 import BreadCrumb from "../../../panels/nav/breadcrumb/BreadCrumb";
 import 'bootstrap';
 import {ClienteNaturalService} from "../../../../services/clientes/ClienteNaturalService";
 import DialogModal from "../../alerts/DialogModal";
+import Table from "../../../controls/table/Table";
 
 export default class ClienteNatural extends React.Component {
 
@@ -117,72 +118,52 @@ export default class ClienteNatural extends React.Component {
         });
     }
 
-    render() {
-        const temp = this.state.data.map(o => {
-            let c = Object.assign({}, o);
-            delete c.direccion;
-            delete c.edad;
-            delete c.segundoApellido;
-            delete c.segundoNombre;
-            delete c.estadoCivil;
-            return c;
-        });
-
-        const tree = [
+    visibledColumns = () => {
+        return [
             {
-                id: 1,
-                text: "Home",
-                href: "/",
-                isActive: true
+                field:"primerNombre",
+                header:"Nombre",
+                sortable:true
+            },{
+                field:"primerApellido",
+                header:"Nombre de Usuario",
+                sortable:true
+            },{
+                field:"noCedula",
+                header:"Cedula Identidad",
+                sortable:false
+            },{
+                field:"sexo",
+                header:"Genero",
+                sortable:true
+            },{
+                field:"telefono",
+                header:"Telefono",
+                sortable:false
+            },{
+                field:"correo",
+                header:"Correo",
+                sortable:false
             }
-            ,
-            {
-                id: 2,
-                text: "Clientes",
-                href: "/",
-                isActive: false
-            },
-            {
-                id: 3,
-                text: "Natural",
-                href: "/clientes/natural",
-                isActive: false
-            }
-
         ]
+    }
+
+    render() {
         return (
-            <div className="row mb-5">
+            <Fragment>
+                {/*Tabla de prime react*/}
+                <Table promise={this.state.data}
+                          columns={this.visibledColumns()}
+                          entity="Cliente Juridico"/>
 
-                <div className="col-lg-12 mx-auto">
-
-                    <div className="bg-white p-5 rounded">
-                        {/*Banda de navegacion*/}
-                        <BreadCrumb tree={tree}/>
-                        {/*titulo*/}
-                        <h1 className="display-4">Cliente natural</h1>
-                        {/*Campo de busqueda*/}
-                        <SearchField onSearchChange={this.onSearchChange} placeholder="Qué cliente buscará?"
-                                     onSubmit={this.buscar}/>
-
-                        {/*Boton que activa el modal*/}
-                        <button type="button" className="btn btn-primary mb-2 mr-auto" data-toggle="modal"
-                                data-target="#exampleModal" onClick={this.onButtonClick}>Agregar
-                        </button>
-
-                        {/*Modal*/}
-                        <ClienteNaturalModal ref="child" selectedId={this.state.rowId}/>
-
-                        {/*Tabla*/}
-                        <Table onClick={this.rowClicked} data={temp}/>
-                    </div>
-                </div>
+                {/*Modal de dialogo*/}
                 <DialogModal header={this.state.modalProps.modalHeader}
                              textBody={this.state.modalProps.modalMessage}
                              hasYesNotButtons={false}
                              modalType={this.state.modalProps.modalType}
                              visible={this.state.modalProps.visible}
                              onHide={this.onHide}/>
-            </div>
+            </Fragment>
 
         );
     }

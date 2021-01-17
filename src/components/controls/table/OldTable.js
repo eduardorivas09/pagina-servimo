@@ -1,7 +1,11 @@
 import React, {Fragment} from 'react';
-import './table.css';
+import './Oldtable.css';
 import editImage from '../../../static/icons/icons8-menu-24.png';
-export default class Table extends React.Component {
+
+/**
+ * @deprecated OldTable
+ */
+export default class OldTable extends React.Component {
 
     constructor() {
         super();
