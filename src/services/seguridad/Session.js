@@ -56,7 +56,9 @@ export class Session{
                         throw new NetworkConnectionError();
                     }
 
-                    if (e instanceof Response && e.status === 500){
+                    // Status 500 Error interno del servidor.
+                    // Status 403 Forbien
+                    if (e instanceof Response && (e.status === 500 || e.status === 403)){
                         throw new AuthenticationError();
                     }
 
