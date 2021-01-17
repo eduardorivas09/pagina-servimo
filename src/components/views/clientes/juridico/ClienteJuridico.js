@@ -24,6 +24,7 @@ export default class ClienteJuridico extends React.Component {
         }
         this.buscar = this.buscar.bind(this)
         this.onSearchChange = this.onSearchChange.bind(this)
+        this.AgregarClienteJudirico = this.AgregarClienteJudirico.bind(this)
 
     }
 
@@ -119,7 +120,11 @@ export default class ClienteJuridico extends React.Component {
         ]
 
     }
+   
+    AgregarClienteJudirico=()=>{
+     alert("En desarrollo");
 
+    }
 
     render() {
         const temp = this.state.data.map(o => {
@@ -136,7 +141,9 @@ export default class ClienteJuridico extends React.Component {
             <Fragment>
 
                 <Table promise={this.state.data}
-                    columns={this.visibledColumns()}
+                    columns={this.visibledColumns()} 
+                    onClickAdd={this.AgregarClienteJudirico}
+                    
                     entity="Cliente Juridico" />
 
                 {/*Modal de dialogo*/}
