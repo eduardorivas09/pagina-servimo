@@ -6,16 +6,20 @@ import ClienteNatural from "../clientes/natural/ClienteNatural";
 import BreadCrumb from "../../panels/nav/breadcrumb/BreadCrumb";
 import ClienteJuridico from "../clientes/juridico/ClienteJuridico";
 import ContratoClientesJuridico from "../contrato/juridico/ContratoClientesJuridico";
-import {Session} from "../../../services/seguridad/Session";
 import {Redirect} from "react-router-dom";
+import {Session} from "../../../services/seguridad/Session";
 
-export default class Main extends React.Component {
+export default class Main extends React.Component{
 
+    /**
+     * Constructor de la clase donde se establecen los estodos y eventos vinculados al componente.
+     */
     constructor() {
         super();
         this.state = {
-            selectedItem: "",
-            tree: [
+            redirect : false,   //  Propiedad de tipo boolean que si es true la pagina se redirigira hacia el login.
+            selectedItem : "",
+            tree :  [
                 {
                     id: 1,
                     text: "Main",
@@ -30,7 +34,8 @@ export default class Main extends React.Component {
 
     }
 
-    pushObject(event) {
+
+    pushObject(event){
 
         let tree = this.state.tree;
         let firstNode = this.state.tree[0];
@@ -39,37 +44,35 @@ export default class Main extends React.Component {
         if (selectedItem === this.state.selectedItem)
             return
 
-        tree = []
+        tree= []
 
         tree.push(firstNode);
 
         let arr = selectedItem.split(' ')
 
         arr.forEach(e => {
-            const lastObject = tree[tree.length - 1];
+            const lastObject = tree[tree.length -1];
             lastObject.isActive = false;
             tree.push({
                 id: (lastObject.id + 1),
-                text: e.replace(e.charAt(0), e.charAt(0).toUpperCase()),
+                text: e.replace(e.charAt(0),e.charAt(0).toUpperCase()),
                 href: "/" + e.toLowerCase(),
                 isActive: true
             })
         });
 
-        const lastObject = tree[tree.length - 1];
+        const lastObject = tree[tree.length -1];
         this.setState({
-            selectedItem: selectedItem,
-            tree: tree
+            selectedItem : selectedItem,
+            tree : tree
         })
     }
 
-    onItemClick(e) {
-
+    onItemClick(e){
         this.pushObject(e)
-
     }
 
-    onClickMenu(e) {
+    onClickMenu(e){
         $(document).ready(function () {
             $('#sidebarCollapse').on('click', function () {
                 $('#sidebar').toggleClass('active');
@@ -77,78 +80,92 @@ export default class Main extends React.Component {
         });
     }
 
+    async isLogged(){
+        try{
+            if (!await Session.isLogged()){
+                this.setState({redirect : true})
+            }
+        }catch(e){
+            this.setState({
+                modalProps : {
+                    modalHeader : 'Error del lado del servidor',
+                    modalMessage : e.message,
+                    modalType : 'warning',
+                    visible : true
+                }});
+        }
+    }
+
+    componentDidMount() {
+        this.isLogged();
+    }
+
     render() {
-        console.log(`El token es ${Session.token}`)
-        return (
-            (Session.token === null)
-                ?
-                <Redirect to='/login'/>
+
+        return(
+            (this.state.redirect)
+                ? <Redirect to='/login' />
                 :
+            <div className="wrapper">
 
-                <div className="wrapper">
-
-                    {/*Side bar*/}
-                    <nav id="sidebar">
-                        <div className="sidebar-header">
-                            <h3>Servimo SA</h3>
-                        </div>
-
-                        <ul className="list-unstyled components">
-                            <p>Administracion</p>
-                            <li className="active">
-                                <a href="#clienteSubmenu" data-toggle="collapse" aria-expanded="false"
-                                   className="dropdown-toggle">Clientes</a>
-                                <ul className="collapse list-unstyled" id="clienteSubmenu">
-                                    <li>
-                                        <a onClick={this.onItemClick}>Clientes Natural</a>
-                                    </li>
-                                    <li>
-                                        <a onClick={this.onItemClick}>Clientes Juridicos</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li>
-                                <a href="#contratoSubmenu" data-toggle="collapse" aria-expanded="false"
-                                   className="dropdown-toggle">Contratos</a>
-                                <ul className="collapse list-unstyled" id="contratoSubmenu">
-                                    <li>
-                                        <a onClick={this.onItemClick}>Contrato Clientes Natural</a>
-                                    </li>
-                                    <li>
-                                        <a onClick={this.onItemClick}>Contrato Clientes Juridico</a>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </nav>
-
-                    {/*Contenido de la pagina*/}
-                    <div id="content">
-                        <nav className="navbar navbar-expand-lg navbar-light bg-light">
-                            <div className="container-fluid">
-
-                                <button type="button" id="sidebarCollapse" className="btn btn-dark"
-                                        onClick={this.onClickMenu}>
-                                    <span><img src={menu} alt="Menu"/></span>
-                                </button>
-                                <BreadCrumb tree={this.state.tree}/>
-                            </div>
-                        </nav>
-                        {
-                            (this.state.selectedItem === "Clientes Natural") ? <ClienteNatural/> :
-                                (this.state.selectedItem === "Clientes Juridicos") ?
-                                    <Fragment><ClienteJuridico/></Fragment> :
-                                    (this.state.selectedItem === "Contrato Clientes Natural") ?
-                                        <Fragment>Aca Contrato Clientes Natural</Fragment> :
-                                        (this.state.selectedItem === "Contrato Clientes Juridico") ?
-                                            <Fragment><ContratoClientesJuridico/></Fragment> : "Servimos s.a "
-                            // <Fragment></Fragment>
-                            //    agregar condicionales igual a la linea anterior
-
-                        }
+                {/*Side bar*/}
+                <nav id="sidebar">
+                    <div className="sidebar-header">
+                        <h3>Servimo SA</h3>
                     </div>
 
+                    <ul className="list-unstyled components">
+                        <p>Administracion</p>
+                        <li className="active">
+                            <a href="#clienteSubmenu" data-toggle="collapse" aria-expanded="false"
+                               className="dropdown-toggle">Clientes</a>
+                            <ul className="collapse list-unstyled" id="clienteSubmenu">
+                                <li>
+                                    <a onClick={this.onItemClick}>Clientes Natural</a>
+                                </li>
+                                <li>
+                                    <a onClick={this.onItemClick} >Clientes Juridicos</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#contratoSubmenu" data-toggle="collapse" aria-expanded="false"
+                               className="dropdown-toggle">Contratos</a>
+                            <ul className="collapse list-unstyled" id="contratoSubmenu">
+                                <li>
+                                    <a onClick={this.onItemClick}>Contrato Clientes Natural</a>
+                                </li>
+                                <li>
+                                    <a onClick={this.onItemClick}>Contrato Clientes Juridico</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </nav>
+
+                {/*Contenido de la pagina*/}
+                <div id="content">
+                    <nav className="navbar navbar-expand-lg navbar-light bg-light">
+                        <div className="container-fluid">
+
+                            <button type="button" id="sidebarCollapse" className="btn btn-dark" onClick={this.onClickMenu}>
+                                <span><img src={menu} alt="Menu"/></span>
+                            </button>
+                            <BreadCrumb tree={this.state.tree}/>
+                        </div>
+                    </nav>
+                    {
+                        (this.state.selectedItem === "Clientes Natural") ? <ClienteNatural/> :
+                            (this.state.selectedItem === "Clientes Juridicos") ? <Fragment><ClienteJuridico/></Fragment> :
+                                (this.state.selectedItem === "Contrato Clientes Natural") ? <Fragment>Aca Contrato Clientes Natural</Fragment> :
+                                    (this.state.selectedItem === "Contrato Clientes Juridico") ? <Fragment><ContratoClientesJuridico/></Fragment>  : "Servimos s.a "
+                                        // <Fragment></Fragment>
+                    //    agregar condicionales igual a la linea anterior
+
+                    }
                 </div>
+
+            </div>
         );
     }
 

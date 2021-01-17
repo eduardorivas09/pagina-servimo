@@ -8,6 +8,7 @@ import ClienteJuridico from "./components/views/clientes/juridico/ClienteJuridic
 import Main from "./components/views/main/Main";
 import ContratoClientesJuridico from "./components/views/contrato/juridico/ContratoClientesJuridico";
 import Login from "./components/views/security/login/Login";
+import DialogModal from "./components/views/alerts/DialogModal";
 
 function App() {
     return (
@@ -39,6 +40,12 @@ function App() {
                 <Route exact path="/contrato/clientes/juridico">
                     {/*llamada a la clase contratoclientesjuridico clientes juridico*/}
                     <ContratoClientesJuridico/>
+                </Route>
+                <Route exact path="/test">
+                    {/*llamada a la clase contratoclientesjuridico clientes juridico*/}
+                    <DialogModal header="Alerta"
+                                 textBody="Ha ocurrido un error con la conexion al servidor."
+                                 hasYesNotButtons={true} modalType={'warning'} width={'100%'}/>
                 </Route>
 
             </Switch>

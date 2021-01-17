@@ -6,6 +6,7 @@ import ClienteNaturalModal from "./ClienteNaturalModal";
 import BreadCrumb from "../../../panels/nav/breadcrumb/BreadCrumb";
 import 'bootstrap';
 import {ClienteNaturalService} from "../../../../services/clientes/ClienteNaturalService";
+import DialogModal from "../../alerts/DialogModal";
 
 export default class ClienteNatural extends React.Component {
 
@@ -14,7 +15,13 @@ export default class ClienteNatural extends React.Component {
         this.state = {
             busqueda: "",
             data: [],
-            rowId: -1
+            rowId: -1,
+            modalProps : {
+                modalHeader : null,
+                modalMessage : null,
+                modalType : 'info',
+                visible : false
+            }
         }
 
         this.buscar = this.buscar.bind(this);
@@ -66,14 +73,24 @@ export default class ClienteNatural extends React.Component {
         new ClienteNaturalService()
             .getFiltered(search)
             .then(resp => {
-                if (resp.status === 403) {//Forbiden
-                    alert("El usuario no tiene permisos para acceder al api")
-                }else{
+                if ((resp instanceof Response && resp.status === 200) || resp instanceof Array){
                     this.setState({
                         data: resp
                     })
                 }
-            });
+
+            }).catch(e => {
+
+                if (e instanceof Error){
+                    this.setState({
+                        modalProps : {
+                            modalHeader : 'Acceso denegado',
+                            modalMessage : e.message,
+                            modalType : 'warning',
+                            visible : true
+                        }});
+                }
+        });
     }
 
     getModal(){
@@ -87,6 +104,17 @@ export default class ClienteNatural extends React.Component {
 
         this.getModal();
         $('#exampleModal').modal('show');
+    }
+
+    /**
+     * El metodo show abre el modal.
+     */
+    onHide = () => {
+        this.setState({
+            modalProps : {
+                visible : false
+            }
+        });
     }
 
     render() {
@@ -148,6 +176,12 @@ export default class ClienteNatural extends React.Component {
                         <Table onClick={this.rowClicked} data={temp}/>
                     </div>
                 </div>
+                <DialogModal header={this.state.modalProps.modalHeader}
+                             textBody={this.state.modalProps.modalMessage}
+                             hasYesNotButtons={false}
+                             modalType={this.state.modalProps.modalType}
+                             visible={this.state.modalProps.visible}
+                             onHide={this.onHide}/>
             </div>
 
         );
