@@ -103,20 +103,26 @@ export default class Table extends React.Component {
         //         return <Column columnKey={item.id}  field={item.field} header={item.header} sortable={item.sortable}/>
         //     });
 
+        console.log(this.props.onClickAdd);
 
         const header = (
             <div className="table-header">
                 <div className={'row'} style={{'textAlign': 'left'}}>
-                    <div className="col-sm-8 col-md-8 col-lg-6 pr-0">
+                    <div className="col-sm-2 col-md-6 col-lg-6 pr-0">
                         <InputText type="search" onInput={(e) => this.setState({tableFilter: e.target.value})}
                                    placeholder={"Buscar " + this.props.entity} size="50"/>
                     </div>
                     <div className="col-sm-1 col-md-1 col-lg-1" style={{paddingTop: '0.5em', cursor: 'pointer'}}>
                         <i className="pi pi-search" style={{margin: '4px 4px 0 0'}}/>
                     </div>
-                    <div className="col-sm-1 col-md-1 col-lg-1 offset-sm-2 offset-md-2 offset-lg-4">
-                        <Button icon="pi pi-refresh"/>
-                    </div>
+                    {
+                        this.props.onClickAdd !== undefined && this.props.onClickAdd != null ?
+                            <div className="col-sm-3 col-md-2 col-lg-1 offset-sm-3 offset-md-2 offset-lg-3">
+                                <Button icon="pi pi-plus" label={"Agregar"} onClick={this.props.onClickAdd}/>
+                            </div>
+                        :
+                            <Fragment />
+                    }
                 </div>
             </div>
         );

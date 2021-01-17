@@ -29,6 +29,7 @@ export default class ClienteNatural extends React.Component {
         this.onSearchChange = this.onSearchChange.bind(this);
         this.rowClicked = this.rowClicked.bind(this);
         this.onButtonClick = this.onButtonClick.bind(this);
+        this.addNewClienteNatural = this.addNewClienteNatural.bind(this);
     }
 
     buscar(e) {
@@ -148,13 +149,18 @@ export default class ClienteNatural extends React.Component {
         ]
     }
 
+    addNewClienteNatural = () =>{
+        console.log("Aqui se mostrara el modal!!!");
+    }
+
     render() {
         return (
             <Fragment>
                 {/*Tabla de prime react*/}
                 <Table promise={this.state.data}
-                          columns={this.visibledColumns()}
-                          entity="Cliente Juridico"/>
+                       columns={this.visibledColumns()}
+                       onClickAdd={this.addNewClienteNatural}
+                       entity="Cliente Juridico"/>
 
                 {/*Modal de dialogo*/}
                 <DialogModal header={this.state.modalProps.modalHeader}
