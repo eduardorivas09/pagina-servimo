@@ -7,4 +7,5 @@ export class AuthenticationError extends Error{
         this.code = AuthenticationError.CODE
     }
 
+    
 }
