@@ -6,7 +6,9 @@ export class MenusService{
             const items = [
                 {
                     label:'Inicio',
-                    icon:'pi pi-fw pi-home'
+                    icon:'pi pi-fw pi-home',
+                    url: '/'
+
                 },
                 {
                     label:'Jornadas Laborales',
