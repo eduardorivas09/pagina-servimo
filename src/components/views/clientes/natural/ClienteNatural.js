@@ -1,19 +1,17 @@
 import React, {Fragment} from 'react';
 import $ from 'jquery';
-import SearchField from "../../../controls/field/input/search/SearchField";
-import OldTable from "../../../controls/table/OldTable";
-import ClienteNaturalModal from "./ClienteNaturalModal";
-import BreadCrumb from "../../../panels/nav/breadcrumb/BreadCrumb";
 import 'bootstrap';
 import {ClienteNaturalService} from "../../../../services/clientes/ClienteNaturalService";
 import DialogModal from "../../alerts/DialogModal";
 import Table from "../../../controls/table/Table";
+import ClienteNaturalModal from "./ClienteNaturalModal";
 
 export default class ClienteNatural extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
+            showModal : false,
             busqueda: "",
             data: [],
             rowId: -1,
@@ -30,6 +28,7 @@ export default class ClienteNatural extends React.Component {
         this.rowClicked = this.rowClicked.bind(this);
         this.onButtonClick = this.onButtonClick.bind(this);
         this.addNewClienteNatural = this.addNewClienteNatural.bind(this);
+        this.onHideModal = this.onHideModal.bind(this);
     }
 
     buscar(e) {
@@ -150,7 +149,15 @@ export default class ClienteNatural extends React.Component {
     }
 
     addNewClienteNatural = () =>{
-        console.log("Aqui se mostrara el modal!!!");
+        this.setState({
+            showModal:true
+        })
+    }
+
+    onHideModal = () => {
+        this.setState({
+            showModal:false
+        })
     }
 
     render() {
@@ -169,6 +176,8 @@ export default class ClienteNatural extends React.Component {
                              modalType={this.state.modalProps.modalType}
                              visible={this.state.modalProps.visible}
                              onHide={this.onHide}/>
+
+                <ClienteNaturalModal visible={this.state.showModal} onHide={this.onHideModal}/>
             </Fragment>
 
         );

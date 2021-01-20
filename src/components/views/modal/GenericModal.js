@@ -33,6 +33,7 @@ export default class GenericModal extends React.Component{
         if (modalType !== 'info' && modalType !== 'warning' && modalType !== 'success'){
             modalType = 'info';
         }
+        console.log(this.props.body)
 
         return(
             <Dialog  className="p-dialog" role="alert"
@@ -40,7 +41,7 @@ export default class GenericModal extends React.Component{
                      position="top-right"
                      visible={this.props.visible}
                      style={{ width: '50vw' }}
-                     footer={this.props.hasYesNotButtons ? this.renderFooter() : <React.Fragment/>}
+                     footer={this.props.hasGuardarCancelarButtons ? this.renderFooter() : <React.Fragment/>}
                      onHide={() => this.props.onHide()} >
                 {this.props.body}
             </Dialog>
