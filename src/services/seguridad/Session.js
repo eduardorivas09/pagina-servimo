@@ -52,11 +52,13 @@ export class Session{
                     Session.#logged = false;
                     console.log(e)
                     if (e instanceof Error &&  (e.message.includes('NetworkError')
-                        || e.message.includes('NetworkError'))){
+                        || e.message.includes('Failed to fetch'))){
                         throw new NetworkConnectionError();
                     }
 
-                    if (e instanceof Response && e.status === 500){
+                    // Status 500 Error interno del servidor.
+                    // Status 403 Forbien
+                    if (e instanceof Response && (e.status === 500 || e.status === 403)){
                         throw new AuthenticationError();
                     }
 
@@ -66,6 +68,7 @@ export class Session{
         }
         return auth;
     }
+
 
     /**
      * Metodo que verifica si el token pasado como parametro es valido.
