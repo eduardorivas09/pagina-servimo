@@ -57,12 +57,39 @@ export default class ClienteJuridicoModal extends React.Component {
                         </div>
                     </div>
 
-                   <di className="row">
-                    
-                   </di>
+                    <div className="row">
 
+                        <div className="col col-12 col-sm-12 col-md-12 col-lg-4">
+                            <spa className="p-float-label" style={{ marginTop: '1.3em' }}>
+                                <InputText id="itNombre" />
+                                <label htmlhtmlFor="itNombre" style={{ fontSize: '0.8em' }}>Nombre</label>
+                            </spa>
+                        </div>
+
+                        <div className="col col-12 col-sm-12 col-md-12 col-lg-4" >
+                            <spa className="p-float-label" style={{ marginTop: '1.3em' }}>
+                                <InputText id="itTelefono" />
+                                <label htmlhtmlFor="itTelefono" style={{ fontSize: '0.8em' }}>Telefono</label>
+                            </spa>
+                        </div>
+
+                        <div className="col col-12 col-sm-12 col-md-12 col-lg-4" >
+                            <spa className="p-float-label" style={{ marginTop: '1.3em' }}>
+                                <InputText id="itCorreo" />
+                                <label htmlhtmlFor="itCorreo" style={{ fontSize: '0.8em' }}>Correo</label>
+                            </spa>
+                        </div>
+
+                    </div>
+
+                    <div className="row">
+                        <div className="col col-12 col-sm-12 col-md-12 col-lg-12" style={{ marginTop: '1.3em' }}>
+                            <span>
+                            <InputTextarea id="itaDireccion" autoResize={true}/>
+                            </span>
+                        </div>
+                    </div>
                 </div>
-
             </Dialog>
         );
     }
