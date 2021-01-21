@@ -170,3 +170,10 @@
 /*        display: none;*/
 /*    }*/
 /*}*/
+
+.p-dropdown, textarea{
+    width: 100%;
+}
+.p-float-label, .p-dropdown-label{
+    font-size: 0.9em;
+}

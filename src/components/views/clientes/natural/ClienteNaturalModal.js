@@ -1,223 +1,127 @@
-import React from 'react';
-import setting from "../../../../services/Settings.json";
-import {ClienteNaturalService} from "../../../../services/clientes/ClienteNaturalService";
+import React, {Fragment} from 'react';
+import {Dialog} from "primereact/dialog";
+import {InputText} from "primereact/inputtext";
+import {SelectButton} from "primereact/selectbutton";
+import {Dropdown} from "primereact/dropdown";
+import {Button} from "primereact/button";
+import {InputTextarea} from "primereact/inputtextarea";
 
-export default class ClienteNaturalModal extends React.Component {
+export default class ClienteNaturalModal extends React.Component{
 
     constructor() {
         super();
-        this.saveData = this.saveData.bind(this);
         this.state = {
-            cedula: "",
-            pnombre: "",
-            snombre: "",
-            papellido: "",
-            sapellido: "",
-            genero: "",
-            estadoCivil: "",
-            telefono: "",
-            correo: "",
-            direccion: ""
+            visible : false
         }
     }
 
-    getObject() {
-        this.props.object.forEach((c, index) => {
-            this.setState({
-                cedula: c.noCedula,
-                pnombre: c.primerNombre,
-                snombre: c.segundoNombre,
-                papellido: c.primerApellido,
-                sapellido: c.segundoApellido,
-                genero: c.sexo,
-                estadoCivil: c.estadoCivil,
-                telefono: c.telefono,
-                correo: c.correo,
-                direccion: c.direccion
-            })
-        });
-
-        console.log(this.state.cedula);
-
-        return this.props.object;
-    }
-
-    findById(rowId) {
-        console.log("Estamos aca con id " + rowId);
-
-        if (rowId < 0) {
-            this.clear();
-            return;
-        }
-        let url = setting.url + `clientes/natural/${rowId}`
-
-        fetch(url,
-            {
-                method: 'GET',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                    'Origin': ''
-                }
-            })
-            .then(resp => resp.ok ? Promise.resolve(resp) : Promise.reject(resp))
-            .then(resp => resp.json())
-            .then(resp => {
-                this.setState({
-                    cedula: resp.noCedula,
-                    pnombre: resp.primerNombre,
-                    snombre: resp.segundoNombre,
-                    papellido: resp.primerApellido,
-                    sapellido: resp.segundoApellido,
-                    genero: resp.sexo,
-                    estadoCivil: resp.estadoCivil,
-                    telefono: resp.telefono,
-                    correo: resp.correo,
-                    direccion: resp.direccion
-                })
-            })
-    }
-
-
-    // componentDidUpdate(prevProps, prevState, snapshot) {
-    //     this.findById();
-    // }
-
-    clear() {
+    onHide = () => {
         this.setState({
-            cedula: "",
-            pnombre: "",
-            snombre: "",
-            papellido: "",
-            sapellido: "",
-            genero: "",
-            estadoCivil: "",
-            telefono: "",
-            correo: "",
-            direccion: ""
-        })
+            visible : false
+        });
     }
 
-    saveData() {
-        let cedula = document.getElementById("recipient-noCedula").value;
-        let pnombre = document.getElementById("recipient-pnombre").value;
-        let snombre = document.getElementById("recipient-snombre").value;
-        let papellido = document.getElementById("recipient-papellido").value;
-        let sapellido = document.getElementById("recipient-sapellido").value;
-        let genero = document.getElementById("cbGenero");
-        genero = genero.options[genero.selectedIndex].value;
-        let estadoCivil = document.getElementById("cbEstado");
-        estadoCivil = estadoCivil[estadoCivil.selectedIndex].value;
-        let telefono = document.getElementById("recipient-telefono").value;
-        let correo = document.getElementById("recipient-email").value;
-        let direccion = document.getElementById("recipient-direccion").value;
+    clienteNaturalBody = () => {
+        console.log('hola desde el body');
+        return (
+            <Fragment />
 
-        let url = setting.url + "clientes/natural/"
+        );
+    }
 
-        new ClienteNaturalService().save()
-
-        // fetch(url,
-        //     {
-        //         method: 'POST',
-        //         headers: {
-        //             'Accept': 'application/json',
-        //             'Content-Type': 'application/json',
-        //             'Origin': ''
-        //         },
-        //         body: JSON.stringify({
-        //             primerNombre: pnombre,
-        //             segundoNombre: snombre,
-        //             primerApellido: papellido,
-        //             segundoApellido: sapellido,
-        //             noCedula: cedula,
-        //             edad: 0,
-        //             sexo: genero.charAt(0),
-        //             estadoCivil: estadoCivil,
-        //             telefono: telefono,
-        //             correo: correo,
-        //             direccion: direccion
-        //         })
-        //     })
-            .then(resp => resp.ok ? Promise.resolve(resp) : Promise.reject(resp))
-            .then(resp => resp.json())
-            .then(resp => {
-                console.log(resp);
-            })
+    renderFooter = () => {
+        return (
+            <div style={{marginTop: '1em'}}>
+                <Button label="No" icon="pi pi-times" onClick={this.props.onClickNoButton} className="p-button-text"/>
+                <Button label="Yes" icon="pi pi-check" onClick={this.props.onClickYesButton} autoFocus/>
+            </div>
+        );
     }
 
     render() {
+
         return (
-            <div className="modal fade" id="exampleModal" tabIndex="-1" role="dialog"
-                 aria-labelledby="exampleModalLabel"
-                 aria-hidden="true">
-                <div className="modal-dialog" role="document">
-                    <div className="modal-content">
-                        <div className="modal-header">
-                            <h5 className="modal-title" id="exampleModalLabel">Cliente Juridico</h5>
-                            <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div className="modal-body">
-                            <form>
-                                <div className="form-group">
-                                    <div className="input-group">
-                                        <input type="text" className="form-control" id="recipient-noCedula"
-                                               placeholder="Numero de Cedula" value={this.state.cedula}/></div>
-                                </div>
-                                <div className="form-group">
-                                    <div className="input-group">
-                                        <input type="text" className="form-control" id="recipient-pnombre"
-                                               placeholder="Primer Nombre" value={this.state.pnombre}/>
-                                        <input type="text" className="form-control" id="recipient-snombre"
-                                               placeholder="Segundo Nombre" value={this.state.snombre}/>
+            <Dialog  className="p-dialog" role="alert"
+                     header={"Persona Natural"}
+                     position="top-bottom"
+                     maximizable={true}
+                     visible={this.props.visible}
+                     style={{ width: '50vw' }}
+                     footer={this.renderFooter()}
+                     onHide={() => this.props.onHide()} >
+                    <div className="container m-0">
+                        <div className="row">
+                            <div className="col col-12 col-sm-12 col-md-12 col-lg-4">
+                                <span className="p-float-label" style={{marginTop:'1.3em'}}>
+                                    <InputText id="itCedula"  />
+                                    <label htmlhtmlFor="itCedula" style={{fontSize: '0.8em'}}>Numero de Cedula</label>
+                                </span>
+                            </div>
 
-                                    </div>
-                                </div>
-                                <div className="form-group">
-                                    <div className="input-group">
-                                        <input type="text" className="form-control" id="recipient-papellido"
-                                               placeholder="Primer Apellido" value={this.state.papellido}/>
-                                        <input type="text" className="form-control" id="recipient-sapellido"
-                                               placeholder="Segundo Apellido" value={this.state.sapellido}/>
-                                    </div>
-                                </div>
-                                <div className="form-group">
-                                    <div className="input-group">
-                                        <select class="form-control" id="cbGenero">
-                                            <option value="" disabled selected>Genero</option>
-                                            <option value="M">Masculino</option>
-                                            <option value="F">Femenino</option>
-                                        </select>
-
-                                        <select class="form-control" id="cbEstado">
-                                            <option value="" disabled selected>Estado Civil</option>
-                                            <option value="Casado">Soltero</option>
-                                            <option value="Soltero">Casado</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div className="form-group">
-                                    <input type="text" className="form-control" id="recipient-telefono"
-                                           placeholder="Telefono" value={this.state.telefono}/>
-                                </div>
-                                <div className="form-group">
-                                    <input type="email" className="form-control" id="recipient-email"
-                                           placeholder="Correo" value={this.state.correo}/>
-                                </div>
-                                <div className="form-group">
-                                    <textarea className="form-control" id="recipient-direccion"
-                                              placeholder="Direccion">{this.state.direccion}</textarea>
-                                </div>
-                            </form>
                         </div>
-                        <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                            <button type="button" className="btn btn-primary" onClick={this.saveData}>Guardar</button>
+                        <div className="row">
+                            <div className="col col-12 col-sm-12 col-md-12 col-lg-3" style={{marginTop:'1.3em'}}>
+                                <span className="p-float-label">
+                                    <InputText id="itPrimerNombre" />
+                                    <label htmlhtmlFor="itPrimerNombre" style={{fontSize: '0.8em'}}>Primer Nombre</label>
+                                </span>
+                            </div>
+                            <div className="col col-12 col-sm-12 col-md-12 col-lg-3" style={{marginTop:'1.3em'}}>
+                                <span className="p-float-label">
+                                    <InputText id="itSegundoNombre" />
+                                    <label htmlhtmlFor="in" style={{fontSize: '0.8em'}}>Segundo Nombre</label>
+                                </span>
+                            </div>
+                            <div className="col col-12 col-sm-12 col-md-12 col-lg-3">
+                                <span className="p-float-label" style={{marginTop:'1.3em'}}>
+                                    <InputText id="itPrimerApellido"  />
+                                    <label htmlhtmlFor="itPrimerApellido" style={{fontSize: '0.8em'}}>Primer Apellido</label>
+                                </span>
+                            </div>
+                            <div className="col col-12 col-sm-12 col-md-12 col-lg-3 " style={{marginTop:'1.3em'}}>
+                                <span className="p-float-label">
+                                    <InputText id="itSegundoApellido" />
+                                    <label htmlhtmlFor="itSegundoApellido" style={{fontSize: '0.8em'}}>Segundo Apellido</label>
+                                </span>
+                            </div>
+                        </div>
+                        <div className="row">
+
+                        </div>
+                        <div className="row">
+                            <div className="col col-12 col-sm-12 col-md-12 col-lg-3" style={{marginTop:'1.3em'}}>
+                                <Dropdown options={[{name: 'Masculino'}, {name: 'Femenino'}]} optionLabel="name" placeholder="Genero" />
+                            </div>
+
+                            <div className="col col-12 col-sm-12 col-md-12 col-lg-3" style={{marginTop:'1.3em'}}>
+                                <Dropdown options={[{name: 'Soltero'}, {name: 'Casado'}]} optionLabel="name" placeholder="Estado Civil" />
+                            </div>
+
+                            <div className="col col-12 col-sm-12 col-md-12 col-lg-3" style={{marginTop:'1.3em'}}>
+                                <span className="p-float-label">
+                                    <InputText id="itTelefono" />
+                                    <label htmlhtmlFor="itTelefono" style={{fontSize: '0.8em'}}>Telefono</label>
+                                </span>
+                            </div>
+
+                            <div className="col col-12 col-sm-12 col-md-12 col-lg-3" style={{marginTop:'1.3em'}}>
+                                <span className="p-float-label">
+                                    <InputText id="itCorreo" />
+                                    <label htmlhtmlFor="itCorreo" style={{fontSize: '0.8em'}}>Correo</label>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div className="row">
+                            <div className="col col-12 col-sm-12 col-md-12 col-lg-12" style={{marginTop:'1.3em'}}>
+                                <span className="p-float-label">
+                                    <InputTextarea id='itaDireccion' autoResize={true}/>
+                                    <label htmlhtmlFor="itaDireccion">Direccion</label>
+                                </span>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
+            </Dialog>
         );
     }
 }
