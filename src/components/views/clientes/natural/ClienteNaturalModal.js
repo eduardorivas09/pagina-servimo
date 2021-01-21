@@ -11,29 +11,29 @@ export default class ClienteNaturalModal extends React.Component{
     constructor() {
         super();
         this.state = {
-            visible : false
+            visible : true
         }
+
+        this.onHide = this.onHide.bind(this);
+        this.onYesClick = this.onYesClick.bind(this);
     }
 
     onHide = () => {
         this.setState({
-            visible : false
+            visible : true
         });
     }
 
-    clienteNaturalBody = () => {
-        console.log('hola desde el body');
-        return (
-            <Fragment />
-
-        );
+    onYesClick = () => {
+        alert('Sin funcionalidad. Estamos trabajando en las nuevas opciones!!')
     }
+
 
     renderFooter = () => {
         return (
             <div style={{marginTop: '1em'}}>
-                <Button label="No" icon="pi pi-times" onClick={this.props.onClickNoButton} className="p-button-text"/>
-                <Button label="Yes" icon="pi pi-check" onClick={this.props.onClickYesButton} autoFocus/>
+                <Button label="No" icon="pi pi-times" onClick={this.onHide} className="p-button-text"/>
+                <Button label="Yes" icon="pi pi-check" onClick={this.onYesClick} autoFocus/>
             </div>
         );
     }
@@ -49,6 +49,7 @@ export default class ClienteNaturalModal extends React.Component{
                      style={{ width: '50vw' }}
                      footer={this.renderFooter()}
                      onHide={() => this.props.onHide()} >
+
                     <div className="container m-0">
                         <div className="row">
                             <div className="col col-12 col-sm-12 col-md-12 col-lg-4">
