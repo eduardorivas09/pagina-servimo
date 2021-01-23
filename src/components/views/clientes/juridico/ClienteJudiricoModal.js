@@ -34,6 +34,8 @@ export default class ClienteJuridicoModal extends React.Component {
                 <Button label="Yes" icon="pi pi-check" onClick={this.onYesClick} autoFocus />
             </div>
         )
+
+        
     }
 
     render() {
@@ -45,7 +47,7 @@ export default class ClienteJuridicoModal extends React.Component {
                 visible={this.props.visible}
                 style={{ width: '50vw' }}
                 footer={this.renderFooter()}
-                onHide={() => this.props.onHide()} >
+                onHide={() => this.props.onHideModal()} >
 
                 <div className="container m-0">
                     <div className="row">

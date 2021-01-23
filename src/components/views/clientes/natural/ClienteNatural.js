@@ -160,7 +160,7 @@ export default class ClienteNatural extends React.Component {
         })
     }
 
-    render() {
+        render() {
         return (
             <Fragment>
                 {/*Tabla de prime react*/}
