@@ -164,7 +164,6 @@ export default class ClienteNatural extends React.Component {
         })
     }
 
-        render() {
     openEditModal = (cliente) => {
         this.setState({
             showModal: true,
