@@ -7,6 +7,7 @@ import { ClienteJuridicoService } from "../../../../services/clientes/ClienteJur
 import DialogModal from "../../alerts/DialogModal";
 import { Fragment } from "react";
 import Table from "../../../controls/table/Table";
+import ClienteJuridicoModal from './ClienteJudiricoModal'
 
 export default class ClienteJuridico extends React.Component {
 
@@ -15,17 +16,19 @@ export default class ClienteJuridico extends React.Component {
         this.state = {
             busqueda: "",
             data: [],
+            showModal:false,
             modalProps: {
                 modalHeader: null,
                 modalMessage: null,
                 modalType: 'info',
                 visible: false
+                
             }
         }
         this.buscar = this.buscar.bind(this)
         this.onSearchChange = this.onSearchChange.bind(this)
         this.AgregarClienteJudirico = this.AgregarClienteJudirico.bind(this)
-
+        this.onHideModal = this.onHideModal.bind(this)
     }
 
     buscar(e) {
@@ -92,6 +95,12 @@ export default class ClienteJuridico extends React.Component {
         });
     }
 
+    onHideModal = () => {
+        this.setState({
+           showModal : false,
+        });
+    }
+ 
 
     visibledColumns = () => {
         return [
@@ -120,45 +129,46 @@ export default class ClienteJuridico extends React.Component {
         ]
 
     }
-   
-    AgregarClienteJudirico=()=>{
-     alert("En desarrollo");
 
+    AgregarClienteJudirico = () => {
+       
+        this.setState({
+            showModal:true,
+        })
     }
-
+        
     render() {
-        const temp = this.state.data.map(o => {
+        /*const temp = this.state.data.map(o => {
             let c = Object.assign({}, o);
 
             delete c.direccion;
 
-            return c;
-        });
+            return c;*/
 
+            return (
+                <Fragment>
+                    <Table promise={this.state.data}
+                        columns={this.visibledColumns()}
+                        onClickAdd={this.AgregarClienteJudirico}
 
-        return (
+                        entity="Cliente Juridico" />
 
-            <Fragment>
+                    {/*Modal de dialogo*/}
 
-                <Table promise={this.state.data}
-                    columns={this.visibledColumns()} 
-                    onClickAdd={this.AgregarClienteJudirico}
-                    
-                    entity="Cliente Juridico" />
+                    <DialogModal header={this.state.modalProps.modalHeader}
+                        textBody={this.state.modalProps.modalMessage}
+                        hasYesNotButtons={false}
+                        modalType={this.state.modalProps.modalType}
+                        visible={this.state.modalProps.visible}
+                        onHide={this.onHide
+                        } />
+                        <ClienteJuridicoModal visible={this.state.showModal}  onHideModal={this.onHideModal}/>
+                </Fragment>
 
-                {/*Modal de dialogo*/}
+            );
+        }
 
-                <DialogModal header={this.state.modalProps.modalHeader}
-                    textBody={this.state.modalProps.modalMessage}
-                    hasYesNotButtons={false}
-                    modalType={this.state.modalProps.modalType}
-                    visible={this.state.modalProps.visible}
-                    onHide={this.onHide} />
+       
+    
 
-            </Fragment>
-
-
-
-        );
     }
-}
