@@ -14,6 +14,7 @@ export default class ClienteNatural extends React.Component {
             showModal : false,
             busqueda: "",
             data: [],
+            selectedRow : null,
             rowId: -1,
             modalProps : {
                 modalHeader : null,
@@ -167,6 +168,7 @@ export default class ClienteNatural extends React.Component {
                 <Table promise={this.state.data}
                        columns={this.visibledColumns()}
                        onClickAdd={this.addNewClienteNatural}
+
                        entity="Cliente Juridico"/>
 
                 {/*Modal de dialogo*/}
