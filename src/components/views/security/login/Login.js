@@ -6,6 +6,7 @@ import InputText from './../../../controls/field/input/text/InputText';
 import SubmitButton from "../../../controls/button/submit/SubmitButton";
 import {Session} from "../../../../services/seguridad/Session";
 import DialogModal from "../../alerts/DialogModal";
+import {AuthenticationError} from "../../../../util/Error/AuthenticationError";
 
 export default class Login extends React.Component{
 
@@ -56,6 +57,14 @@ export default class Login extends React.Component{
                         visible : true
                     }});
             }
+        }else{
+            this.setState({
+                modalProps : {
+                    modalHeader : 'Login rechazado',
+                    modalMessage : 'Se necesita un usuario y contraseña para iniciar. Sino tiene aun solicite una pronto',
+                    modalType : 'warning',
+                    visible : true
+                }});
         }
     }
 
