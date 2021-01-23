@@ -49,6 +49,7 @@ export default class Table extends React.Component {
 
         this.viewSelectedRow = this.viewSelectedRow.bind(this);
         this.deleteSelectedRow = this.deleteSelectedRow.bind(this);
+
     }
 
     /**
@@ -91,6 +92,8 @@ export default class Table extends React.Component {
             </React.Fragment>
         );
     }
+
+
 
     /**
      * Renderisa las etiquetas JSX a un formato que los navegadores pueden entender.
@@ -143,6 +146,7 @@ export default class Table extends React.Component {
                                scrollHeight="200px"
                                className="p-datatable-responsive"
                                contextMenuSelection={this.state.selectedRow}
+                               onRowDoubleClick={e => this.props.onRowDoubleClick(e)}
                                onContextMenuSelectionChange={e => this.setState({selectedRow: e.value})}
                                onContextMenu={e => this.cm.show(e.originalEvent)}>
                         {this.columns()}

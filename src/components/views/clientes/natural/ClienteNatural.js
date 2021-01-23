@@ -24,12 +24,15 @@ export default class ClienteNatural extends React.Component {
             }
         }
 
+        this.ClienteModal = React.createRef();
+
         this.buscar = this.buscar.bind(this);
         this.onSearchChange = this.onSearchChange.bind(this);
         this.rowClicked = this.rowClicked.bind(this);
         this.onButtonClick = this.onButtonClick.bind(this);
         this.addNewClienteNatural = this.addNewClienteNatural.bind(this);
         this.onHideModal = this.onHideModal.bind(this);
+        this.onRowDoubleClick = this.onRowDoubleClick.bind(this);
     }
 
     buscar(e) {
@@ -161,6 +164,18 @@ export default class ClienteNatural extends React.Component {
         })
     }
 
+    openEditModal = (cliente) => {
+        this.setState({
+            showModal: true,
+            selectedRow: cliente
+        });
+        this.ClienteModal.current.setCliente(cliente);
+    }
+
+    onRowDoubleClick = (e) => {
+        this.openEditModal(e);
+    }
+
     render() {
         return (
             <Fragment>
@@ -168,7 +183,7 @@ export default class ClienteNatural extends React.Component {
                 <Table promise={this.state.data}
                        columns={this.visibledColumns()}
                        onClickAdd={this.addNewClienteNatural}
-
+                       onRowDoubleClick={this.onRowDoubleClick}
                        entity="Cliente Juridico"/>
 
                 {/*Modal de dialogo*/}
@@ -177,9 +192,12 @@ export default class ClienteNatural extends React.Component {
                              hasYesNotButtons={false}
                              modalType={this.state.modalProps.modalType}
                              visible={this.state.modalProps.visible}
+                             selectedObject={this.state.selectedRow}
                              onHide={this.onHide}/>
 
-                <ClienteNaturalModal visible={this.state.showModal} onHide={this.onHideModal}/>
+                <ClienteNaturalModal visible={this.state.showModal}
+                                     onHide={this.onHideModal}
+                                     ref={this.ClienteModal}/>
             </Fragment>
 
         );
