@@ -41,7 +41,7 @@ export class ClienteNaturalService extends AbstractService{
     }
 
     update = (obj) => {
-        let url = setting.main + "clientes/natural/" + obj.id
+        let url = setting.main + `clientes/natural/${obj.id}`
         console.log(url)
         console.log(obj);
         return new RequestService().doPut(url,JSON.stringify(obj),true)

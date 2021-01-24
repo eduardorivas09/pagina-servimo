@@ -6,6 +6,7 @@ import {Column} from "primereact/column";
 import {Toast} from "primereact/toast";
 import {ContextMenu} from "primereact/contextmenu";
 import './ResponsiveTable.css';
+import {Checkbox} from "primereact/checkbox";
 
 /**
  * COMPONENTE Table
@@ -78,9 +79,17 @@ export default class Table extends React.Component {
      * @returns {*}
      */
     columns(){
-        return this.props.columns.map(item => {
-            return <Column columnKey={item.id}  field={item.field} header={item.header} sortable={item.sortable}/>
+        return this.props.columns.map((item, i) => {
+            return item.field !== 'activo'
+                ? <Column columnKey={i}  field={item.field} header={item.header} sortable={item.sortable}/>
+                : <Column columnKey={i}  field={item.field} header={item.header} sortable={item.sortable}
+                          body={this.activoColumn} style={{textAlign: 'center'}}/>
         });
+    }
+
+    activoColumn = (rowData) => {
+        console.log(rowData)
+        return <Checkbox onChange={e => rowData.activo=e.checked} checked={rowData.activo} disabled={true}/>
     }
 
     responsiveColumns = (object) => {
@@ -112,11 +121,18 @@ export default class Table extends React.Component {
                     </div>
                     {
                         this.props.onClickAdd !== undefined && this.props.onClickAdd != null ?
-                            <div className="col-sm-3 col-md-2 col-lg-1 offset-sm-3 offset-md-2 offset-lg-3">
+                            <div className="col-sm-3 col-md-2 col-lg-1 ">
                                 <Button icon="pi pi-plus" label={"Agregar"} onClick={this.props.onClickAdd}/>
                             </div>
                         :
                             <Fragment />
+                    }
+                    {
+                        this.props.deleteButton ?
+                            <div className="col-sm-3 col-md-2 col-lg-1 ml-2 ">
+                                <Button icon="pi pi-trash" label={"Inactivar"} onClick={this.props.onClickDeleteButton}/>
+                            </div>
+                            : <Fragment />
                     }
                 </div>
             </div>

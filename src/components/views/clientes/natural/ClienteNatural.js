@@ -82,6 +82,7 @@ export default class ClienteNatural extends React.Component {
             .getFiltered(search)
             .then(resp => {
                 if ((resp instanceof Response && resp.status === 200) || resp instanceof Array){
+                    console.log(resp)
                     this.setState({
                         data: resp
                     })
@@ -99,6 +100,7 @@ export default class ClienteNatural extends React.Component {
                         }});
                 }
         });
+
     }
 
     getModal(){
@@ -150,6 +152,10 @@ export default class ClienteNatural extends React.Component {
             },{
                 field:"correo",
                 header:"Correo",
+                sortable:false
+            },{
+                field:"activo",
+                header:"Activo",
                 sortable:false
             }
         ]
@@ -248,6 +254,7 @@ export default class ClienteNatural extends React.Component {
                        columns={this.visibledColumns()}
                        onClickAdd={this.addNewClienteNatural}
                        onRowDoubleClick={this.onRowDoubleClick}
+                       deleteButton={true}
                        entity="Cliente Juridico"/>
 
                 {/*Modal de dialogo*/}
