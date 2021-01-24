@@ -33,6 +33,9 @@ export default class ClienteNatural extends React.Component {
         this.addNewClienteNatural = this.addNewClienteNatural.bind(this);
         this.onHideModal = this.onHideModal.bind(this);
         this.onRowDoubleClick = this.onRowDoubleClick.bind(this);
+        this.onClickYesButton = this.onClickYesButton.bind(this);
+        this.onClickNoButton = this.onClickNoButton.bind(this);
+
     }
 
     buscar(e) {
@@ -156,6 +159,7 @@ export default class ClienteNatural extends React.Component {
         this.setState({
             showModal:true
         })
+        this.ClienteModal.current.setCliente(null);
     }
 
     onHideModal = () => {
@@ -174,6 +178,66 @@ export default class ClienteNatural extends React.Component {
 
     onRowDoubleClick = (e) => {
         this.openEditModal(e);
+    }
+
+    onClickYesButton = () => {
+        const cliente = this.ClienteModal.current.getCliente();
+        console.log(cliente);
+
+        const clienteNaturalService = new ClienteNaturalService();
+        if (cliente.id !== undefined && cliente.id > 0) {
+            clienteNaturalService.update(cliente)
+                .then(response => {
+                    this.setState({
+                        modalProps : {
+                            modalHeader : 'Cliente Natural Actualizado',
+                            modalMessage : 'Cliente ' + response.primerNombre + ' ' + response.primerApellido ,
+                            modalType : 'success',
+                            visible : true
+                        }});
+                    console.log(response);
+                    this.loadData();
+                    this.onHideModal();
+                })
+                .catch(e => {
+                    this.setState({
+                        modalProps : {
+                            modalHeader : 'No se actualizo el Cliente Natural',
+                            modalMessage : e.message,
+                            modalType : 'warning',
+                            visible : true
+                        }});
+                });
+        }else{
+                clienteNaturalService.save(cliente)
+                    .then(response => {
+                        this.setState({
+                            modalProps : {
+                                modalHeader : 'Registro guardado Cliente Natural',
+                                modalMessage : 'Cliente ' + response.primerNombre + ' ' + response.primerApellido ,
+                                modalType : 'success',
+                                visible : true
+                            }});
+                        console.log(response);
+                        this.loadData();
+                        this.onHideModal();
+                    })
+                    .catch(e => {
+                    this.setState({
+                        modalProps : {
+                            modalHeader : 'No se guardo el Cliente Natural',
+                            modalMessage : e.message,
+                            modalType : 'warning',
+                            visible : true
+                        }});
+                });
+
+        }
+    }
+
+    onClickNoButton = () => {
+        alert('Sobre, se cierra bajo su orden!')
+        this.onHideModal();
     }
 
     render() {
@@ -197,6 +261,8 @@ export default class ClienteNatural extends React.Component {
 
                 <ClienteNaturalModal visible={this.state.showModal}
                                      onHide={this.onHideModal}
+                                     onClickNoButton={this.onClickNoButton}
+                                     onClickYesButton={this.onClickYesButton}
                                      ref={this.ClienteModal}/>
             </Fragment>
 

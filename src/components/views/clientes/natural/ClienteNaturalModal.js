@@ -11,7 +11,6 @@ export default class ClienteNaturalModal extends React.Component{
     constructor() {
         super();
         this.state = {
-            visible : true,
             id: -1,
             ncedula : '',
             pnombre : '',
@@ -24,51 +23,73 @@ export default class ClienteNaturalModal extends React.Component{
             correo : '',
             direccion : ''
         }
-
-        this.onHide = this.onHide.bind(this);
-        this.onYesClick = this.onYesClick.bind(this);
     }
-
-    onHide = () => {
-        this.setState({
-            visible : true
-        });
-    }
-
-    onYesClick = () => {
-        console.log(this.state)
-        alert('Sin funcionalidad. Estamos trabajando en las nuevas opciones!!')
-    }
-
 
     renderFooter = () => {
         return (
             <div style={{marginTop: '1em'}}>
-                <Button label="No" icon="pi pi-times" onClick={this.onHide} className="p-button-text"/>
-                <Button label="Yes" icon="pi pi-check" onClick={this.onYesClick} autoFocus/>
+                <Button label="No" icon="pi pi-times" onClick={this.props.onClickNoButton} className="p-button-text"/>
+                <Button label="Yes" icon="pi pi-check" onClick={this.props.onClickYesButton} autoFocus/>
             </div>
         );
     }
 
     setCliente = (cliente) => {
-        this.setState({
-            id : cliente.id,
-            ncedula : cliente.data.noCedula,
-            pnombre : cliente.data.primerNombre,
-            snombre : cliente.data.segundoNombre,
-            papelli : cliente.data.primerApellido,
-            sapelli : cliente.data.segundoApellido,
-            genero : cliente.data.sexo === 'M' ? 'Masculino' : 'Femenino',
-            estadoC : cliente.data.estadoCivil,
-            telefono: cliente.data.telefono,
-            correo : cliente.data.correo,
-            direccion : cliente.data.direccion,
-        });
+
+        if (cliente === undefined || cliente === null){
+            this.setState({
+                id : null,
+                ncedula : null,
+                pnombre : null,
+                snombre : null,
+                papelli : null,
+                sapelli : null,
+                genero : null,
+                estadoC : null,
+                telefono: null,
+                correo : null,
+                direccion : null,
+            });
+        }else{
+            this.setState({
+                id : cliente.data.id,
+                ncedula : cliente.data.noCedula,
+                pnombre : cliente.data.primerNombre,
+                snombre : cliente.data.segundoNombre,
+                papelli : cliente.data.primerApellido,
+                sapelli : cliente.data.segundoApellido,
+                genero : {name : cliente.data.sexo === 'M' ? 'Masculino' : 'Femenino'},
+                estadoC : {name: cliente.data.estadoCivil},
+                telefono: cliente.data.telefono,
+                correo : cliente.data.correo,
+                direccion : cliente.data.direccion,
+            });
+        }
+
+
     }
 
     getCliente = () => {
+        // if (this.state.id > 0){
+            const cliente = {
+                'estadoCivil': this.state.estadoC.name  ,
+                'noCedula' : this.state.ncedula ,
+                'primerNombre': this.state.pnombre ,
+                'primerApellido' : this.state.papelli ,
+                'segundoApellido' : this.state.sapelli ,
+                'segundoNombre' : this.state.snombre ,
+                'sexo' :  this.state.genero.name === 'Masculino' ? 'M' : 'F',
+                'telefono': this.state.telefono,
+                'correo' : this.state.correo,
+                'direccion' : this.state.direccion,
+            // }
+        }
 
-}
+        if (this.state.id !== undefined && this.state.id > 0) {
+            cliente.id = this.state.id;
+        }
+        return cliente;
+    }
 
     render() {
         return (
@@ -147,7 +168,7 @@ export default class ClienteNaturalModal extends React.Component{
                         <div className="row">
                             <div className="col col-12 col-sm-12 col-md-12 col-lg-12" style={{marginTop:'1.3em'}}>
                                 <span className="p-float-label">
-                                    <InputTextarea id='itaDireccion' value={this.state.direccion} onChange={(e) => this.setState({direcicon : e.target.value})} autoResize={true}/>
+                                    <InputTextarea id='itaDireccion' value={this.state.direccion} onChange={(e) => this.setState({direccion : e.target.value})} autoResize={true}/>
                                     <label htmlhtmlFor="itaDireccion">Direccion</label>
                                 </span>
                             </div>
