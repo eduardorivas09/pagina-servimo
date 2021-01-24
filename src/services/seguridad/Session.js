@@ -93,6 +93,8 @@ export class Session{
                     Session.#logged = true;
                     validToken = true;
                     localStorage.setItem('token',resp['token']);
+                    console.log('El token es valido');
+                    console.log(`Valor del token desde el response: ${Session.#token}`)
                 }).catch(e => {
                     Session.#logged = false;
                     validToken = false;
