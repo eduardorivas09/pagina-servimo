@@ -16,19 +16,27 @@ export default class ClienteJuridico extends React.Component {
         this.state = {
             busqueda: "",
             data: [],
-            showModal:false,
+            showModal: false,
+            selectedRow: null,
+            rowId: -1,
             modalProps: {
                 modalHeader: null,
                 modalMessage: null,
                 modalType: 'info',
                 visible: false
-                
+
             }
         }
+        this.ClienteModal = React.createRef();
+
         this.buscar = this.buscar.bind(this)
         this.onSearchChange = this.onSearchChange.bind(this)
+        this.rowClicked = this.rowClicked.bind(this)
+        this.onButtonClick = this.onButtonClick.bind(this)
         this.AgregarClienteJudirico = this.AgregarClienteJudirico.bind(this)
         this.onHideModal = this.onHideModal.bind(this)
+        this.onRowDoubleClick = this.onRowDoubleClick.bind(this)
+
     }
 
     buscar(e) {
@@ -51,6 +59,17 @@ export default class ClienteJuridico extends React.Component {
 
         if (this.state.busqueda.trim().length === 0)
             this.loadData()
+    }
+
+    rowClicked(e) {
+        let rowId = e.target.perentNode.firstchild.textConten;
+
+        this.setState({
+            rowId: rowId
+        })
+
+        this.getModal();
+        $('#exampleModal').modal('show');
     }
 
     componentDidMount() {
@@ -84,6 +103,18 @@ export default class ClienteJuridico extends React.Component {
             });
     }
 
+    getModal() {
+        this.refs.child.findById(this.state.rowId);
+    }
+
+    onButtonClick() {
+        this.setState({
+            rowId: -1
+        })
+
+        this.getModal();
+        $('#exampleModal').modal('show');
+    }
     /**
      * El metodo show abre el modal.
      */
@@ -97,10 +128,10 @@ export default class ClienteJuridico extends React.Component {
 
     onHideModal = () => {
         this.setState({
-           showModal : false,
+            showModal: false,
         });
     }
- 
+
 
     visibledColumns = () => {
         return [
@@ -131,12 +162,24 @@ export default class ClienteJuridico extends React.Component {
     }
 
     AgregarClienteJudirico = () => {
-       
+
         this.setState({
-            showModal:true,
+            showModal: true,
         })
     }
-        
+
+    openEditModal = (cliente) => {
+        this.setState({
+            showModal: true,
+            selectedRow: cliente
+        })
+        this.ClienteModal.current.setCliente(cliente);
+    }
+
+    onRowDoubleClick = (e) => {
+        this.openEditModal(e);
+    }
+
     render() {
         /*const temp = this.state.data.map(o => {
             let c = Object.assign({}, o);
@@ -145,30 +188,33 @@ export default class ClienteJuridico extends React.Component {
 
             return c;*/
 
-            return (
-                <Fragment>
-                    <Table promise={this.state.data}
-                        columns={this.visibledColumns()}
-                        onClickAdd={this.AgregarClienteJudirico}
+        return (
+            <Fragment>
+                <Table promise={this.state.data}
+                    columns={this.visibledColumns()}
+                    onClickAdd={this.AgregarClienteJudirico}
+                    onRowDoubleClick={this.onRowDoubleClick}
+                    entity="Cliente Juridico" />
 
-                        entity="Cliente Juridico" />
+                {/*Modal de dialogo*/}
 
-                    {/*Modal de dialogo*/}
+                <DialogModal header={this.state.modalProps.modalHeader}
+                    textBody={this.state.modalProps.modalMessage}
+                    hasYesNotButtons={false}
+                    modalType={this.state.modalProps.modalType}
+                    visible={this.state.modalProps.visible}
+                    selectedObject={this.state.selectedRow}
+                    onHide={this.onHide
+                    } />
+                <ClienteJuridicoModal visible={this.state.showModal}
+                    onHideModal={this.onHideModal}
+                    ref={this.ClienteModal } />
+            </Fragment>
 
-                    <DialogModal header={this.state.modalProps.modalHeader}
-                        textBody={this.state.modalProps.modalMessage}
-                        hasYesNotButtons={false}
-                        modalType={this.state.modalProps.modalType}
-                        visible={this.state.modalProps.visible}
-                        onHide={this.onHide
-                        } />
-                        <ClienteJuridicoModal visible={this.state.showModal}  onHideModal={this.onHideModal}/>
-                </Fragment>
-
-            );
-        }
-
-       
-    
-
+        );
     }
+
+
+
+
+}

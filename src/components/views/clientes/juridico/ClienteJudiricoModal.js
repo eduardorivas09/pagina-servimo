@@ -11,7 +11,14 @@ export default class ClienteJuridicoModal extends React.Component {
     constructor() {
         super();
         this.state = {
-            visible: true
+            visible: true,
+            id: -1,
+            noRuc: '',
+            nombre: '',
+            correo: '',
+            telefono: '',
+            direccion: ''
+
         }
         this.onHide = this.onHide.bind(this);
         this.onYesClick = this.onYesClick.bind(this);
@@ -35,8 +42,21 @@ export default class ClienteJuridicoModal extends React.Component {
             </div>
         )
 
-        
+
     }
+
+    setCliente = (cliente) => {
+        this.setState({
+            id: cliente.id,
+            noRuc: cliente.data.noRuc,
+            nombre: cliente.data.nombre,
+            correo: cliente.data.correo,
+            telefono: cliente.data.telefono,
+            direccion: cliente.data.direccion,
+
+        })
+    }
+    getCliente = () => { }
 
     render() {
         return (
@@ -87,7 +107,7 @@ export default class ClienteJuridicoModal extends React.Component {
                     <div className="row">
                         <div className="col col-12 col-sm-12 col-md-12 col-lg-12" style={{ marginTop: '1.3em' }}>
                             <span>
-                            <InputTextarea id="itaDireccion" autoResize={true}/>
+                                <InputTextarea id="itaDireccion" autoResize={true} />
                             </span>
                         </div>
                     </div>
