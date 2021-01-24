@@ -30,6 +30,16 @@ export class RequestService {
     }
 
     async doPost(path, body, hasToken) {
+        return await this.doPostPutMethod(path, body, hasToken, 'POST')
+    }
+
+    async doPut(path, body, hasToken) {
+        return await this.doPostPutMethod(path, body, hasToken, 'PUT')
+    }
+
+    async doPostPutMethod(path, body, hasToken, method) {
+        let token = await Session.getToken();
+        console.log(token)
         const headers = (hasToken === false) ?
             {
                 'Accept': 'application/json',
@@ -37,14 +47,14 @@ export class RequestService {
                 'Origin': ''
             } :
             {
-                'Authorization': await Session.getToken(),
+                'Authorization': 'Bearer ' + token,
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
                 'Origin': ''
             }
         return await fetch(this.fullPath() + path,
             {
-                method: 'POST',
+                method: method.toUpperCase(),
                 headers: headers,
                 body: body
 
