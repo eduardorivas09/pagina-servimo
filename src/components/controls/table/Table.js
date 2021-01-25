@@ -111,29 +111,34 @@ export default class Table extends React.Component {
     render() {
         const header = (
             <div className="table-header">
-                <div className={'row'} style={{'textAlign': 'left'}}>
-                    <div className="col-sm-2 col-md-6 col-lg-6 pr-0">
-                        <InputText type="search" onInput={(e) => this.setState({tableFilter: e.target.value})}
-                                   placeholder={"Buscar " + this.props.entity} size="50"/>
+                <div className={'row'} style={{'textAlign': 'left'}} >
+                    <div className="col-sm-12 col-md-7 col-lg-7 row pr-0 tl-0">
+                        <div className="col-11 col-sm-10 col-md-11 col-lg-11 pr-0">
+                            <InputText type="search" onInput={(e) => this.setState({tableFilter: e.target.value})}
+                                       placeholder={"Buscar " + this.props.entity} size="50"/>
+                        </div>
+                        <div className="col-1 col-sm-1 col-md-1 col-lg-1" style={{paddingTop: '0.5em', cursor: 'pointer'}}>
+                            <i className="pi pi-search" style={{margin: '4px 4px 0 0'}}/>
+                        </div>
                     </div>
-                    <div className="col-sm-1 col-md-1 col-lg-1" style={{paddingTop: '0.5em', cursor: 'pointer'}}>
-                        <i className="pi pi-search" style={{margin: '4px 4px 0 0'}}/>
+
+                    <div className="col-sm-12 col-md-5 col-lg-5 row justify-content-end" >
+                        {
+                            this.props.onClickAdd !== undefined && this.props.onClickAdd != null ?
+                                <div className="col-12 col-sm-12 col-md-5 col-lg-3 mt-sm-1" >
+                                    <Button icon="pi pi-plus" label={"Agregar"} style={{width: '100%'}} onClick={this.props.onClickAdd}/>
+                                </div>
+                                :
+                                <Fragment />
+                        }
+                        {
+                            this.props.deleteButton ?
+                                <div className="col-12 col-sm-12 col-md-5 col-lg-3 ml-2 mt-sm-1">
+                                    <Button icon="pi pi-trash" label={"Inactivar"} style={{width: '100%'}} onClick={this.props.onClickDeleteButton}/>
+                                </div>
+                                : <Fragment />
+                        }
                     </div>
-                    {
-                        this.props.onClickAdd !== undefined && this.props.onClickAdd != null ?
-                            <div className="col-sm-3 col-md-2 col-lg-1 ">
-                                <Button icon="pi pi-plus" label={"Agregar"} onClick={this.props.onClickAdd}/>
-                            </div>
-                        :
-                            <Fragment />
-                    }
-                    {
-                        this.props.deleteButton ?
-                            <div className="col-sm-3 col-md-2 col-lg-1 ml-2 ">
-                                <Button icon="pi pi-trash" label={"Inactivar"} onClick={this.props.onClickDeleteButton}/>
-                            </div>
-                            : <Fragment />
-                    }
                 </div>
             </div>
         );
