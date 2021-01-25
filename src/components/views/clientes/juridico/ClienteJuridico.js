@@ -9,6 +9,7 @@ import { Fragment } from "react";
 import Table from "../../../controls/table/Table";
 import ClienteJuridicoModal from './ClienteJudiricoModal'
 
+
 export default class ClienteJuridico extends React.Component {
 
     constructor(props) {
@@ -36,6 +37,8 @@ export default class ClienteJuridico extends React.Component {
         this.AgregarClienteJudirico = this.AgregarClienteJudirico.bind(this)
         this.onHideModal = this.onHideModal.bind(this)
         this.onRowDoubleClick = this.onRowDoubleClick.bind(this)
+        this.onClickYesButton = this.onClickYesButton.bind(this)
+        this.onClickNoButton = this.onClickNoButton.bind(this)
 
     }
 
@@ -165,19 +168,90 @@ export default class ClienteJuridico extends React.Component {
 
         this.setState({
             showModal: true,
+            
         })
+        this.ClienteModal.current.setCliente(null)
     }
 
     openEditModal = (cliente) => {
         this.setState({
             showModal: true,
             selectedRow: cliente
-        })
+        });
         this.ClienteModal.current.setCliente(cliente);
+
+        console.log('que ocurre aqui')
+
+
     }
 
     onRowDoubleClick = (e) => {
         this.openEditModal(e);
+    }
+
+    onClickYesButton = () => {
+        const cliente = this.ClienteModal.current.getCliente();
+        const clienteJuridicoService = new ClienteJuridicoService();
+
+        if (cliente.id !== undefined && cliente.id > 0) {
+            clienteJuridicoService.update(cliente)
+                .then(response => {
+                    this.setState({
+                        modalProps: {
+                            modalHeader: 'Cliente Juridico Actualizado',
+                            modalMessage: 'Clienet' + response.noRuc + '' + response.nombre,
+                            modalType: 'succes',
+                            visible: true
+                        }
+
+                    });
+                    this.loadData();
+                    this.onHideModal();
+                })
+
+                .catch(e => {
+                    this.setState({
+                        modalProps: {
+                            modalHeader: 'No se actualizo el Cliente Juridico',
+                            modalMessage: e.message,
+                            modalType: 'warning',
+                            visible: true
+                        }
+                    });
+                });
+
+        } else {
+            clienteJuridicoService.save(cliente)
+                .then(response => {
+                    this.setState({
+                        modalProps: {
+                            modalHeader: 'Registro guardado Cliente Juridico',
+                            modalMessage: 'Cliente ' + response.noRuc + ' ' + response.nombre,
+                            modalType: 'success',
+                            visible: true
+                        }
+                    });
+                    this.loadData();
+                    this.onHideModal();
+                })
+
+                .catch(e => {
+                    this.setState({
+                        modalProps: {
+                            modalHeader: 'No se guardo el Cliente Juridico',
+                            modalMessage: e.message,
+                            modalType: 'warning',
+                            visible: true
+                        }
+                    });
+                });
+        }
+    }
+
+    onClickNoButton =() =>{
+
+        alert('sobre, se cirra baja su orde')
+        this.onHideModal();
     }
 
     render() {
@@ -208,7 +282,9 @@ export default class ClienteJuridico extends React.Component {
                     } />
                 <ClienteJuridicoModal visible={this.state.showModal}
                     onHideModal={this.onHideModal}
-                    ref={this.ClienteModal } />
+                    onClickNoButton ={this.onClickNoButton}
+                    onClickYesButton = {this.onClickYesButton}
+                    ref={this.ClienteModal} />
             </Fragment>
 
         );

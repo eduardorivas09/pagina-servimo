@@ -7,6 +7,7 @@ import { Button } from "primereact/button";
 import { InputNumber } from 'primereact/inputnumber';
 import { InputText } from 'primereact/inputtext';
 import { InputTextarea } from "primereact/inputtextarea";
+
 export default class ClienteJuridicoModal extends React.Component {
 
     constructor() {
@@ -39,7 +40,7 @@ export default class ClienteJuridicoModal extends React.Component {
         return (
             <div style={{ marginTop: '1em' }}>
                 <Button label="No" icon="pi pi-times" onClick={this.onHide} className="p-button-text" />
-                <Button label="Yes" icon="pi pi-check" onClick={this.onYesClick} autoFocus />
+                <Button label="Yes" icon="pi pi-check" onClick={this.props.onClickYesButton} autoFocus />
             </div>
         )
 
@@ -47,17 +48,47 @@ export default class ClienteJuridicoModal extends React.Component {
     }
 
     setCliente = (cliente) => {
-        this.setState({
-            id: cliente.data.id,
-            noRuc: cliente.data.noRuc,
-            nombre: cliente.data.nombre,
-            correo: cliente.data.correo,
-            telefono: cliente.data.telefono,
-            direccion: cliente.data.direccion,
 
-        });
+        if (cliente === undefined || cliente === null) {
+
+            this.setState({
+                id: null,
+                noRuc: null,
+                nombre: null,
+                correo: null,
+                telefono: null,
+                direccion: null,
+
+            });
+        } else {
+            this.setState({
+
+                id: cliente.data.id,
+                noRuc: cliente.data.noRuc,
+                nombre: cliente.data.nombre,
+                correo: cliente.data.correo,
+                telefono: cliente.data.telefono,
+                direccion: cliente.data.direccion,
+
+            });
+
+        }
+
     }
-    getCliente = () => { }
+    getCliente = () => {
+        const cliente = {
+            'id': this.state.id,
+            'noRuc': this.state.noRuc,
+            'nombre': this.state.nombre,
+            'correo': this.state.correo,
+            'telefono': this.state.telefono,
+            'direccion': this.state.direccion,
+        }
+        if (this.state.id !== undefined && this.state.id > 0) {
+            cliente.id = this.state.id;
+        }
+        return cliente;
+    }
 
     render() {
         return (
@@ -75,7 +106,8 @@ export default class ClienteJuridicoModal extends React.Component {
                         <div className="col col-12 col-sm-12 col-md-12 col-lg-4">
                             <spa className="p-float-label" style={{ marginTop: '1.3em' }}>
                                 <InputNumber id="itRuc"
-                                    value={this.state.noRuc} onChange={(e) => this.setState({ noRuc: e.target.value })} />
+                                    value={this.state.noRuc}
+                                    onValueChange={(e) => this.setState({ noRuc: e.target.value })} />
 
                                 <label htmlhtmlFor="itRuc" style={{ fontSize: '0.8em' }}>Numero Ruc</label>
                             </spa>
