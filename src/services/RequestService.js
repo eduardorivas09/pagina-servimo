@@ -39,7 +39,6 @@ export class RequestService {
 
     async doPostPutMethod(path, body, hasToken, method) {
         let token = await Session.getToken();
-        console.log(token)
         const headers = (hasToken === false) ?
             {
                 'Accept': 'application/json',
@@ -52,9 +51,10 @@ export class RequestService {
                 'Content-Type': 'application/json',
                 'Origin': ''
             }
+
         return await fetch(this.fullPath() + path,
             {
-                method: method.toUpperCase(),
+                method: method,
                 headers: headers,
                 body: body
 

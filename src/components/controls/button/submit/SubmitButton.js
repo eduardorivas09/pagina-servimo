@@ -5,7 +5,7 @@ export default class SubmitButton extends React.Component{
     render() {
         return (
             <div className="input-container woc">
-                <input className="button" type="submit" value={this.props.text}/>
+                <input className="button" type="submit" value={this.props.text} onClick={this.props.onClick}/>
             </div>
         );
     }

@@ -81,6 +81,9 @@ export default class ClienteNatural extends React.Component {
         new ClienteNaturalService()
             .getFiltered(search)
             .then(resp => {
+
+                if ((resp instanceof Response && resp.status === 200) || resp instanceof Array){
+                    console.log(resp)
                 if ((resp instanceof Response && resp.status === 200) || resp instanceof Array) {
                     this.setState({
                         data: resp
@@ -99,6 +102,8 @@ export default class ClienteNatural extends React.Component {
                         }
                     });
                 }
+        });
+
             });
     }
 
@@ -129,6 +134,34 @@ export default class ClienteNatural extends React.Component {
     visibledColumns = () => {
         return [
             {
+                field:"primerNombre",
+                header:"Nombre",
+                sortable:true
+            },{
+                field:"primerApellido",
+                header:"Nombre de Usuario",
+                sortable:true
+            },{
+                field:"noCedula",
+                header:"Cedula Identidad",
+                sortable:false
+            },{
+                field:"sexo",
+                header:"Genero",
+                sortable:true
+            },{
+                field:"telefono",
+                header:"Telefono",
+                sortable:false
+            },{
+                field:"correo",
+                header:"Correo",
+                sortable:false
+            },{
+                field:"activo",
+                header:"Activo",
+                sortable:false},
+          {
                 field: "primerNombre",
                 header: "Nombre",
                 sortable: true
@@ -250,11 +283,16 @@ export default class ClienteNatural extends React.Component {
             <Fragment>
                 {/*Tabla de prime react*/}
                 <Table promise={this.state.data}
+
+                       columns={this.visibledColumns()}
+                       onClickAdd={this.addNewClienteNatural}
+                       onRowDoubleClick={this.onRowDoubleClick}
+                       deleteButton={true}
+                       entity="Cliente Juridico"/>
                     columns={this.visibledColumns()}
                     onClickAdd={this.addNewClienteNatural}
                     onRowDoubleClick={this.onRowDoubleClick}
                     entity="Cliente Juridico" />
-
                 {/*Modal de dialogo*/}
                 <DialogModal header={this.state.modalProps.modalHeader}
                     textBody={this.state.modalProps.modalMessage}
