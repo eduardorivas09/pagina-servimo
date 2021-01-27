@@ -90,15 +90,15 @@ export default class ClienteNatural extends React.Component {
 
             }).catch(e => {
 
-                if (e instanceof Error){
-                    this.setState({
-                        modalProps : {
-                            modalHeader : 'Acceso denegado',
-                            modalMessage : e.message,
-                            modalType : 'warning',
-                            visible : true
-                        }});
-                }
+            if (e instanceof Error){
+                this.setState({
+                    modalProps : {
+                        modalHeader : 'Acceso denegado',
+                        modalMessage : e.message,
+                        modalType : 'warning',
+                        visible : true
+                    }});
+            }
         });
 
     }
@@ -215,20 +215,20 @@ export default class ClienteNatural extends React.Component {
                         }});
                 });
         }else{
-                clienteNaturalService.save(cliente)
-                    .then(response => {
-                        this.setState({
-                            modalProps : {
-                                modalHeader : 'Registro guardado Cliente Natural',
-                                modalMessage : 'Cliente ' + response.primerNombre + ' ' + response.primerApellido ,
-                                modalType : 'success',
-                                visible : true
-                            }});
-                        console.log(response);
-                        this.loadData();
-                        this.onHideModal();
-                    })
-                    .catch(e => {
+            clienteNaturalService.save(cliente)
+                .then(response => {
+                    this.setState({
+                        modalProps : {
+                            modalHeader : 'Registro guardado Cliente Natural',
+                            modalMessage : 'Cliente ' + response.primerNombre + ' ' + response.primerApellido ,
+                            modalType : 'success',
+                            visible : true
+                        }});
+                    console.log(response);
+                    this.loadData();
+                    this.onHideModal();
+                })
+                .catch(e => {
                     this.setState({
                         modalProps : {
                             modalHeader : 'No se guardo el Cliente Natural',

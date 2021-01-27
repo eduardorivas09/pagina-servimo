@@ -7,6 +7,8 @@ import { ClienteJuridicoService } from "../../../../services/clientes/ClienteJur
 import DialogModal from "../../alerts/DialogModal";
 import { Fragment } from "react";
 import Table from "../../../controls/table/Table";
+import ClienteJuridicoModal from './ClienteJudiricoModal'
+
 
 export default class ClienteJuridico extends React.Component {
 
@@ -15,16 +17,28 @@ export default class ClienteJuridico extends React.Component {
         this.state = {
             busqueda: "",
             data: [],
+            showModal: false,
+            selectedRow: null,
+            rowId: -1,
             modalProps: {
                 modalHeader: null,
                 modalMessage: null,
                 modalType: 'info',
                 visible: false
+
             }
         }
+        this.ClienteModal = React.createRef();
+
         this.buscar = this.buscar.bind(this)
         this.onSearchChange = this.onSearchChange.bind(this)
+        this.rowClicked = this.rowClicked.bind(this)
+        this.onButtonClick = this.onButtonClick.bind(this)
         this.AgregarClienteJudirico = this.AgregarClienteJudirico.bind(this)
+        this.onHideModal = this.onHideModal.bind(this)
+        this.onRowDoubleClick = this.onRowDoubleClick.bind(this)
+        this.onClickYesButton = this.onClickYesButton.bind(this)
+        this.onClickNoButton = this.onClickNoButton.bind(this)
 
     }
 
@@ -48,6 +62,17 @@ export default class ClienteJuridico extends React.Component {
 
         if (this.state.busqueda.trim().length === 0)
             this.loadData()
+    }
+
+    rowClicked(e) {
+        let rowId = e.target.perentNode.firstchild.textConten;
+
+        this.setState({
+            rowId: rowId
+        })
+
+        this.getModal();
+        $('#exampleModal').modal('show');
     }
 
     componentDidMount() {
@@ -81,6 +106,18 @@ export default class ClienteJuridico extends React.Component {
             });
     }
 
+    getModal() {
+        this.refs.child.findById(this.state.rowId);
+    }
+
+    onButtonClick() {
+        this.setState({
+            rowId: -1
+        })
+
+        this.getModal();
+        $('#exampleModal').modal('show');
+    }
     /**
      * El metodo show abre el modal.
      */
@@ -89,6 +126,12 @@ export default class ClienteJuridico extends React.Component {
             modalProps: {
                 visible: false
             }
+        });
+    }
+
+    onHideModal = () => {
+        this.setState({
+            showModal: false,
         });
     }
 
@@ -120,30 +163,111 @@ export default class ClienteJuridico extends React.Component {
         ]
 
     }
-   
-    AgregarClienteJudirico=()=>{
-     alert("En desarrollo");
+
+    AgregarClienteJudirico = () => {
+
+        this.setState({
+            showModal: true,
+            
+        })
+        this.ClienteModal.current.setCliente(null)
+    }
+
+    openEditModal = (cliente) => {
+        this.setState({
+            showModal: true,
+            selectedRow: cliente
+        });
+        this.ClienteModal.current.setCliente(cliente);
+
+        console.log('que ocurre aqui')
+
 
     }
 
+    onRowDoubleClick = (e) => {
+        this.openEditModal(e);
+    }
+
+    onClickYesButton = () => {
+        const cliente = this.ClienteModal.current.getCliente();
+        const clienteJuridicoService = new ClienteJuridicoService();
+
+        if (cliente.id !== undefined && cliente.id > 0) {
+            clienteJuridicoService.update(cliente)
+                .then(response => {
+                    this.setState({
+                        modalProps: {
+                            modalHeader: 'Cliente Juridico Actualizado',
+                            modalMessage: 'Clienet' + response.noRuc + '' + response.nombre,
+                            modalType: 'succes',
+                            visible: true
+                        }
+
+                    });
+                    this.loadData();
+                    this.onHideModal();
+                })
+
+                .catch(e => {
+                    this.setState({
+                        modalProps: {
+                            modalHeader: 'No se actualizo el Cliente Juridico',
+                            modalMessage: e.message,
+                            modalType: 'warning',
+                            visible: true
+                        }
+                    });
+                });
+
+        } else {
+            clienteJuridicoService.save(cliente)
+                .then(response => {
+                    this.setState({
+                        modalProps: {
+                            modalHeader: 'Registro guardado Cliente Juridico',
+                            modalMessage: 'Cliente ' + response.noRuc + ' ' + response.nombre,
+                            modalType: 'success',
+                            visible: true
+                        }
+                    });
+                    this.loadData();
+                    this.onHideModal();
+                })
+
+                .catch(e => {
+                    this.setState({
+                        modalProps: {
+                            modalHeader: 'No se guardo el Cliente Juridico',
+                            modalMessage: e.message,
+                            modalType: 'warning',
+                            visible: true
+                        }
+                    });
+                });
+        }
+    }
+
+    onClickNoButton =() =>{
+
+        alert('sobre, se cirra baja su orde')
+        this.onHideModal();
+    }
+
     render() {
-        const temp = this.state.data.map(o => {
+        /*const temp = this.state.data.map(o => {
             let c = Object.assign({}, o);
 
             delete c.direccion;
 
-            return c;
-        });
-
+            return c;*/
 
         return (
-
             <Fragment>
-
                 <Table promise={this.state.data}
-                    columns={this.visibledColumns()} 
+                    columns={this.visibledColumns()}
                     onClickAdd={this.AgregarClienteJudirico}
-                    
+                    onRowDoubleClick={this.onRowDoubleClick}
                     entity="Cliente Juridico" />
 
                 {/*Modal de dialogo*/}
@@ -153,12 +277,20 @@ export default class ClienteJuridico extends React.Component {
                     hasYesNotButtons={false}
                     modalType={this.state.modalProps.modalType}
                     visible={this.state.modalProps.visible}
-                    onHide={this.onHide} />
-
+                    selectedObject={this.state.selectedRow}
+                    onHide={this.onHide
+                    } />
+                <ClienteJuridicoModal visible={this.state.showModal}
+                    onHideModal={this.onHideModal}
+                    onClickNoButton ={this.onClickNoButton}
+                    onClickYesButton = {this.onClickYesButton}
+                    ref={this.ClienteModal} />
             </Fragment>
-
-
 
         );
     }
+
+
+
+
 }

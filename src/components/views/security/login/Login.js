@@ -6,6 +6,7 @@ import InputText from './../../../controls/field/input/text/InputText';
 import SubmitButton from "../../../controls/button/submit/SubmitButton";
 import {Session} from "../../../../services/seguridad/Session";
 import DialogModal from "../../alerts/DialogModal";
+import { useHistory } from "react-router-dom";
 import {AuthenticationError} from "../../../../util/Error/AuthenticationError";
 
 export default class Login extends React.Component{
@@ -27,7 +28,8 @@ export default class Login extends React.Component{
         }
 
         this.onSignIn = this.onSignIn.bind(this);   //Bindeo obligatorio del evento de click en iniciar sesion.
-        this.onHide = this.onHide.bind(this);       //Bindeo obligatorio del boton de cerrar el modal de alerta.
+        this.onHide = this.onHide.bind(this);       //Bindeo obligatorio del boton de cerrar el modal de alerta
+        this.goToHome = this.goToHome.bind(this);
     }
 
     /**
@@ -108,6 +110,11 @@ export default class Login extends React.Component{
         this.isLogged();
     }
 
+    goToHome = () => {
+        this.props.history.push('/');
+
+    }
+
     /**
      * Renderiza la vista
      * @returns {JSX.Element}
@@ -117,30 +124,41 @@ export default class Login extends React.Component{
             (this.state.redirect)
                 ? <Redirect to='/main' />
                 :
-                <div id="login">
-                    <div className="container top-container">
-                        <img src={logo} alt="Servimo SA logo" className="icon"/>
-                        <h1>Bienvenido de nuevo</h1>
-                        <h3>Inicie sesión con sus credenciales</h3>
+                <div className={'row'}>
+                    <div className="row justify-content-center w-100  mt-5">
+                        <div className="row ">
+                            <img src={logo} alt="Servimo SA logo" className="icon" style={{width: '10em'}}/>
+                        </div>
+                        <div className="row w-100 pt-3">
+                            <p className="display-4 text-center w-100" style={{fontSize: '2em'}}>Bienvenido de nuevo</p>
+                            <p className="display-4 text-center w-100" style={{fontSize: '2em'}}>Inicie sesión con sus credenciales</p>
+                        </div>
                     </div>
 
-                    <div className="container center-container">
-                        <form onSubmit={this.onSignIn}>
-                            <InputText type="text" name="user" placeholder="Usuario"/>
-                            <InputText type="password" name="pass" placeholder="Contraseña"/>
-                            <SubmitButton text="Iniciar sesión"/>
-                        </form>
+                    <div className="row justify-content-center w-100">
+                        <div className="col-10 col-sm-10 col-md-6 col-lg-5">
+                            <form onSubmit={this.onSignIn}>
+                                <InputText type="text" name="user" placeholder="Usuario"/>
+                                <InputText type="password" name="pass" placeholder="Contraseña"/>
+                                <SubmitButton text="Iniciar sesión"/>
+                            </form>
+                        </div>
                     </div>
 
-                    <div className="container button-container">
-                        <a href="#" className="link right-border">Recuperar credenciales</a>
-                        <span>|</span>
-                        <a href="#" className="link">Registrarse</a>
+                    <div className="row justify-content-center w-100">
+                        <div className="col-10 col-ms-10 col-md-5 col-lg-4 text-center">
+                            <a href="#" className="link pr-3 right-border w-50">Recuperar credenciales</a>
+                            <span>|</span>
+                            <a href="#" className="link pl-3">Registrarse</a>
+                        </div>
                     </div>
 
-                    <div className="container center-container">
-                        <a href="/" className="btn btn-primary"><i className="pi pi-check p-mr-2">Inicio</i></a>
-                    </div>
+                    {/*<div className="row justify-content-center w-100">*/}
+                    {/*    <div className="col-10 col-sm-10 col-md-5 col-lg-5">*/}
+
+                    {/*        <a href="/"><SubmitButton text="Volver al inicio" /></a>*/}
+                    {/*    </div>*/}
+                    {/*</div>*/}
 
                         <DialogModal header={this.state.modalProps.modalHeader}
                                      textBody={this.state.modalProps.modalMessage}
