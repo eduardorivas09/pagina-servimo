@@ -158,6 +158,7 @@ export default class Table extends React.Component {
                     <DataTable value={this.props.promise}
                                header={header}
                                footer={footer}
+                               selectionMode="single"
                                paginator
                                rows={5}
                                first={this.state.currentPage}
