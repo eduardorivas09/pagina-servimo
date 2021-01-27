@@ -82,8 +82,9 @@ export default class ClienteNatural extends React.Component {
             .getFiltered(search)
             .then(resp => {
 
-                if ((resp instanceof Response && resp.status === 200) || resp instanceof Array){
+                if ((resp instanceof Response && resp.status === 200) || resp instanceof Array) {
                     console.log(resp)
+                }
                 if ((resp instanceof Response && resp.status === 200) || resp instanceof Array) {
                     this.setState({
                         data: resp
@@ -104,7 +105,6 @@ export default class ClienteNatural extends React.Component {
                 }
         });
 
-            });
     }
 
     getModal() {
