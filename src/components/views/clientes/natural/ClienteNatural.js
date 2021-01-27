@@ -1,7 +1,7 @@
-import React, { Fragment } from 'react';
+import React, {Fragment} from 'react';
 import $ from 'jquery';
 import 'bootstrap';
-import { ClienteNaturalService } from "../../../../services/clientes/ClienteNaturalService";
+import {ClienteNaturalService} from "../../../../services/clientes/ClienteNaturalService";
 import DialogModal from "../../alerts/DialogModal";
 import Table from "../../../controls/table/Table";
 import ClienteNaturalModal from "./ClienteNaturalModal";
@@ -11,16 +11,16 @@ export default class ClienteNatural extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            showModal: false,
+            showModal : false,
             busqueda: "",
             data: [],
-            selectedRow: null,
+            selectedRow : null,
             rowId: -1,
-            modalProps: {
-                modalHeader: null,
-                modalMessage: null,
-                modalType: 'info',
-                visible: false
+            modalProps : {
+                modalHeader : null,
+                modalMessage : null,
+                modalType : 'info',
+                visible : false
             }
         }
 
@@ -64,7 +64,7 @@ export default class ClienteNatural extends React.Component {
         let rowId = e.target.parentNode.firstChild.textContent;
 
         this.setState({
-            rowId: rowId
+            rowId : rowId
         })
 
         this.getModal();
@@ -81,10 +81,8 @@ export default class ClienteNatural extends React.Component {
         new ClienteNaturalService()
             .getFiltered(search)
             .then(resp => {
-
                 if ((resp instanceof Response && resp.status === 200) || resp instanceof Array){
                     console.log(resp)
-                if ((resp instanceof Response && resp.status === 200) || resp instanceof Array) {
                     this.setState({
                         data: resp
                     })
@@ -92,28 +90,26 @@ export default class ClienteNatural extends React.Component {
 
             }).catch(e => {
 
-                if (e instanceof Error) {
-                    this.setState({
-                        modalProps: {
-                            modalHeader: 'Acceso denegado',
-                            modalMessage: e.message,
-                            modalType: 'warning',
-                            visible: true
-                        }
-                    });
-                }
+            if (e instanceof Error){
+                this.setState({
+                    modalProps : {
+                        modalHeader : 'Acceso denegado',
+                        modalMessage : e.message,
+                        modalType : 'warning',
+                        visible : true
+                    }});
+            }
         });
 
-            });
     }
 
-    getModal() {
+    getModal(){
         this.refs.child.findById(this.state.rowId);
     }
 
-    onButtonClick() {
+    onButtonClick(){
         this.setState({
-            rowId: -1
+            rowId : -1
         })
 
         this.getModal();
@@ -125,8 +121,8 @@ export default class ClienteNatural extends React.Component {
      */
     onHide = () => {
         this.setState({
-            modalProps: {
-                visible: false
+            modalProps : {
+                visible : false
             }
         });
     }
@@ -160,45 +156,21 @@ export default class ClienteNatural extends React.Component {
             },{
                 field:"activo",
                 header:"Activo",
-                sortable:false},
-          {
-                field: "primerNombre",
-                header: "Nombre",
-                sortable: true
-            }, {
-                field: "primerApellido",
-                header: "Nombre de Usuario",
-                sortable: true
-            }, {
-                field: "noCedula",
-                header: "Cedula Identidad",
-                sortable: false
-            }, {
-                field: "sexo",
-                header: "Genero",
-                sortable: true
-            }, {
-                field: "telefono",
-                header: "Telefono",
-                sortable: false
-            }, {
-                field: "correo",
-                header: "Correo",
-                sortable: false
+                sortable:false
             }
         ]
     }
 
-    addNewClienteNatural = () => {
+    addNewClienteNatural = () =>{
         this.setState({
-            showModal: true
+            showModal:true
         })
         this.ClienteModal.current.setCliente(null);
     }
 
     onHideModal = () => {
         this.setState({
-            showModal: false
+            showModal:false
         })
     }
 
@@ -223,51 +195,47 @@ export default class ClienteNatural extends React.Component {
             clienteNaturalService.update(cliente)
                 .then(response => {
                     this.setState({
-                        modalProps: {
-                            modalHeader: 'Cliente Natural Actualizado',
-                            modalMessage: 'Cliente ' + response.primerNombre + ' ' + response.primerApellido,
-                            modalType: 'success',
-                            visible: true
-                        }
-                    });
+                        modalProps : {
+                            modalHeader : 'Cliente Natural Actualizado',
+                            modalMessage : 'Cliente ' + response.primerNombre + ' ' + response.primerApellido ,
+                            modalType : 'success',
+                            visible : true
+                        }});
                     console.log(response);
                     this.loadData();
                     this.onHideModal();
                 })
                 .catch(e => {
                     this.setState({
-                        modalProps: {
-                            modalHeader: 'No se actualizo el Cliente Natural',
-                            modalMessage: e.message,
-                            modalType: 'warning',
-                            visible: true
-                        }
-                    });
+                        modalProps : {
+                            modalHeader : 'No se actualizo el Cliente Natural',
+                            modalMessage : e.message,
+                            modalType : 'warning',
+                            visible : true
+                        }});
                 });
-        } else {
+        }else{
             clienteNaturalService.save(cliente)
                 .then(response => {
                     this.setState({
-                        modalProps: {
-                            modalHeader: 'Registro guardado Cliente Natural',
-                            modalMessage: 'Cliente ' + response.primerNombre + ' ' + response.primerApellido,
-                            modalType: 'success',
-                            visible: true
-                        }
-                    });
+                        modalProps : {
+                            modalHeader : 'Registro guardado Cliente Natural',
+                            modalMessage : 'Cliente ' + response.primerNombre + ' ' + response.primerApellido ,
+                            modalType : 'success',
+                            visible : true
+                        }});
                     console.log(response);
                     this.loadData();
                     this.onHideModal();
                 })
                 .catch(e => {
                     this.setState({
-                        modalProps: {
-                            modalHeader: 'No se guardo el Cliente Natural',
-                            modalMessage: e.message,
-                            modalType: 'warning',
-                            visible: true
-                        }
-                    });
+                        modalProps : {
+                            modalHeader : 'No se guardo el Cliente Natural',
+                            modalMessage : e.message,
+                            modalType : 'warning',
+                            visible : true
+                        }});
                 });
 
         }
@@ -283,30 +251,26 @@ export default class ClienteNatural extends React.Component {
             <Fragment>
                 {/*Tabla de prime react*/}
                 <Table promise={this.state.data}
-
                        columns={this.visibledColumns()}
                        onClickAdd={this.addNewClienteNatural}
                        onRowDoubleClick={this.onRowDoubleClick}
                        deleteButton={true}
                        entity="Cliente Juridico"/>
-                    columns={this.visibledColumns()}
-                    onClickAdd={this.addNewClienteNatural}
-                    onRowDoubleClick={this.onRowDoubleClick}
-                    entity="Cliente Juridico" />
+
                 {/*Modal de dialogo*/}
                 <DialogModal header={this.state.modalProps.modalHeader}
-                    textBody={this.state.modalProps.modalMessage}
-                    hasYesNotButtons={false}
-                    modalType={this.state.modalProps.modalType}
-                    visible={this.state.modalProps.visible}
-                    selectedObject={this.state.selectedRow}
-                    onHide={this.onHide} />
+                             textBody={this.state.modalProps.modalMessage}
+                             hasYesNotButtons={false}
+                             modalType={this.state.modalProps.modalType}
+                             visible={this.state.modalProps.visible}
+                             selectedObject={this.state.selectedRow}
+                             onHide={this.onHide}/>
 
                 <ClienteNaturalModal visible={this.state.showModal}
-                    onHide={this.onHideModal}
-                    onClickNoButton={this.onClickNoButton}
-                    onClickYesButton={this.onClickYesButton}
-                    ref={this.ClienteModal} />
+                                     onHide={this.onHideModal}
+                                     onClickNoButton={this.onClickNoButton}
+                                     onClickYesButton={this.onClickYesButton}
+                                     ref={this.ClienteModal}/>
             </Fragment>
 
         );
