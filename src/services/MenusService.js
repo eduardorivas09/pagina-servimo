@@ -115,7 +115,10 @@ export class MenusService{
                        {
                            label: 'Cerrar Sesion',
                            icon: 'pi pi-power-off',
-                           url: 'http://localhost:3000'
+                           url: 'http://localhost:3000/login',
+                           command: () => {
+                               localStorage.removeItem('token');
+                           }
                        }
                    ]
                }

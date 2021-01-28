@@ -76,13 +76,13 @@ export default class ClienteNaturalModal extends React.Component{
     getCliente = () => {
         // if (this.state.id > 0){
             const cliente = {
-                'estadoCivil': this.state.estadoC.name  ,
+                'estadoCivil': this.state.estadoC !== null ? this.state.estadoC.name : null ,
                 'noCedula' : this.state.ncedula ,
                 'primerNombre': this.state.pnombre ,
                 'primerApellido' : this.state.papelli ,
                 'segundoApellido' : this.state.sapelli ,
                 'segundoNombre' : this.state.snombre ,
-                'sexo' :  this.state.genero.name === 'Masculino' ? 'M' : 'F',
+                'sexo' : this.state.genero !== null ? this.state.genero.name === 'Masculino' ? 'M' : 'F' : null,
                 'telefono': this.state.telefono,
                 'correo' : this.state.correo,
                 'direccion' : this.state.direccion,
@@ -95,6 +95,29 @@ export default class ClienteNaturalModal extends React.Component{
         }
         return cliente;
     }
+
+    validateTelefono = (event) => {
+        const str = /^[2|5|7|8]\d{0,7}/g;
+        const regex = new RegExp(str);
+        const value = event.target.value;
+        // console.log(event.target.value);
+        // console.log(regex.test(event.target.value));
+
+        if (!regex.test(value) || value.length > 8) {
+            event.target.value = value.substr(0, value.length - 1);
+            // event.target.classList.add('p-invalid');
+        }
+        // }else{
+        //     event.target.classList.remove('p-invalid');
+        // }
+
+        this.setState({
+            telefono: event.target.value
+        })
+
+        console.log(this.state)
+    }
+
 
     render() {
         return (
@@ -111,7 +134,10 @@ export default class ClienteNaturalModal extends React.Component{
                         <div className="row">
                             <div className="col col-12 col-sm-12 col-md-12 col-lg-6">
                                 <span className="p-float-label" style={{marginTop:'1.3em'}}>
-                                    <InputText id="itCedula" value={this.state.ncedula} onChange={(e) => this.setState({ncedula : e.target.value})} />
+                                    <InputText id="itCedula"
+                                               value={this.state.ncedula}
+                                               onChange={(e) => this.setState({ncedula : e.target.value})}
+                                               keyfilter={/[^\s]/}/>
                                     <label htmlhtmlFor="itCedula" style={{fontSize: '0.8em'}}>Numero de Cedula</label>
                                 </span>
                             </div>
@@ -120,25 +146,38 @@ export default class ClienteNaturalModal extends React.Component{
                         <div className="row">
                             <div className="col col-12 col-sm-12 col-md-12 col-lg-3" style={{marginTop:'1.3em'}}>
                                 <span className="p-float-label">
-                                    <InputText id="itPrimerNombre" value={this.state.pnombre} onChange={(e) => this.setState({pnombre : e.target.value})}  />
+                                    <InputText id="itPrimerNombre"
+                                               value={this.state.pnombre}
+                                               onChange={(e) => this.setState({pnombre : e.target.value})}
+                                               keyfilter={/[^\s]/}  />
                                     <label htmlhtmlFor="itPrimerNombre" style={{fontSize: '0.8em'}}>Primer Nombre</label>
                                 </span>
                             </div>
                             <div className="col col-12 col-sm-12 col-md-12 col-lg-3" style={{marginTop:'1.3em'}}>
                                 <span className="p-float-label">
-                                    <InputText id="itSegundoNombre" value={this.state.snombre} onChange={(e) => this.setState({snombre : e.target.value})}  />
+                                    <InputText
+                                        id="itSegundoNombre"
+                                        value={this.state.snombre}
+                                        onChange={(e) => this.setState({snombre : e.target.value})}
+                                        keyfilter={/[^\s]/} />
                                     <label htmlhtmlFor="in" style={{fontSize: '0.8em'}}>Segundo Nombre</label>
                                 </span>
                             </div>
                             <div className="col col-12 col-sm-12 col-md-12 col-lg-3">
                                 <span className="p-float-label" style={{marginTop:'1.3em'}}>
-                                    <InputText id="itPrimerApellido" value={this.state.papelli} onChange={(e) => this.setState({papelli : e.target.value})}  />
+                                    <InputText id="itPrimerApellido"
+                                               value={this.state.papelli}
+                                               onChange={(e) => this.setState({papelli : e.target.value})}
+                                               keyfilter={/[^\s]/} />
                                     <label htmlhtmlFor="itPrimerApellido" style={{fontSize: '0.8em'}}>Primer Apellido</label>
                                 </span>
                             </div>
                             <div className="col col-12 col-sm-12 col-md-12 col-lg-3 " style={{marginTop:'1.3em'}}>
                                 <span className="p-float-label">
-                                    <InputText id="itSegundoApellido" value={this.state.sapelli} onChange={(e) => this.setState({sapelli : e.target.value})} />
+                                    <InputText id="itSegundoApellido"
+                                               value={this.state.sapelli}
+                                               onChange={(e) => this.setState({sapelli : e.target.value})}
+                                               keyfilter={/[^\s]/}/>
                                     <label htmlhtmlFor="itSegundoApellido" style={{fontSize: '0.8em'}}>Segundo Apellido</label>
                                 </span>
                             </div>
@@ -161,7 +200,7 @@ export default class ClienteNaturalModal extends React.Component{
                                                validateOnly={false}
                                                keyfilter={'pint'}
                                                value={this.state.telefono}
-                                               onChange={(e) => this.setState({telefono : e.target.value})}/>
+                                               onChange={(e) => this.validateTelefono(e)}/>
                                     <label htmlhtmlFor="itTelefono" style={{fontSize: '0.8em'}}>Telefono</label>
                                 </span>
                             </div>
