@@ -51,7 +51,7 @@ export default class ClienteNaturalModal extends React.Component{
                 telefono: null,
                 correo : null,
                 direccion : null,
-                activo: null
+                activo: true
             });
         }else{
             this.setState({
@@ -157,14 +157,21 @@ export default class ClienteNaturalModal extends React.Component{
 
                             <div className="col col-12 col-sm-12 col-md-12 col-lg-3" style={{marginTop:'1.3em'}}>
                                 <span className="p-float-label">
-                                    <InputText id="itTelefono" value={this.state.telefono} onChange={(e) => this.setState({telefono : e.target.value})}/>
+                                    <InputText id="itTelefono"
+                                               validateOnly={false}
+                                               keyfilter={'pint'}
+                                               value={this.state.telefono}
+                                               onChange={(e) => this.setState({telefono : e.target.value})}/>
                                     <label htmlhtmlFor="itTelefono" style={{fontSize: '0.8em'}}>Telefono</label>
                                 </span>
                             </div>
 
                             <div className="col col-12 col-sm-12 col-md-12 col-lg-3" style={{marginTop:'1.3em'}}>
                                 <span className="p-float-label">
-                                    <InputText id="itCorreo" value={this.state.correo} onChange={(e) => this.setState({correo : e.target.value})}/>
+                                    <InputText id="itCorreo"
+                                               value={this.state.correo}
+                                               keyfilter={'email'}
+                                               onChange={(e) => this.setState({correo : e.target.value})}/>
                                     <label htmlhtmlFor="itCorreo" style={{fontSize: '0.8em'}}>Correo</label>
                                 </span>
                             </div>
