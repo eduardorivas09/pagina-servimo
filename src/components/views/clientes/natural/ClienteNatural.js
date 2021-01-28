@@ -28,8 +28,6 @@ export default class ClienteNatural extends React.Component {
 
         this.buscar = this.buscar.bind(this);
         this.onSearchChange = this.onSearchChange.bind(this);
-        this.rowClicked = this.rowClicked.bind(this);
-        this.onButtonClick = this.onButtonClick.bind(this);
         this.addNewClienteNatural = this.addNewClienteNatural.bind(this);
         this.onHideModal = this.onHideModal.bind(this);
         this.onRowDoubleClick = this.onRowDoubleClick.bind(this);
@@ -61,17 +59,6 @@ export default class ClienteNatural extends React.Component {
             this.loadData()
     }
 
-    rowClicked(e) {
-        let rowId = e.target.parentNode.firstChild.textContent;
-
-        this.setState({
-            rowId : rowId
-        })
-
-        this.getModal();
-        $('#exampleModal').modal('show');
-
-    }
 
     componentDidMount() {
         this.loadData();
@@ -104,18 +91,6 @@ export default class ClienteNatural extends React.Component {
 
     }
 
-    getModal(){
-        this.refs.child.findById(this.state.rowId);
-    }
-
-    onButtonClick(){
-        this.setState({
-            rowId : -1
-        })
-
-        this.getModal();
-        $('#exampleModal').modal('show');
-    }
 
     /**
      * El metodo show abre el modal.
@@ -188,6 +163,7 @@ export default class ClienteNatural extends React.Component {
     }
 
     updateCustomer = (cliente) => {
+        console.log(cliente)
         const clienteNaturalService = new ClienteNaturalService();
         clienteNaturalService.update(cliente)
             .then(response => {

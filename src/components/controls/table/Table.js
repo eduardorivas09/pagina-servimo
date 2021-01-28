@@ -88,7 +88,6 @@ export default class Table extends React.Component {
     }
 
     activoColumn = (rowData) => {
-        console.log(rowData)
         return <Checkbox onChange={e => rowData.activo=e.checked} checked={rowData.activo} disabled={true}/>
     }
 
