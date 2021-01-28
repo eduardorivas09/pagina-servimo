@@ -88,7 +88,6 @@ export default class Table extends React.Component {
     }
 
     activoColumn = (rowData) => {
-        console.log(rowData)
         return <Checkbox onChange={e => rowData.activo=e.checked} checked={rowData.activo} disabled={true}/>
     }
 
@@ -112,7 +111,7 @@ export default class Table extends React.Component {
         const header = (
             <div className="table-header">
                 <div className={'row'} style={{'textAlign': 'left'}} >
-                    <div className="col-sm-12 col-md-5 col-lg-7 row pr-0 tl-0">
+                    <div className="col-sm-12 col-md-7 col-lg-5 row pr-0 tl-0">
                         <div className="col-11 col-sm-10 col-md-11 col-lg-11 pr-0">
                             <InputText type="search" onInput={(e) => this.setState({tableFilter: e.target.value})}
                                        placeholder={"Buscar " + this.props.entity} size="50"/>
@@ -122,10 +121,10 @@ export default class Table extends React.Component {
                         </div>
                     </div>
 
-                    <div className="col-sm-12 col-md-7 col-lg-5 row justify-content-end" >
+                    <div className="col-sm-12 col-md-5 col-lg-7 row justify-content-end" >
                         {
                             this.props.onClickAdd !== undefined && this.props.onClickAdd != null ?
-                                <div className="col-12 col-sm-12 col-md-5 col-lg-5 mt-sm-1 mt-1" >
+                                <div className="col-12 col-sm-12 col-md-5 col-lg-5 mt-sm-1" >
                                     <Button icon="pi pi-plus" label={"Agregar"} style={{width: '100%'}} onClick={this.props.onClickAdd}/>
                                 </div>
                                 :
@@ -133,7 +132,7 @@ export default class Table extends React.Component {
                         }
                         {
                             this.props.deleteButton ?
-                                <div className="col-12 col-sm-12 col-md-5 col-lg-5 ml-2 mt-sm-1 mt-1">
+                                <div className="col-12 col-sm-12 col-md-5 col-lg-5 ml-2 mt-sm-1">
                                     <Button icon="pi pi-trash" label={"Inactivar"} style={{width: '100%'}} onClick={this.props.onClickDeleteButton}/>
                                 </div>
                                 : <Fragment />
@@ -145,7 +144,7 @@ export default class Table extends React.Component {
 
         const footer = `Total de ${this.props.entity} ${this.props.promise ? this.props.promise.length : 0} `;
         return (
-            <div className="datatable-responsive" style={{height: '80%'}}>
+            <div className="datatable-responsive">
                 <div className="card">
                     <Toast
                         ref={(el) => {
@@ -158,6 +157,7 @@ export default class Table extends React.Component {
                     <DataTable value={this.props.promise}
                                header={header}
                                footer={footer}
+                               selectionMode="single"
                                paginator
                                rows={5}
                                first={this.state.currentPage}

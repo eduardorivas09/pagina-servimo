@@ -28,13 +28,12 @@ export default class ClienteNatural extends React.Component {
 
         this.buscar = this.buscar.bind(this);
         this.onSearchChange = this.onSearchChange.bind(this);
-        this.rowClicked = this.rowClicked.bind(this);
-        this.onButtonClick = this.onButtonClick.bind(this);
         this.addNewClienteNatural = this.addNewClienteNatural.bind(this);
         this.onHideModal = this.onHideModal.bind(this);
         this.onRowDoubleClick = this.onRowDoubleClick.bind(this);
         this.onClickYesButton = this.onClickYesButton.bind(this);
         this.onClickNoButton = this.onClickNoButton.bind(this);
+        this.onClickDeleteButton = this.onClickDeleteButton.bind(this);
 
     }
 
@@ -60,17 +59,6 @@ export default class ClienteNatural extends React.Component {
             this.loadData()
     }
 
-    rowClicked(e) {
-        let rowId = e.target.parentNode.firstChild.textContent;
-
-        this.setState({
-            rowId : rowId
-        })
-
-        this.getModal();
-        $('#exampleModal').modal('show');
-
-    }
 
     componentDidMount() {
         this.loadData();
@@ -103,18 +91,6 @@ export default class ClienteNatural extends React.Component {
 
     }
 
-    getModal(){
-        this.refs.child.findById(this.state.rowId);
-    }
-
-    onButtonClick(){
-        this.setState({
-            rowId : -1
-        })
-
-        this.getModal();
-        $('#exampleModal').modal('show');
-    }
 
     /**
      * El metodo show abre el modal.
@@ -186,64 +162,79 @@ export default class ClienteNatural extends React.Component {
         this.openEditModal(e);
     }
 
+    updateCustomer = (cliente) => {
+        console.log(cliente)
+        const clienteNaturalService = new ClienteNaturalService();
+        clienteNaturalService.update(cliente)
+            .then(response => {
+                this.setState({
+                    modalProps : {
+                        modalHeader : 'Cliente Natural Actualizado',
+                        modalMessage : 'Cliente ' + response.primerNombre + ' ' + response.primerApellido ,
+                        modalType : 'success',
+                        visible : true
+                    }});
+                console.log(response);
+                this.loadData();
+                this.onHideModal();
+            })
+            .catch(e => {
+                this.setState({
+                    modalProps : {
+                        modalHeader : 'No se actualizo el Cliente Natural',
+                        modalMessage : e.message,
+                        modalType : 'warning',
+                        visible : true
+                    }});
+            });
+    }
+
+    saveNewCustumer = (cliente) => {
+        const clienteNaturalService = new ClienteNaturalService();
+        clienteNaturalService.save(cliente)
+            .then(response => {
+                this.setState({
+                    modalProps : {
+                        modalHeader : 'Registro guardado Cliente Natural',
+                        modalMessage : 'Cliente ' + response.primerNombre + ' ' + response.primerApellido ,
+                        modalType : 'success',
+                        visible : true
+                    }});
+                console.log(response);
+                this.loadData();
+                this.onHideModal();
+            })
+            .catch(e => {
+                this.setState({
+                    modalProps : {
+                        modalHeader : 'No se guardo el Cliente Natural',
+                        modalMessage : e.message,
+                        modalType : 'warning',
+                        visible : true
+                    }});
+            });
+    }
+
     onClickYesButton = () => {
         const cliente = this.ClienteModal.current.getCliente();
         console.log(cliente);
 
-        const clienteNaturalService = new ClienteNaturalService();
-        if (cliente.id !== undefined && cliente.id > 0) {
-            clienteNaturalService.update(cliente)
-                .then(response => {
-                    this.setState({
-                        modalProps : {
-                            modalHeader : 'Cliente Natural Actualizado',
-                            modalMessage : 'Cliente ' + response.primerNombre + ' ' + response.primerApellido ,
-                            modalType : 'success',
-                            visible : true
-                        }});
-                    console.log(response);
-                    this.loadData();
-                    this.onHideModal();
-                })
-                .catch(e => {
-                    this.setState({
-                        modalProps : {
-                            modalHeader : 'No se actualizo el Cliente Natural',
-                            modalMessage : e.message,
-                            modalType : 'warning',
-                            visible : true
-                        }});
-                });
-        }else{
-            clienteNaturalService.save(cliente)
-                .then(response => {
-                    this.setState({
-                        modalProps : {
-                            modalHeader : 'Registro guardado Cliente Natural',
-                            modalMessage : 'Cliente ' + response.primerNombre + ' ' + response.primerApellido ,
-                            modalType : 'success',
-                            visible : true
-                        }});
-                    console.log(response);
-                    this.loadData();
-                    this.onHideModal();
-                })
-                .catch(e => {
-                    this.setState({
-                        modalProps : {
-                            modalHeader : 'No se guardo el Cliente Natural',
-                            modalMessage : e.message,
-                            modalType : 'warning',
-                            visible : true
-                        }});
-                });
 
+        if (cliente.id !== undefined && cliente.id > 0) {
+            this.updateCustomer(cliente);
+        }else{
+            this.saveNewCustumer(cliente)
         }
     }
 
     onClickNoButton = () => {
         alert('Sobre, se cierra bajo su orden!')
         this.onHideModal();
+    }
+
+    onClickDeleteButton = () => {
+        this.state.selectedRow.data.activo=false;
+        this.updateCustomer(this.state.selectedRow);
     }
 
     render() {
@@ -254,7 +245,8 @@ export default class ClienteNatural extends React.Component {
                        columns={this.visibledColumns()}
                        onClickAdd={this.addNewClienteNatural}
                        onRowDoubleClick={this.onRowDoubleClick}
-                       deleteButton={true}
+                       deleteButton={false}
+                       onClickDeleteButton={this.onClickDeleteButton}
                        entity="Cliente Juridico"/>
 
                 {/*Modal de dialogo*/}

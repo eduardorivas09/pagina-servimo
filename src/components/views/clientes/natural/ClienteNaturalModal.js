@@ -5,6 +5,7 @@ import {SelectButton} from "primereact/selectbutton";
 import {Dropdown} from "primereact/dropdown";
 import {Button} from "primereact/button";
 import {InputTextarea} from "primereact/inputtextarea";
+import {Checkbox} from "primereact/checkbox";
 
 export default class ClienteNaturalModal extends React.Component{
 
@@ -21,7 +22,8 @@ export default class ClienteNaturalModal extends React.Component{
             estadoC : '',
             telefono: '',
             correo : '',
-            direccion : ''
+            direccion : '',
+            activo: ''
         }
     }
 
@@ -49,6 +51,7 @@ export default class ClienteNaturalModal extends React.Component{
                 telefono: null,
                 correo : null,
                 direccion : null,
+                activo: true
             });
         }else{
             this.setState({
@@ -63,6 +66,7 @@ export default class ClienteNaturalModal extends React.Component{
                 telefono: cliente.data.telefono,
                 correo : cliente.data.correo,
                 direccion : cliente.data.direccion,
+                activo: cliente.data.activo
             });
         }
 
@@ -82,6 +86,7 @@ export default class ClienteNaturalModal extends React.Component{
                 'telefono': this.state.telefono,
                 'correo' : this.state.correo,
                 'direccion' : this.state.direccion,
+                'activo' : this.state.activo
             // }
         }
 
@@ -152,14 +157,21 @@ export default class ClienteNaturalModal extends React.Component{
 
                             <div className="col col-12 col-sm-12 col-md-12 col-lg-3" style={{marginTop:'1.3em'}}>
                                 <span className="p-float-label">
-                                    <InputText id="itTelefono" value={this.state.telefono} onChange={(e) => this.setState({telefono : e.target.value})}/>
+                                    <InputText id="itTelefono"
+                                               validateOnly={false}
+                                               keyfilter={'pint'}
+                                               value={this.state.telefono}
+                                               onChange={(e) => this.setState({telefono : e.target.value})}/>
                                     <label htmlhtmlFor="itTelefono" style={{fontSize: '0.8em'}}>Telefono</label>
                                 </span>
                             </div>
 
                             <div className="col col-12 col-sm-12 col-md-12 col-lg-3" style={{marginTop:'1.3em'}}>
                                 <span className="p-float-label">
-                                    <InputText id="itCorreo" value={this.state.correo} onChange={(e) => this.setState({correo : e.target.value})}/>
+                                    <InputText id="itCorreo"
+                                               value={this.state.correo}
+                                               keyfilter={'email'}
+                                               onChange={(e) => this.setState({correo : e.target.value})}/>
                                     <label htmlhtmlFor="itCorreo" style={{fontSize: '0.8em'}}>Correo</label>
                                 </span>
                             </div>
@@ -171,6 +183,14 @@ export default class ClienteNaturalModal extends React.Component{
                                     <InputTextarea id='itaDireccion' value={this.state.direccion} onChange={(e) => this.setState({direccion : e.target.value})} autoResize={true}/>
                                     <label htmlhtmlFor="itaDireccion">Direccion</label>
                                 </span>
+                            </div>
+                        </div>
+                        <div className="row">
+                            <div className="col col-12 col-sm-4 col-md-2 col-lg-1">
+                                <label htmlhtmlFor="cbEstado" style={{fontSize: '0.8em'}}>Estado</label>
+                            </div>
+                            <div className="col col-12 col-sm-4 col-md-2 col-lg-1">
+                                <Checkbox id='cbEstado' onChange={e => this.setState({activo: e.checked})} checked={this.state.activo}/>
                             </div>
                         </div>
                     </div>
