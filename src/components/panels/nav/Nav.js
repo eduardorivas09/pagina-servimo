@@ -1,6 +1,29 @@
 import React from 'react';
 import NavItem from "./navItem/NavItem";
+import {Session} from "../../../services/seguridad/Session";
 export default class Nav extends React.Component{
+
+    constructor() {
+        super();
+        this.state = {
+            redirectTo : '/login'
+        }
+    }
+
+    async isLogged(){
+        try{
+            if (await Session.isLogged()){
+                this.setState({redirectTo : '/main'})
+            }
+        }catch(e){
+            console.log('Problemas del lado del servidor: ' + e.message);
+        }
+
+    }
+
+    componentDidMount() {
+        this.isLogged();
+    }
 
     render() {
         return(
@@ -18,7 +41,7 @@ export default class Nav extends React.Component{
 
                     </ul>
 
-                    <a href="/login" className="btn bg-white px-3 py-2" >Iniciar Session</a>
+                    <a href={this.state.redirectTo} className="btn bg-white px-3 py-2" >Iniciar Session</a>
                 </div>
             </nav>
         );
