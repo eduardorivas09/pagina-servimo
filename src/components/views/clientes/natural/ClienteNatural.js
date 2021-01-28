@@ -1,10 +1,11 @@
-import React, {Fragment} from 'react';
+import React, {Fragment, useRef}from 'react';
 import $ from 'jquery';
 import 'bootstrap';
 import {ClienteNaturalService} from "../../../../services/clientes/ClienteNaturalService";
 import DialogModal from "../../alerts/DialogModal";
 import Table from "../../../controls/table/Table";
 import ClienteNaturalModal from "./ClienteNaturalModal";
+import { Toast } from 'primereact/toast';
 
 export default class ClienteNatural extends React.Component {
 
@@ -35,6 +36,7 @@ export default class ClienteNatural extends React.Component {
         this.onClickNoButton = this.onClickNoButton.bind(this);
         this.onClickDeleteButton = this.onClickDeleteButton.bind(this);
 
+        this.toast = React.createRef();
     }
 
     buscar(e) {
@@ -219,12 +221,61 @@ export default class ClienteNatural extends React.Component {
         const cliente = this.ClienteModal.current.getCliente();
         console.log(cliente);
 
-
-        if (cliente.id !== undefined && cliente.id > 0) {
-            this.updateCustomer(cliente);
-        }else{
-            this.saveNewCustumer(cliente)
+        if (this.validarGuardar(cliente)){
+            if (cliente.id !== undefined && cliente.id > 0) {
+                this.updateCustomer(cliente);
+            }else{
+                this.saveNewCustumer(cliente)
+            }
         }
+    }
+
+    validarGuardar = (cliente) => {
+        if (cliente === null || cliente === undefined){
+            this.mostrarMensaje('warn', 'No se ha pasado un objeto valido');
+            return false;
+        }
+        if (cliente.noCedula === null || cliente.noCedula.length < 14){
+            this.mostrarMensaje('warn', 'Cedula: requerida', 'Se requiere un numero de cedula valido');
+            return false;
+        }
+        if (cliente.primerNombre === null || cliente.primerNombre.length == 0){
+            this.mostrarMensaje('warn', 'Primer nombre: requerido', 'Se requiere el primer nombre');
+            return false;
+        }
+        if (cliente.primerApellido === null || cliente.primerApellido.length == 0){
+            this.mostrarMensaje('warn', 'Primer apellido: requerido', 'Se requiere el primer apellido');
+            return false;
+        }
+        if (cliente.sexo === null || cliente.sexo.length == 0){
+            this.mostrarMensaje('warn', 'Genero: requerido', 'Se requiere el genero del cliente');
+            return false;
+        }
+        if (cliente.estadoCivil === null || cliente.estadoCivil.length == 0){
+            this.mostrarMensaje('warn', 'Estado Civil: requerido', 'Se requiere el estado civil del cliente');
+            return false;
+        }
+        if (cliente.telefono === null || cliente.telefono.length == 0){
+            this.mostrarMensaje('warn', 'Telefono: requerido', 'Se requiere el telefono del cliente');
+            return false;
+        }
+        if (cliente.correo === null || cliente.correo.length == 0){
+            this.mostrarMensaje('warn', 'Correo: requerido', 'Se requiere el correo del cliente');
+            return false;
+        }
+        if (cliente.direccion === null || cliente.direccion.length == 0){
+            this.mostrarMensaje('warn', 'Direccion: requerido', 'Se requiere la direccion del cliente');
+            return false;
+        }
+        if (cliente.activo === null || cliente.activo.length == 0){
+            this.mostrarMensaje('warn', 'Estado: requerido', 'Se requiere el estado del cliente');
+            return false;
+        }
+        return true;
+    }
+
+    mostrarMensaje = (severity, headerMessage, mensaje) => {
+        this.toast.current.show({severity:severity, summary: headerMessage, detail:mensaje, life: 5000});
     }
 
     onClickNoButton = () => {
@@ -236,6 +287,8 @@ export default class ClienteNatural extends React.Component {
         this.state.selectedRow.data.activo=false;
         this.updateCustomer(this.state.selectedRow);
     }
+
+
 
     render() {
         return (
@@ -263,6 +316,8 @@ export default class ClienteNatural extends React.Component {
                                      onClickNoButton={this.onClickNoButton}
                                      onClickYesButton={this.onClickYesButton}
                                      ref={this.ClienteModal}/>
+
+                <Toast ref={this.toast} position="top-left"/>
             </Fragment>
 
         );
