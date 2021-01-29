@@ -14,6 +14,7 @@ export default class Customer extends React.Component{
     }
 
     render() {
+
         return (
             <TabView activeIndex={this.state.activeIndex} onTabChange={(e) => this.setState({activeIndex: e.index})}>
                 <TabPanel header="Cliente Natural">

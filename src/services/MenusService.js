@@ -39,11 +39,12 @@ export class MenusService{
                         {
                             label:'Clientes Naturales',
                             icon:'pi pi-fw pi-user',
-
+                            url: 'http://localhost:3000/main/clientes/natural',
                         },
                         {
                             label:'Clientes Juridicos',
-                            icon:'pi pi-fw pi-sitemap'
+                            icon:'pi pi-fw pi-sitemap',
+                            url: 'http://localhost:3000/main/clientes/juridico',
                         }
                     ]
                 },
@@ -69,12 +70,13 @@ export class MenusService{
                     items:[
                         {
                             label:'Consultas',
-                            icon:'pi pi-fw pi-info'
+                            icon:'pi pi-fw pi-info',
 
                         },
                         {
                             label:'Contratacion de Serivios',
-                            icon:'pi pi-fw pi-check'
+                            icon:'pi pi-fw pi-check',
+
                         },
                         {
                             label:'Dar de Baja',

@@ -119,7 +119,7 @@ export default class Main extends React.Component{
                              }
                     />
                     <Panel>
-                        <Customer/>
+                        {this.props.view}
                     </Panel>
                 </Fragment>
     );
