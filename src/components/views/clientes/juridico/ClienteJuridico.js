@@ -7,7 +7,8 @@ import { ClienteJuridicoService } from "../../../../services/clientes/ClienteJur
 import DialogModal from "../../alerts/DialogModal";
 import { Fragment } from "react";
 import Table from "../../../controls/table/Table";
-import ClienteJuridicoModal from './ClienteJudiricoModal'
+import ClienteJuridicoModal from './ClienteJudiricoModal';
+import { Toast } from 'primereact/toast';
 
 
 export default class ClienteJuridico extends React.Component {
@@ -41,6 +42,7 @@ export default class ClienteJuridico extends React.Component {
         this.onClickNoButton = this.onClickNoButton.bind(this)
         this.onClickDeleteButton = this.onClickDeleteButton.bind(this)
 
+        this.toast = React.createRef();
     }
 
     buscar(e) {
@@ -266,6 +268,50 @@ export default class ClienteJuridico extends React.Component {
         }
     }
 
+    validarGuardar = (cliente) => {
+
+        if (cliente === null || cliente === undefined) {
+            this.mostraMesaje("warn", 'No se ha pasado un objeto validado');
+            return false;
+        }
+
+        if (cliente.noRuc === null || cliente.noRuc.length < 16) {
+            this.mostraMesaje("warn", 'Ruc:requerida', 'Se require un nuemro Ruc valido');
+            return false;
+        }
+
+        if (cliente.nombre === null || cliente.nombre.length == 0) {
+            this.mostraMesaje("warn", 'Nombre:requerida', 'Se require el Nombre');
+            return false;
+        }
+
+        if (cliente.telefono === null || cliente.telefono.length == 0) {
+            this.mostraMesaje("warn", 'Telefono:requerida', 'Se require el Telefono');
+            return false;
+        }
+
+        if (cliente.correo === null || cliente.correo.length == 0) {
+            this.mostraMesaje("warn", 'Correo:requerida', 'Se require el Correo');
+            return false;
+        }
+
+        if (cliente.direccion === null || cliente.direccion.length == 0) {
+            this.mostraMesaje("warn", 'Direccion:requerida', 'Se require la Direccion');
+            return false;
+        }
+
+        if (cliente.activo === null || cliente.activo.length == 0) {
+            this.mostraMesaje("warn", 'Estado:requerida', 'Se require la D');
+            return false;
+        }
+
+
+    }
+
+
+
+
+
     onClickDeleteButton = () => {
         this.state.selectedRow.data.activo = false;
         this.updateCustomer(this.state.selectedRow);
@@ -275,6 +321,12 @@ export default class ClienteJuridico extends React.Component {
 
         alert('sobre, se cirra baja su orde')
         this.onHideModal();
+    }
+
+    mostraMesaje = (severity, headerMessage, mesaje) => {
+        this.toast.current.
+            show({ severity: severity, sumary: headerMessage, detai: mensaje, life: 500 });
+
     }
 
     render() {
@@ -305,11 +357,14 @@ export default class ClienteJuridico extends React.Component {
                     selectedObject={this.state.selectedRow}
                     onHide={this.onHide
                     } />
+
                 <ClienteJuridicoModal visible={this.state.showModal}
                     onHideModal={this.onHideModal}
                     onClickNoButton={this.onClickNoButton}
                     onClickYesButton={this.onClickYesButton}
                     ref={this.ClienteModal} />
+
+                    <Toast ref={this.toast}position='top-left' />
             </Fragment>
 
         );
