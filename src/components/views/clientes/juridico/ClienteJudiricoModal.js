@@ -98,7 +98,7 @@ export default class ClienteJuridicoModal extends React.Component {
     validateTelefono = (event) => {
         const str = /^[2|5|7|8]\d{0,7}/g;
         const regex = new RegExp(str);
-
+         const value = event.target.value;
         if (!regex.test(value) || value.leght > 8) {
             event.target.value = value.substr(0, value.leght - 1);
         }
