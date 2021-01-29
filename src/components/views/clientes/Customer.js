@@ -9,13 +9,13 @@ export default class Customer extends React.Component{
     constructor() {
         super();
         this.state = {
-            activeIndex : 0
+
         }
     }
 
     render() {
         return (
-            <TabView activeIndex={this.state.activeIndex} onTabChange={(e) => this.setState({activeIndex: e.index})}>
+            <TabView activeIndex={this.props.activeIndex} onTabChange={(e) => this.setState({activeIndex: e.index})}>
                 <TabPanel header="Cliente Natural">
                     <ClienteNatural/>
                 </TabPanel>

@@ -9,8 +9,10 @@ import Main from "./components/views/main/Main";
 import ContratoClientesJuridico from "./components/views/contrato/juridico/ContratoClientesJuridico";
 import Login from "./components/views/security/login/Login";
 import DialogModal from "./components/views/alerts/DialogModal";
+import Customer from "./components/views/clientes/Customer";
 
 function App() {
+    const saludo = <h3>En hora buena, estas en el main</h3>
     return (
         <BrowserRouter>
             <Switch>
@@ -27,15 +29,16 @@ function App() {
                 </Route>
                 <Route exact path="/main">
                     {/*llamada a la clase main*/}
-                    <Main/>
+
+                    <Main view={saludo}/>
                 </Route>
                 <Route exact path="/main/clientes/natural">
                     {/*llamada a la clase cliente natural*/}
-                    <ClienteNatural/>
+                    <Main view={<Customer activeIndex={0}/>} />
                 </Route>
-                <Route exact path="/main/clientes/Juridico">
+                <Route exact path="/main/clientes/juridico">
                     {/*llamada a la clase cliente juridico*/}
-                    <ClienteJuridico/>
+                    <Main view={<Customer activeIndex={1}/>} />
                 </Route>
                 <Route exact path="/contrato/clientes/juridico">
                     {/*llamada a la clase contratoclientesjuridico clientes juridico*/}
@@ -51,6 +54,7 @@ function App() {
             </Switch>
         </BrowserRouter>
     );
+
 }
 
 export default App;
