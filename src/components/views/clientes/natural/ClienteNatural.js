@@ -6,6 +6,7 @@ import DialogModal from "../../alerts/DialogModal";
 import Table from "../../../controls/table/Table";
 import ClienteNaturalModal from "./ClienteNaturalModal";
 import { Toast } from 'primereact/toast';
+import {Validation} from "../../../../util/validations/Validation";
 
 export default class ClienteNatural extends React.Component {
 
@@ -219,7 +220,7 @@ export default class ClienteNatural extends React.Component {
 
     onClickYesButton = () => {
         const cliente = this.ClienteModal.current.getCliente();
-        console.log(cliente);
+        // console.log(cliente);
 
         if (this.validarGuardar(cliente)){
             if (cliente.id !== undefined && cliente.id > 0) {
@@ -235,8 +236,15 @@ export default class ClienteNatural extends React.Component {
             this.mostrarMensaje('warn', 'No se ha pasado un objeto valido');
             return false;
         }
-        if (cliente.noCedula === null || cliente.noCedula.length < 14){
-            this.mostrarMensaje('warn', 'Cedula: requerida', 'Se requiere un numero de cedula valido');
+        if (cliente.noCedula === null){
+            this.mostrarMensaje('warn', 'Cedula: requerida', 'Se requiere un numero de cedula');
+            return false;
+        }
+
+        let isValid = Validation.validarCedula(cliente.noCedula);
+
+        if (!isValid){
+            this.mostrarMensaje('warn', 'Cedula: incorrecta', 'Se requiere un numero de cedula valido');
             return false;
         }
         if (cliente.primerNombre === null || cliente.primerNombre.length == 0){
@@ -255,10 +263,18 @@ export default class ClienteNatural extends React.Component {
             this.mostrarMensaje('warn', 'Estado Civil: requerido', 'Se requiere el estado civil del cliente');
             return false;
         }
+
         if (cliente.telefono === null || cliente.telefono.length == 0){
             this.mostrarMensaje('warn', 'Telefono: requerido', 'Se requiere el telefono del cliente');
             return false;
         }
+        isValid = Validation.validarTelefono(cliente.telefono)
+
+        if (isValid){
+            this.mostrarMensaje('warn', 'Telefono: incorrecto', 'Se requiere el telefono con un formato correcto');
+            return false;
+        }
+
         if (cliente.correo === null || cliente.correo.length == 0){
             this.mostrarMensaje('warn', 'Correo: requerido', 'Se requiere el correo del cliente');
             return false;

@@ -6,6 +6,7 @@ import {Dropdown} from "primereact/dropdown";
 import {Button} from "primereact/button";
 import {InputTextarea} from "primereact/inputtextarea";
 import {Checkbox} from "primereact/checkbox";
+import {Validation} from "../../../../util/validations/Validation";
 
 export default class ClienteNaturalModal extends React.Component{
 
@@ -115,6 +116,28 @@ export default class ClienteNaturalModal extends React.Component{
             telefono: event.target.value
         })
 
+        console.log(this.state)
+    }
+
+    validateCedula = (event) => {
+        const regex = new RegExp(Validation.regexNoCedula);
+        const value = event.target.value;
+        // console.log(event.target.value);
+        // console.log(regex.test(event.target.value));
+
+        if (value.length > 16) {
+            event.target.value = value.substr(0, value.length - 1);
+            // event.target.classList.add('p-invalid');
+        }
+
+        // if(value.length === 14 && /\w/.test(value) || value.length === 16 && value.include('-') && /\w/.test(value)){
+        //     if(Validation.validarCedula(value)){
+        //
+        //     }
+        // }
+        this.setState({
+            ncedula: event.target.value
+        })
         console.log(this.state)
     }
 
