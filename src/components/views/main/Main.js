@@ -129,12 +129,15 @@ export default class Main extends React.Component{
         this.isLogged();
 
         const service = new MenusService();
-        service.getMainMenuItems().then(resp => {
-            this.setState({menuItems : resp});
-        });
-
+        this.loadMenu(service);
         service.getPopUpMenuItems().then(resp => {
             this.setState({popUpMenu: resp});
+        });
+    }
+
+    loadMenu = async (service) => {
+        await service.getMainMenuItems().then(resp => {
+            this.setState({menuItems : resp});
         });
     }
 

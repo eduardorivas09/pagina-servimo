@@ -137,14 +137,15 @@ export class Session{
              const storedToken = localStorage.getItem('token');
              console.log("Token almacenado en local storage " + storedToken);
              if (storedToken !== undefined && storedToken !== null) {
-                 let valid = false;
+                 // let valid = false;
+                 this.#token = storedToken;
+                 return true;
+                 // await this.verifyToken(storedToken).then((resp) => valid = resp).catch(e => {
+                 //     valid = false;
+                 //     throw e;
+                 // });
 
-                 await this.verifyToken(storedToken).then((resp) => valid = resp).catch(e => {
-                     valid = false;
-                     throw e;
-                 });
-
-                 return valid;
+                 // return valid;
              }else{
                  return false;
              }

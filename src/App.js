@@ -32,13 +32,19 @@ function App() {
 
                     <Main view={saludo}/>
                 </Route>
-                <Route exact path="/main/clientes/natural">
+                <Route exact path="/main/clientes/">
                     {/*llamada a la clase cliente natural*/}
                     <Main view={<Customer activeIndex={0}/>} />
                 </Route>
+                <Route exact path="/main/clientes/natural">
+                    {/*llamada a la clase cliente natural*/}
+                    <Main view={<ClienteNatural/>} />
+                    {/*<Main view={<Customer activeIndex={0}/>} />*/}
+                </Route>
                 <Route exact path="/main/clientes/juridico">
                     {/*llamada a la clase cliente juridico*/}
-                    <Main view={<Customer activeIndex={1}/>} />
+                    {/*<Main view={<Customer activeIndex={1}/>} />*/}
+                    <Main view={<ClienteJuridico />} />
                 </Route>
                 <Route exact path="/contrato/clientes/juridico">
                     {/*llamada a la clase contratoclientesjuridico clientes juridico*/}

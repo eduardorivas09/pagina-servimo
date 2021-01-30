@@ -9,6 +9,7 @@ import { Fragment } from "react";
 import Table from "../../../controls/table/Table";
 import ClienteJuridicoModal from './ClienteJudiricoModal';
 import { Toast } from 'primereact/toast';
+import {Session} from "../../../../services/seguridad/Session";
 
 
 export default class ClienteJuridico extends React.Component {
@@ -79,6 +80,7 @@ export default class ClienteJuridico extends React.Component {
     }
 
     componentDidMount() {
+        Session.isLogged();
         this.loadData();
     }
 
