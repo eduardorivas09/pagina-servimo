@@ -5,6 +5,7 @@ import {AuthorizationError} from "../util/Error/AuthorizationError";
 import {NetworkConnectionError} from "../util/Error/NetworkConnectionError";
 import {AuthenticationError} from "../util/Error/AuthenticationError";
 import {Session} from "./seguridad/Session";
+import Customer from "../components/views/clientes/Customer";
 
 export class MenusService{
 
@@ -38,7 +39,7 @@ export class MenusService{
     }
 
 
-    getMainMenuItems = async () => {
+    getMainMenuItems = async (onClickMenu) => {
 
         const reponse = await this.getAll();
 
@@ -46,7 +47,6 @@ export class MenusService{
 
         const menu = []
 
-        // const parentNodes = reponse.then(arr => {
             const parent = reponse.filter(elemento => elemento.menuPadre === null)
 
             parent.forEach(element => {
@@ -69,7 +69,11 @@ export class MenusService{
                     }
 
                     if (c1.url !== undefined && c1.url !== null){
-                        node.url = c1.url;
+                        // node.url = c1.url;
+                        node.command = () => {
+                            onClickMenu(c1.url)
+                        }
+                        console.log(c1.url)
                     }
 
                     items.push(node);
@@ -81,30 +85,6 @@ export class MenusService{
 
                 menu.push(obj);
             })
-        // })
-
-        console.log(menu);
-
-        // console.log(parentNodes)
-        //
-        // const menuList = []
-        // parentNodes.then(arr => {
-        //
-        //     // arr.filter(elemento => elemento.menuPadre !== null)
-        //
-        //     arr.prototype.forEach(element => {
-        //         const obj = {
-        //             label: element.nombreMenu,
-        //             icon: element.iconClass,
-        //         }
-        //
-        //         // if (element.url !== undefined && element.url !== null){
-        //         //     obj.url = element.url;
-        //         // }
-        //     })
-        //
-        //
-        // })
 
         return new Promise(resolve => {
             const items = menu

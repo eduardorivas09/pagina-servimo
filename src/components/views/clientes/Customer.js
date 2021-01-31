@@ -13,6 +13,14 @@ export default class Customer extends React.Component{
         }
     }
 
+    changeTabIndex = () =>{
+        this.setState({activeIndex: this.props.activeIndex});
+    }
+
+    componentDidMount() {
+        this.changeTabIndex();
+    }
+
     render() {
 
         return (
