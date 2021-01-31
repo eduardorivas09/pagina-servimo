@@ -23,9 +23,9 @@ input[type="submit"]:active{
     justify-content: space-evenly;
 }
 
-/*.button-container a, span{*/
-/*    color: #007BFE;*/
-/*}*/
+.button-container a, span{
+    color: #007BFE;
+}
 
 .button-container a:visited{
     color: #007BFE;

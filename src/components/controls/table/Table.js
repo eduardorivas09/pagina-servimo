@@ -108,6 +108,14 @@ export default class Table extends React.Component {
      * @returns {JSX.Element}
      */
     render() {
+        // console.log(this.props.columns)
+
+        // const col = this.props.columns.map(item => {
+        //         return <Column columnKey={item.id}  field={item.field} header={item.header} sortable={item.sortable}/>
+        //     });
+
+        console.log(this.props.onClickAdd);
+
         const header = (
             <div className="table-header">
                 <div className={'row'} style={{'textAlign': 'left'}} >
