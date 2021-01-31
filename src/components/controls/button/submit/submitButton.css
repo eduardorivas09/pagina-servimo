@@ -1,0 +1,32 @@
+.woc{
+    background-color: transparent;
+}
+
+input[type="submit"]{
+    background-color: #007BFE;
+    color: #fff;
+    font-size: 1em;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover{
+    background-color: #0074CD;
+    transition: background-color 1s;
+}
+
+input[type="submit"]:active{
+    background-color: black;
+}
+
+.button-container{
+    display: flex;
+    justify-content: space-evenly;
+}
+
+/*.button-container a, span{*/
+/*    color: #007BFE;*/
+/*}*/
+
+.button-container a:visited{
+    color: #007BFE;
+}

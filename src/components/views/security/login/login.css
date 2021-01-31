@@ -1,0 +1,35 @@
+
+#login{
+    width: 23%;
+    margin: 0 auto;
+    text-align: center;
+}
+.container{
+    font-family: OpenSans,sans-serif;
+}
+
+.top-container{
+    margin-top: 3.9em;
+}
+
+.top-container .icon{
+    width: 5em;
+}
+
+.top-container h1{
+    font-size: 1.4em;
+    font-weight: bold;
+    margin: 2em 0 0 0.1em;
+    text-align: left;
+}
+
+.top-container h3{
+    margin: 1em 0 0 0.1em;
+    font-size: 1em;
+    font-weight: lighter;
+    text-align: left;
+}
+
+.center-container{
+    margin-top: 2em;
+}
