@@ -51,7 +51,7 @@ export class RequestService {
                 'Content-Type': 'application/json',
                 'Origin': ''
             }
-
+        console.log('full path: ' + this.fullPath() + path)
         return await fetch(this.fullPath() + path,
             {
                 method: method,

@@ -7,6 +7,7 @@ import Table from "../../../controls/table/Table";
 import ClienteNaturalModal from "./ClienteNaturalModal";
 import { Toast } from 'primereact/toast';
 import {Validation} from "../../../../util/validations/Validation";
+import {Session} from "../../../../services/seguridad/Session";
 
 export default class ClienteNatural extends React.Component {
 
@@ -64,6 +65,7 @@ export default class ClienteNatural extends React.Component {
 
 
     componentDidMount() {
+        Session.isLogged();
         this.loadData();
     }
 

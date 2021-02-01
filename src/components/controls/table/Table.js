@@ -81,8 +81,8 @@ export default class Table extends React.Component {
     columns(){
         return this.props.columns.map((item, i) => {
             return item.field !== 'activo'
-                ? <Column columnKey={i}  field={item.field} header={item.header} sortable={item.sortable}/>
-                : <Column columnKey={i}  field={item.field} header={item.header} sortable={item.sortable}
+                ? <Column columnKey={i + ''}  field={item.field} header={item.header} sortable={item.sortable}/>
+                : <Column columnKey={i + ''}  field={item.field} header={item.header} sortable={item.sortable}
                           body={this.activoColumn} style={{textAlign: 'center'}}/>
         });
     }

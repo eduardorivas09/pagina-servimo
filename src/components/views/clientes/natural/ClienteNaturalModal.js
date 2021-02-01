@@ -24,7 +24,7 @@ export default class ClienteNaturalModal extends React.Component{
             telefono: '',
             correo : '',
             direccion : '',
-            activo: ''
+            activo: false
         }
     }
 
