@@ -5,6 +5,7 @@ import menu from '../../../static/icons/icons8-menu-24.png';
 import ClienteNatural from "../clientes/natural/ClienteNatural";
 import BreadCrumb from "../../panels/nav/breadcrumb/BreadCrumb";
 import ClienteJuridico from "../clientes/juridico/ClienteJuridico";
+import Trabajador from "../Trabajadores/Trabajador";
 import ContratoClientesJuridico from "../contrato/juridico/ContratoClientesJuridico";
 import {Redirect} from "react-router-dom";
 import {Session} from "../../../services/seguridad/Session";
@@ -108,6 +109,7 @@ export default class Main extends React.Component{
     onClickMenuItem = (url) => {
         if (url.includes('natural')) this.setState({currentComponent :  <ClienteNatural/>})
         if (url.includes('juridico')) this.setState({currentComponent :  <ClienteJuridico/>})
+        if (url.includes('Trabajadores')) this.setState({currentComponent : <Trabajador/>})
         console.log(this.state.currentComponent);
     }
 
