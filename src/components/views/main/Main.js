@@ -1,21 +1,22 @@
-import React, {Fragment} from 'react';
+import React, { Fragment } from 'react';
 import './main.css';
 import $ from 'jquery';
 import menu from '../../../static/icons/icons8-menu-24.png';
 import ClienteNatural from "../clientes/natural/ClienteNatural";
 import BreadCrumb from "../../panels/nav/breadcrumb/BreadCrumb";
 import ClienteJuridico from "../clientes/juridico/ClienteJuridico";
+import Trabajador from "../Trabajadores/Trabajador";
 import ContratoClientesJuridico from "../contrato/juridico/ContratoClientesJuridico";
-import {Redirect} from "react-router-dom";
-import {Session} from "../../../services/seguridad/Session";
-import {MenusService} from "../../../services/MenusService";
-import {Menubar} from "primereact/menubar";
-import {Menu} from "primereact/menu";
-import {Button} from "primereact/button";
-import {Panel} from "primereact/panel";
+import { Redirect } from "react-router-dom";
+import { Session } from "../../../services/seguridad/Session";
+import { MenusService } from "../../../services/MenusService";
+import { Menubar } from "primereact/menubar";
+import { Menu } from "primereact/menu";
+import { Button } from "primereact/button";
+import { Panel } from "primereact/panel";
 import Customer from "../clientes/Customer";
 
-export default class Main extends React.Component{
+export default class Main extends React.Component {
 
     /**
      * Constructor de la clase donde se establecen los estodos y eventos vinculados al componente.
@@ -23,16 +24,16 @@ export default class Main extends React.Component{
     constructor() {
         super();
         this.state = {
-            redirect : false,   //  Propiedad de tipo boolean que si es true la pagina se redirigira hacia el login.
-            selectedItem : "",
-            menuItems : [],
-            currentComponent : <h1>Hola a todos</h1>
+            redirect: false,   //  Propiedad de tipo boolean que si es true la pagina se redirigira hacia el login.
+            selectedItem: "",
+            menuItems: [],
+            currentComponent: <h1>Hola a todos</h1>
         }
 
         this.onClickMenu = this.onClickMenu.bind(this);
     }
 
-    onClickMenu(e){
+    onClickMenu(e) {
         $(document).ready(function () {
             $('#sidebarCollapse').on('click', function () {
                 $('#sidebar').toggleClass('active');
@@ -40,43 +41,44 @@ export default class Main extends React.Component{
         });
     }
 
-    async isLogged(){
-        try{
-            if (!await Session.isLogged()){
-                this.setState({redirect : true})
+    async isLogged() {
+        try {
+            if (!await Session.isLogged()) {
+                this.setState({ redirect: true })
             }
-        }catch(e){
+        } catch (e) {
             this.setState({
-                modalProps : {
-                    modalHeader : 'Error del lado del servidor',
-                    modalMessage : e.message,
-                    modalType : 'warning',
-                    visible : true
-                }});
+                modalProps: {
+                    modalHeader: 'Error del lado del servidor',
+                    modalMessage: e.message,
+                    modalType: 'warning',
+                    visible: true
+                }
+            });
         }
     }
 
     render() {
 
-        return(
+        return (
             (this.state.redirect)
                 ? <Redirect to='/login' />
                 :
                 <Fragment>
                     <Menubar model={this.state.menuItems}
                         // start={<InputText placeholder="Search" type="text"/>}
-                             end={<Fragment>
-                                 <Menu model={this.state.popUpMenu} popup ref={el => this.menu = el} id="popup_menu" />
-                                 <Button label="Mas" icon="pi pi-bars" onClick={(event) => this.menu.toggle(event)} aria-controls="popup_menu" aria-haspopup />
-                             </Fragment>
-                             }
+                        end={<Fragment>
+                            <Menu model={this.state.popUpMenu} popup ref={el => this.menu = el} id="popup_menu" />
+                            <Button label="Mas" icon="pi pi-bars" onClick={(event) => this.menu.toggle(event)} aria-controls="popup_menu" aria-haspopup />
+                        </Fragment>
+                        }
                     />
                     <Panel>
                         {/*{this.props.view}*/}
                         {this.state.currentComponent}
                     </Panel>
                 </Fragment>
-    );
+        );
     }
 
     componentDidMount() {
@@ -85,29 +87,34 @@ export default class Main extends React.Component{
         const service = new MenusService();
         this.loadMenu(service);
         service.getPopUpMenuItems().then(resp => {
-            this.setState({popUpMenu: resp});
+            this.setState({ popUpMenu: resp });
         });
     }
 
     loadMenu = async (service) => {
-        try{
+        try {
             await service.getMainMenuItems(this.onClickMenuItem).then(resp => {
-                this.setState({menuItems : resp});
+                this.setState({ menuItems: resp });
             });
-        }catch (e) {
+        } catch (e) {
             this.setState({
-                modalProps : {
-                    modalHeader : 'Error del lado del servidor',
-                    modalMessage : e.message,
-                    modalType : 'warning',
-                    visible : true
-                }});
+                modalProps: {
+                    modalHeader: 'Error del lado del servidor',
+                    modalMessage: e.message,
+                    modalType: 'warning',
+                    visible: true
+                }
+            });
         }
     }
 
     onClickMenuItem = (url) => {
-        if (url.includes('natural')) this.setState({currentComponent :  <ClienteNatural/>})
-        if (url.includes('juridico')) this.setState({currentComponent :  <ClienteJuridico/>})
+        if (url.includes('natural')) this.setState({ currentComponent: <ClienteNatural /> })
+        if (url.includes('juridico')) this.setState({ currentComponent: <ClienteJuridico /> })
+        if (url.includes('Trabajadores')) {
+            this.setState({ currentComponent: <Trabajador /> });
+            
+        }
         console.log(this.state.currentComponent);
     }
 
