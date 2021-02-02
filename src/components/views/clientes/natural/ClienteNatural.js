@@ -318,7 +318,7 @@ export default class ClienteNatural extends React.Component {
                        onRowDoubleClick={this.onRowDoubleClick}
                        deleteButton={false}
                        onClickDeleteButton={this.onClickDeleteButton}
-                       entity="Cliente Juridico"/>
+                       entity="Cliente Natural"/>
 
                 {/*Modal de dialogo*/}
                 <DialogModal header={this.state.modalProps.modalHeader}
