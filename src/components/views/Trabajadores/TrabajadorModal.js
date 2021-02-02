@@ -37,35 +37,48 @@ export default class TrabajadorModal extends React.Component {
     }
 
     setTrabajador = (trabajador) => {
-       if(trabajador === undefined || trabajador === null){
-           this.setState({
-            id: null,
-            ncedula: null,
-            codTrabajado: null,
-            foto: null,
-            pnombre: null,
-            snombre: nul,
-            papelli: null,
-            sapelli: null,
-            genero: null,
-            estadoC: null,
-            telefono: null,
-            correo: null,
-            direccion: null,
-            cargo: null,
-            activo: true
-           });
-       }else{
-           this.setState({
-
-           }
-           );
-       }
+        if (trabajador === undefined || trabajador === null) {
+            this.setState({
+                id: null,
+                ncedula: null,
+                codTrabajado: null,
+                foto: null,
+                pnombre: null,
+                snombre: nul,
+                papelli: null,
+                sapelli: null,
+                genero: null,
+                estadoC: null,
+                telefono: null,
+                correo: null,
+                direccion: null,
+                cargo: null,
+                activo: true
+            });
+        } else {
+            this.setState({
+                id: trabajador.data.id,
+                ncedula: trabajador.data.noCedula,
+                codTrabajado: trabajador.data.codTrabajado,
+                foto: trabajador.data.foto,
+                pnombre: trabajador.data.pnombre,
+                snombre: trabajador.data.snombre,
+                papelli: trabajador.data.papelli,
+                sapelli: trabajador.sapelli,
+                genero: { name: trabajador.data.sexo === 'M' ? 'Masculino ' : 'Femenino' },
+                estadoC: {name : trabajador.data.estadoC},
+                telefono: trabajador.data.telefono,
+                correo: trabajador.data.correo,
+                direccion: trabajador.data.direccion,
+                cargo: {name: trabajador.data.cargo},
+                activo: trabajador.data.activo
+            }
+            );
+        }
     }
 
     getTrabajador = () => {
         const trabajador = {
-        
 
         }
     }
