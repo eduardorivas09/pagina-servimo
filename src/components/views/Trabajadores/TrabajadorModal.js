@@ -80,7 +80,6 @@ export default class TrabajadorModal extends React.Component {
     getTrabajador = () => {
         const trabajador = {
 
-
         }
     }
 
