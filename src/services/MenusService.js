@@ -58,6 +58,10 @@ export class MenusService{
 
                 if (element.nombreMenu.includes('INICIO')){
                     obj.url = element.url;
+                }else{
+                    obj.command = () => {
+                        onClickMenu(element.url)
+                    }
                 }
 
                 const items = []
