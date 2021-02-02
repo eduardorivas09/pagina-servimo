@@ -83,6 +83,10 @@ export class MenusService{
                     obj.items = items
                 }
 
+                if(obj.url !== undefined && obj.url !== null){
+                    obj.url = null;
+                }
+
                 menu.push(obj);
             })
 
