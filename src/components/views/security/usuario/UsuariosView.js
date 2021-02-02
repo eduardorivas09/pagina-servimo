@@ -89,6 +89,13 @@ export default class UsuariosView extends React.Component{
         this.openEditModal(e);
     }
 
+    /**
+     * Metodo que se ejecuta al cuando el componente fue renderizado y en este mismo se cargan los datos a la tabla.
+     */
+    componentDidMount() {
+        this.loadData();
+    }
+
     render() {
         return (
             <Fragment>
