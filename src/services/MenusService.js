@@ -56,8 +56,12 @@ export class MenusService{
                     icon: element.iconClass,
                 }
 
-                if (element.url !== undefined && element.url !== null){
+                if (element.nombreMenu.includes('INICIO')){
                     obj.url = element.url;
+                }else{
+                    obj.command = () => {
+                        onClickMenu(element.url)
+                    }
                 }
 
                 const items = []
@@ -83,9 +87,18 @@ export class MenusService{
                     obj.items = items
                 }
 
-                if(obj.url !== undefined && obj.url !== null){
-                    obj.url = null;
-                }
+                // if(obj.url !== undefined && obj.url !== null){
+                //
+                //     const url = obj.url;
+                //     obj.command = () => {
+                //         onClickMenu(url)
+                //     }
+                //
+                //     // if (!obj.nombreMenu.includes('INICIO')){
+                //     //     obj.url = '';
+                //     // }
+                //
+                // }
 
                 menu.push(obj);
             })
