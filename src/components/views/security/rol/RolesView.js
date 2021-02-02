@@ -1,11 +1,10 @@
 import React, {Fragment} from 'react';
 import Table from "../../../controls/table/Table";
-import {ClienteNaturalService} from "../../../../services/clientes/ClienteNaturalService";
 import {UsuarioService} from "../../../../services/seguridad/UsuarioService";
+import {RoleService} from "../../../../services/seguridad/RoleService";
 import DialogModal from "../../alerts/DialogModal";
 
-export default class UsuariosView extends React.Component{
-
+export default class RolesView extends React.Component {
     constructor() {
         super();
         this.state = {
@@ -18,7 +17,7 @@ export default class UsuariosView extends React.Component{
             }
 
         }
-        this.addNewUser = this.addNewUser.bind(this);
+        this.addRole = this.addRole.bind(this);
         this.onRowDoubleClick = this.onRowDoubleClick.bind(this);
     }
 
@@ -28,7 +27,7 @@ export default class UsuariosView extends React.Component{
      */
     loadData(search) {
 
-        new UsuarioService()
+        new RoleService()
             .getAll()
             .then(resp => {
                 if ((resp instanceof Response && resp.status === 200) || resp instanceof Array){
@@ -50,39 +49,34 @@ export default class UsuariosView extends React.Component{
                     }});
             }
         });
-
     }
 
     /**
      * Metodo que retorna las columnas que puede mostrar la tabla
-     * @returns {({field: string, header: string, sortable: boolean}|{field: string, header: string, sortable: boolean}|{field: string, header: string, sortable: boolean}|{field: string, header: string, sortable: boolean}|{field: string, header: string, sortable: boolean})[]}
+     * @returns {[{field: string, header: string, sortable: boolean}, {field: string, header: string, sortable: boolean}, {field: string, header: string, sortable: boolean}]}
      */
     visibledColumns = () => {
         return [
             {
-                field:"userName",
-                header:"Nombre de Usuario",
+                field:"rol",
+                header:"Nombre del rol",
                 sortable:true
             },{
-                field:"rol.rol",
-                header:"Rol",
+                field:"descripcion",
+                header:"Descripcion",
                 sortable:true
             },{
                 field:"fechaCreacion",
                 header:"Fecha Creacion",
                 sortable:true
-            },{
-                field:"activo",
-                header:"Estado",
-                sortable:false
-            },
+            }
         ]
     }
 
     /**
      * Metodo que abre la pantalla de modal al dar click en el boton en agregar.
      */
-    addNewUser = () => {
+    addRole = () => {
 
     }
 
@@ -112,14 +106,18 @@ export default class UsuariosView extends React.Component{
         this.loadData();
     }
 
+    /**
+     * Reneriza el componente
+     * @returns {JSX.Element}
+     */
     render() {
         return (
             <Fragment>
                 <Table promise={this.state.data}
                        columns={this.visibledColumns()}
-                       // onClickAdd={this.addNewUser}
+                       // onClickAdd={this.addRole}
                        onRowDoubleClick={this.onRowDoubleClick}
-                       entity="Usuario"/>
+                       entity="Rol"/>
 
                 {/*Modal de dialogo*/}
                 <DialogModal header={this.state.modalProps.modalHeader}
@@ -131,5 +129,4 @@ export default class UsuariosView extends React.Component{
             </Fragment>
         );
     }
-
 }
