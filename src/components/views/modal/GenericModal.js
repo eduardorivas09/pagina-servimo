@@ -1,6 +1,8 @@
-import React from 'react';
+import React, {Fragment} from 'react';
 import {Button} from "primereact/button";
 import {Dialog} from "primereact/dialog";
+import {GenericView} from "../GenericView";
+import {Toast} from "primereact/toast";
 
 /**
  * @author Josue David Reyes Molina
@@ -10,7 +12,7 @@ import {Dialog} from "primereact/dialog";
  * @export default GenericModal
  * @export Component
  */
-export default class GenericModal extends React.Component{
+export default class GenericModal extends GenericView{
 
     /**
      * Constructor de la clase
@@ -43,16 +45,19 @@ export default class GenericModal extends React.Component{
      * @returns {JSX.Element}
      */
     #renderDialog = (component) => {
-        return  <Dialog  className="p-dialog" role="alert"
-                         header={this.props.header}
-                         position="top-bottom"
-                         maximizable={true}
-                         visible={this.props.visible}
-                         style={{ width: '50vw' }}
-                         footer={this.props.hasGuardarCancelarButtons ? this.#renderFooter : <React.Fragment/>}
-                         onHide={() => this.props.onHide()} >
-            {component}
-        </Dialog>
+        return  <Fragment>
+            <Dialog  className="p-dialog" role="alert"
+                     header={this.props.header}
+                     position="top-bottom"
+                     maximizable={true}
+                     visible={this.props.visible}
+                     style={{ width: '50vw' }}
+                     footer={this.props.hasGuardarCancelarButtons ? this.#renderFooter : <React.Fragment/>}
+                     onHide={() => this.props.onHide()} >
+                {component}
+            </Dialog>
+            <Toast ref={this.toast} position={this.right()}/>
+        </Fragment>
     }
 
     /**

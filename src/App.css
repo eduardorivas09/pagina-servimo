@@ -28,6 +28,10 @@
   color: #61dafb;
 }
 
+
+.p-inputtext {
+  padding: 0.5rem 0.5rem !important;
+}
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

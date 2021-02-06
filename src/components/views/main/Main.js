@@ -13,8 +13,12 @@ import { Button } from "primereact/button";
 import { Panel } from "primereact/panel";
 import UsuariosView from "../security/usuario/UsuariosView";
 import RolesView from '../../views/security/rol/RolesView'
+import UsuarioModalView from "../security/usuario/UsuarioModalView";
+import {UsuarioService} from "../../../services/seguridad/UsuarioService";
+import {GenericView} from "../GenericView";
+import {Toast} from "primereact/toast";
 
-export default class Main extends React.Component {
+export default class Main extends GenericView {
 
     /**
      * Constructor de la clase donde se establecen los estodos y eventos vinculados al componente.
@@ -25,10 +29,14 @@ export default class Main extends React.Component {
             redirect: false,   //  Propiedad de tipo boolean que si es true la pagina se redirigira hacia el login.
             selectedItem: "",
             menuItems: [],
-            currentComponent: <h1>Hola a todos</h1>
+            currentComponent: <h1>Hola a todos</h1>,
+            modalVisible: false
         }
 
         this.onClickMenu = this.onClickMenu.bind(this);
+        this.onCloseModal = this.onCloseModal.bind(this);
+        this.onClickSave = this.onClickSave.bind(this);
+        this.usuarioModal = React.createRef();
     }
 
     onClickMenu(e) {
@@ -56,7 +64,49 @@ export default class Main extends React.Component {
         }
     }
 
-    render() {
+    showMe = async () => {
+        const user = await new UsuarioService().getCurrent()
+        console.log(user)
+        this.usuarioModal.current.setUser(user);
+        this.setState({
+            modalVisible : true
+        });
+    }
+
+    onCloseModal = () => {
+        this.setState({
+            modalVisible : false
+        });
+    }
+
+    onClickSave = () => {
+        const usuario = this.usuarioModal.current.getUser();
+        if (usuario !== null) {
+            this.onCloseModal();
+            const servicio = new UsuarioService();
+            if (usuario.id !== null && usuario.id !== undefined) {
+                servicio.updateCurrent(usuario).then(response => {
+                    this.mostrarMensajeOk(
+                        "Tus datos se han actualizado. Para continuar debe iniciar sesion nuevamente.",
+                        `${response.userName}, tus datos se han actualizado. Tu rol es ${response.rol.rol}`
+                    );
+
+                    setTimeout(this.getOut, 7000);
+
+                }).catch(e => {
+                    this.mostrarMensajeError('No se actualizo el usuario', e.message);
+                });
+            }
+        }
+    }
+
+    getOut = () => {
+        Session.closeSession();
+        this.isLogged();
+    }
+
+
+        render() {
 
         return (
             (this.state.redirect)
@@ -75,6 +125,17 @@ export default class Main extends React.Component {
                         {/*{this.props.view}*/}
                         {this.state.currentComponent}
                     </Panel>
+
+                    <UsuarioModalView
+                        header={'Actualiza tu informacion'}
+                        visible={this.state.modalVisible}
+                        onHide={this.onCloseModal}
+                        hasGuardarCancelarButtons={true}
+                        onClickNoButton={this.onCloseModal}
+                        onClickYesButton={this.onClickSave}
+                        readOnly={true}
+                        ref={this.usuarioModal}/>
+                    <Toast ref={this.toast} position={this.right()}/>
                 </Fragment>
         );
     }
@@ -84,16 +145,18 @@ export default class Main extends React.Component {
 
         const service = new MenusService();
         this.loadMenu(service);
-        service.getPopUpMenuItems().then(resp => {
+        service.getPopUpMenuItems(this.showMe).then(resp => {
             this.setState({ popUpMenu: resp });
         });
     }
 
     loadMenu = async (service) => {
         try {
-            await service.getMainMenuItems(this.onClickMenuItem).then(resp => {
-                this.setState({ menuItems: resp });
-            });
+            if (await Session.isLogged()){
+                await service.getMainMenuItems(this.onClickMenuItem).then(resp => {
+                    this.setState({ menuItems: resp });
+                });
+            }
         } catch (e) {
             this.setState({
                 modalProps: {

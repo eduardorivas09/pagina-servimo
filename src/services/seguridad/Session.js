@@ -48,6 +48,7 @@ export class Session{
                     Session.#token = resp['token'];
                     Session.#logged = true;
                     localStorage.setItem('token',resp['token']);
+                    console.log(auth)
                 }).catch(e => {
                     Session.#logged = false;
                     console.log(e)
@@ -61,6 +62,8 @@ export class Session{
                     if (e instanceof Response && (e.status === 500 || e.status === 403)){
                         throw new AuthenticationError();
                     }
+
+                    throw e;
 
                 });
         }else{
@@ -150,7 +153,16 @@ export class Session{
                  return false;
              }
          }
-         console.log('Ya esta logeado!');
+         console.log('Ya esta logeado! ' + this.#logged);
          return this.#logged;
+     }
+
+    /**
+     * Cierra la sesion actual.
+     */
+    static closeSession = () => {
+         localStorage.removeItem('token');
+         this.#logged = false;
+        this.#token = null;
      }
 }

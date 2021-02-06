@@ -2,6 +2,7 @@ import setting from './Settings.json';
 import {Session} from "./seguridad/Session";
 import {NetworkConnectionError} from "../util/Error/NetworkConnectionError";
 import {SavingError} from "../util/Error/SavingError";
+import {AuthorizationError} from "../util/Error/AuthorizationError";
 
 export class RequestService {
 
@@ -64,8 +65,13 @@ export class RequestService {
             .then(resp => resp.ok ? Promise.resolve(resp) : Promise.reject(resp))
             .then(resp => resp.json())
             .catch(e => {
+                console.log(e);
                 if (e instanceof Error &&  e.message.includes('NetworkError')){
                     throw new NetworkConnectionError();
+                }
+
+                if (e instanceof Response && e.status === 403){
+                    throw new AuthorizationError();
                 }
 
                 if (e instanceof Response && e.status === 500){
@@ -73,7 +79,7 @@ export class RequestService {
                 }
 
                 if (e instanceof Response && e.status === 409){//CONFLICT
-                    throw new SavingError("un problema con la informacion.");
+                    throw new SavingError("a una restriccion. Consulte con el administrador.");
                     // throw new AuthenticationError();
                 }
 
