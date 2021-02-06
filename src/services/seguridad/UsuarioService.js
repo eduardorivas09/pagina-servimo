@@ -11,7 +11,7 @@ export class UsuarioService extends AbstractService {
     }
 
     getCurrent = () => {
-        let url = setting.admin + "users/me"
+        let url = setting.public + "me"
         return new RequestService().doPost(
             url,
             JSON.stringify({username : null, password : null, token : Session.getToken()}),
@@ -31,6 +31,14 @@ export class UsuarioService extends AbstractService {
 
     update = (obj) => {
         let url = setting.admin + `users/${obj.id}`
+        return new RequestService().doPut(url,JSON.stringify(obj),true)
+            .catch(e => {
+                throw e;
+            });
+    }
+
+    updateCurrent = (obj) => {
+        let url = setting.public + `me/${obj.id}`
         return new RequestService().doPut(url,JSON.stringify(obj),true)
             .catch(e => {
                 throw e;

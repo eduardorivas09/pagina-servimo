@@ -156,4 +156,13 @@ export class Session{
          console.log('Ya esta logeado! ' + this.#logged);
          return this.#logged;
      }
+
+    /**
+     * Cierra la sesion actual.
+     */
+    static closeSession = () => {
+         localStorage.removeItem('token');
+         this.#logged = false;
+        this.#token = null;
+     }
 }

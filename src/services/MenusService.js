@@ -119,7 +119,7 @@ export class MenusService{
                            label: 'Editar',
                            icon: 'pi pi-user-edit',
                            command: () => {
-                               // editCallBack();
+                               editCallBack();
                            }
                        },
                        {

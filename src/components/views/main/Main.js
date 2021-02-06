@@ -15,8 +15,10 @@ import UsuariosView from "../security/usuario/UsuariosView";
 import RolesView from '../../views/security/rol/RolesView'
 import UsuarioModalView from "../security/usuario/UsuarioModalView";
 import {UsuarioService} from "../../../services/seguridad/UsuarioService";
+import {GenericView} from "../GenericView";
+import {Toast} from "primereact/toast";
 
-export default class Main extends React.Component {
+export default class Main extends GenericView {
 
     /**
      * Constructor de la clase donde se establecen los estodos y eventos vinculados al componente.
@@ -83,17 +85,24 @@ export default class Main extends React.Component {
             this.onCloseModal();
             const servicio = new UsuarioService();
             if (usuario.id !== null && usuario.id !== undefined) {
-                servicio.update(usuario).then(response => {
+                servicio.updateCurrent(usuario).then(response => {
                     this.mostrarMensajeOk(
-                        "Tus datos se han actualizado",
+                        "Tus datos se han actualizado. Para continuar debe iniciar sesion nuevamente.",
                         `${response.userName}, tus datos se han actualizado. Tu rol es ${response.rol.rol}`
                     );
-                    this.loadData()
+
+                    setTimeout(this.getOut, 7000);
+
                 }).catch(e => {
                     this.mostrarMensajeError('No se actualizo el usuario', e.message);
                 });
             }
         }
+    }
+
+    getOut = () => {
+        Session.closeSession();
+        this.isLogged();
     }
 
 
@@ -126,6 +135,7 @@ export default class Main extends React.Component {
                         onClickYesButton={this.onClickSave}
                         readOnly={true}
                         ref={this.usuarioModal}/>
+                    <Toast ref={this.toast} position={this.right()}/>
                 </Fragment>
         );
     }
@@ -142,9 +152,11 @@ export default class Main extends React.Component {
 
     loadMenu = async (service) => {
         try {
-            await service.getMainMenuItems(this.onClickMenuItem).then(resp => {
-                this.setState({ menuItems: resp });
-            });
+            if (await Session.isLogged()){
+                await service.getMainMenuItems(this.onClickMenuItem).then(resp => {
+                    this.setState({ menuItems: resp });
+                });
+            }
         } catch (e) {
             this.setState({
                 modalProps: {

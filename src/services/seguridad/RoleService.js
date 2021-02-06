@@ -4,7 +4,7 @@ import {RequestService} from "../RequestService";
 
 export class RoleService extends AbstractService {
     getAll = () => {
-        let url = setting.admin + "roles"
+        let url = setting.public + "roles"
         return this.doGet(url);
     }
 
