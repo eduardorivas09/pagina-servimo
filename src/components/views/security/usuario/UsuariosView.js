@@ -3,23 +3,26 @@ import Table from "../../../controls/table/Table";
 import {ClienteNaturalService} from "../../../../services/clientes/ClienteNaturalService";
 import {UsuarioService} from "../../../../services/seguridad/UsuarioService";
 import DialogModal from "../../alerts/DialogModal";
+import {Toast} from "primereact/toast";
+import {GenericView} from "../../GenericView";
+import UsuarioModalView from "./UsuarioModalView";
 
-export default class UsuariosView extends React.Component{
+/**
+ * Clase que
+ */
+export default class UsuariosView extends GenericView{
 
     constructor() {
         super();
         this.state = {
             data : [],
-            modalProps : {
-                modalHeader : null,
-                modalMessage : null,
-                modalType : 'info',
-                visible : false
-            }
-
+            modaVisible : false
         }
         this.addNewUser = this.addNewUser.bind(this);
         this.onRowDoubleClick = this.onRowDoubleClick.bind(this);
+        this.onCloseModal = this.onCloseModal.bind(this);
+        this.onClickSave = this.onClickSave.bind(this);
+
     }
 
     /**
@@ -41,13 +44,7 @@ export default class UsuariosView extends React.Component{
             }).catch(e => {
 
             if (e instanceof Error){
-                this.setState({
-                    modalProps : {
-                        modalHeader : 'Acceso denegado',
-                        modalMessage : e.message,
-                        modalType : 'warning',
-                        visible : true
-                    }});
+                this.mostrarMensajeError('Acceso denegado', e.message);
             }
         });
 
@@ -83,26 +80,17 @@ export default class UsuariosView extends React.Component{
      * Metodo que abre la pantalla de modal al dar click en el boton en agregar.
      */
     addNewUser = () => {
-
+        this.setState({
+            modaVisible : true
+        });
     }
 
     /**
      * Metodo que abre el modal para editar un registro al momento de dar click en una fila.
-     * @param e
+     * @param e objeto a settear al modal.
      */
     onRowDoubleClick = (e) => {
-        this.openEditModal(e);
-    }
-
-    /**
-     * El metodo show abre el modal.
-     */
-    onHide = () => {
-        this.setState({
-            modalProps : {
-                visible : false
-            }
-        });
+        // LLAMA AL MODAL DE AGREGAR - EDITAR Y LE PASA EL OBJECTO e
     }
 
     /**
@@ -112,22 +100,33 @@ export default class UsuariosView extends React.Component{
         this.loadData();
     }
 
+    onCloseModal = () => {
+        this.setState({
+            modaVisible : false
+        });
+    }
+
+    onClickSave = () => {
+
+    }
+
     render() {
         return (
             <Fragment>
                 <Table promise={this.state.data}
                        columns={this.visibledColumns()}
-                       // onClickAdd={this.addNewUser}
+                       onClickAdd={this.addNewUser}
                        onRowDoubleClick={this.onRowDoubleClick}
                        entity="Usuario"/>
 
-                {/*Modal de dialogo*/}
-                <DialogModal header={this.state.modalProps.modalHeader}
-                             textBody={this.state.modalProps.modalMessage}
-                             hasYesNotButtons={false}
-                             modalType={this.state.modalProps.modalType}
-                             visible={this.state.modalProps.visible}
-                             onHide={this.onHide}/>
+                <UsuarioModalView
+                    header={'Usuarios'}
+                    visible={this.state.modaVisible}
+                    onHide={this.onCloseModal}
+                    hasGuardarCancelarButtons={true}
+                    onClickNoButton={this.onCloseModal} onClickYesButton={this.onClickSave}/>
+
+                <Toast ref={this.toast} position={this.right()}/>
             </Fragment>
         );
     }

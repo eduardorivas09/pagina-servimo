@@ -3,18 +3,14 @@ import Table from "../../../controls/table/Table";
 import {UsuarioService} from "../../../../services/seguridad/UsuarioService";
 import {RoleService} from "../../../../services/seguridad/RoleService";
 import DialogModal from "../../alerts/DialogModal";
+import {GenericView} from "../../GenericView";
+import {Toast} from "primereact/toast";
 
-export default class RolesView extends React.Component {
+export default class RolesView extends GenericView{
     constructor() {
         super();
         this.state = {
-            data : [],
-            modalProps : {
-                modalHeader : null,
-                modalMessage : null,
-                modalType : 'info',
-                visible : false
-            }
+            data : []
 
         }
         this.addRole = this.addRole.bind(this);
@@ -40,13 +36,7 @@ export default class RolesView extends React.Component {
             }).catch(e => {
 
             if (e instanceof Error){
-                this.setState({
-                    modalProps : {
-                        modalHeader : 'Acceso denegado',
-                        modalMessage : e.message,
-                        modalType : 'warning',
-                        visible : true
-                    }});
+                this.mostrarMensajeError('Acceso denegado', e.message);
             }
         });
     }
@@ -82,21 +72,10 @@ export default class RolesView extends React.Component {
 
     /**
      * Metodo que abre el modal para editar un registro al momento de dar click en una fila.
-     * @param e
+     * @param e objeto a settear al modal.
      */
     onRowDoubleClick = (e) => {
-        this.openEditModal(e);
-    }
-
-    /**
-     * El metodo show abre el modal.
-     */
-    onHide = () => {
-        this.setState({
-            modalProps : {
-                visible : false
-            }
-        });
+        // LLAMA AL MODAL DE AGREGAR - EDITAR Y LE PASA EL OBJECTO e
     }
 
     /**
@@ -119,13 +98,7 @@ export default class RolesView extends React.Component {
                        onRowDoubleClick={this.onRowDoubleClick}
                        entity="Rol"/>
 
-                {/*Modal de dialogo*/}
-                <DialogModal header={this.state.modalProps.modalHeader}
-                             textBody={this.state.modalProps.modalMessage}
-                             hasYesNotButtons={false}
-                             modalType={this.state.modalProps.modalType}
-                             visible={this.state.modalProps.visible}
-                             onHide={this.onHide}/>
+                <Toast ref={this.toast} position={this.right()}/>
             </Fragment>
         );
     }
