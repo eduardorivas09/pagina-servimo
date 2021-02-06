@@ -8,8 +8,9 @@ import ClienteNaturalModal from "./ClienteNaturalModal";
 import { Toast } from 'primereact/toast';
 import {Validation} from "../../../../util/validations/Validation";
 import {Session} from "../../../../services/seguridad/Session";
+import {GenericView} from "../../GenericView";
 
-export default class ClienteNatural extends React.Component {
+export default class ClienteNatural extends GenericView{
 
     constructor(props) {
         super(props);
@@ -19,12 +20,12 @@ export default class ClienteNatural extends React.Component {
             data: [],
             selectedRow : null,
             rowId: -1,
-            modalProps : {
-                modalHeader : null,
-                modalMessage : null,
-                modalType : 'info',
-                visible : false
-            }
+            // modalProps : {
+            //     modalHeader : null,
+            //     modalMessage : null,
+            //     modalType : 'info',
+            //     visible : false
+            // }
         }
 
         this.ClienteModal = React.createRef();
@@ -78,35 +79,28 @@ export default class ClienteNatural extends React.Component {
                     console.log(resp)
                     this.setState({
                         data: resp
-                    })
+                    });
                 }
 
             }).catch(e => {
-
             if (e instanceof Error){
-                this.setState({
-                    modalProps : {
-                        modalHeader : 'Acceso denegado',
-                        modalMessage : e.message,
-                        modalType : 'warning',
-                        visible : true
-                    }});
+                this.mostrarMensajeError('Acceso denegado', e.message)
             }
         });
 
     }
 
 
-    /**
-     * El metodo show abre el modal.
-     */
-    onHide = () => {
-        this.setState({
-            modalProps : {
-                visible : false
-            }
-        });
-    }
+    // /**
+    //  * El metodo show abre el modal.
+    //  */
+    // onHide = () => {
+    //     this.setState({
+    //         modalProps : {
+    //             visible : false
+    //         }
+    //     });
+    // }
 
     visibledColumns = () => {
         return [
@@ -172,25 +166,17 @@ export default class ClienteNatural extends React.Component {
         const clienteNaturalService = new ClienteNaturalService();
         clienteNaturalService.update(cliente)
             .then(response => {
-                this.setState({
-                    modalProps : {
-                        modalHeader : 'Cliente Natural Actualizado',
-                        modalMessage : 'Cliente ' + response.primerNombre + ' ' + response.primerApellido ,
-                        modalType : 'success',
-                        visible : true
-                    }});
-                console.log(response);
+
+                this.mostrarMensajeOk(
+                    'Cliente Natural Actualizado',
+                    'Cliente ' + response.primerNombre + ' ' + response.primerApellido
+                );
+
                 this.loadData();
                 this.onHideModal();
             })
             .catch(e => {
-                this.setState({
-                    modalProps : {
-                        modalHeader : 'No se actualizo el Cliente Natural',
-                        modalMessage : e.message,
-                        modalType : 'warning',
-                        visible : true
-                    }});
+                this.mostrarMensajeError('No se actualizo el Cliente Natural', e.message)
             });
     }
 
@@ -198,25 +184,17 @@ export default class ClienteNatural extends React.Component {
         const clienteNaturalService = new ClienteNaturalService();
         clienteNaturalService.save(cliente)
             .then(response => {
-                this.setState({
-                    modalProps : {
-                        modalHeader : 'Registro guardado Cliente Natural',
-                        modalMessage : 'Cliente ' + response.primerNombre + ' ' + response.primerApellido ,
-                        modalType : 'success',
-                        visible : true
-                    }});
-                console.log(response);
+
+                this.mostrarMensajeOk(
+                    'Registro guardado Cliente Natural',
+                    'Cliente guardado: ' + response.primerNombre + ' ' + response.primerApellido
+                );
+
                 this.loadData();
                 this.onHideModal();
             })
             .catch(e => {
-                this.setState({
-                    modalProps : {
-                        modalHeader : 'No se guardo el Cliente Natural',
-                        modalMessage : e.message,
-                        modalType : 'warning',
-                        visible : true
-                    }});
+                this.mostrarMensajeError('No se guardo el Cliente Natural', e.message);
             });
     }
 
@@ -239,61 +217,57 @@ export default class ClienteNatural extends React.Component {
             return false;
         }
         if (cliente.noCedula === null){
-            this.mostrarMensaje('warn', 'Cedula: requerida', 'Se requiere un numero de cedula');
+            this.mostrarMensajeAdvertencia('Cedula: requerida', 'Se requiere un numero de cedula');
             return false;
         }
 
         let isValid = Validation.validarCedula(cliente.noCedula);
 
         if (!isValid){
-            this.mostrarMensaje('warn', 'Cedula: incorrecta', 'Se requiere un numero de cedula valido');
+            this.mostrarMensajeAdvertencia('Cedula: incorrecta', 'Se requiere un numero de cedula valido');
             return false;
         }
         if (cliente.primerNombre === null || cliente.primerNombre.length == 0){
-            this.mostrarMensaje('warn', 'Primer nombre: requerido', 'Se requiere el primer nombre');
+            this.mostrarMensajeAdvertencia( 'Primer nombre: requerido', 'Se requiere el primer nombre');
             return false;
         }
         if (cliente.primerApellido === null || cliente.primerApellido.length == 0){
-            this.mostrarMensaje('warn', 'Primer apellido: requerido', 'Se requiere el primer apellido');
+            this.mostrarMensajeAdvertencia('Primer apellido: requerido', 'Se requiere el primer apellido');
             return false;
         }
         if (cliente.sexo === null || cliente.sexo.length == 0){
-            this.mostrarMensaje('warn', 'Genero: requerido', 'Se requiere el genero del cliente');
+            this.mostrarMensajeAdvertencia( 'Genero: requerido', 'Se requiere el genero del cliente');
             return false;
         }
         if (cliente.estadoCivil === null || cliente.estadoCivil.length == 0){
-            this.mostrarMensaje('warn', 'Estado Civil: requerido', 'Se requiere el estado civil del cliente');
+            this.mostrarMensajeAdvertencia('Estado Civil: requerido', 'Se requiere el estado civil del cliente');
             return false;
         }
 
         if (cliente.telefono === null || cliente.telefono.length == 0){
-            this.mostrarMensaje('warn', 'Telefono: requerido', 'Se requiere el telefono del cliente');
+            this.mostrarMensajeAdvertencia('Telefono: requerido', 'Se requiere el telefono del cliente');
             return false;
         }
         isValid = Validation.validarTelefono(cliente.telefono)
 
         if (isValid){
-            this.mostrarMensaje('warn', 'Telefono: incorrecto', 'Se requiere el telefono con un formato correcto');
+            this.mostrarMensajeAdvertencia('Telefono: incorrecto', 'Se requiere el telefono con un formato correcto');
             return false;
         }
 
         if (cliente.correo === null || cliente.correo.length == 0){
-            this.mostrarMensaje('warn', 'Correo: requerido', 'Se requiere el correo del cliente');
+            this.mostrarMensajeAdvertencia('Correo: requerido', 'Se requiere el correo del cliente');
             return false;
         }
         if (cliente.direccion === null || cliente.direccion.length == 0){
-            this.mostrarMensaje('warn', 'Direccion: requerido', 'Se requiere la direccion del cliente');
+            this.mostrarMensajeAdvertencia('Direccion: requerido', 'Se requiere la direccion del cliente');
             return false;
         }
         if (cliente.activo === null || cliente.activo.length == 0){
-            this.mostrarMensaje('warn', 'Estado: requerido', 'Se requiere el estado del cliente');
+            this.mostrarMensajeAdvertencia('Estado: requerido', 'Se requiere el estado del cliente');
             return false;
         }
         return true;
-    }
-
-    mostrarMensaje = (severity, headerMessage, mensaje) => {
-        this.toast.current.show({severity:severity, summary: headerMessage, detail:mensaje, life: 5000});
     }
 
     onClickNoButton = () => {
@@ -318,16 +292,16 @@ export default class ClienteNatural extends React.Component {
                        onRowDoubleClick={this.onRowDoubleClick}
                        deleteButton={false}
                        onClickDeleteButton={this.onClickDeleteButton}
-                       entity="Cliente Juridico"/>
+                       entity="Cliente Natural"/>
 
                 {/*Modal de dialogo*/}
-                <DialogModal header={this.state.modalProps.modalHeader}
-                             textBody={this.state.modalProps.modalMessage}
-                             hasYesNotButtons={false}
-                             modalType={this.state.modalProps.modalType}
-                             visible={this.state.modalProps.visible}
-                             selectedObject={this.state.selectedRow}
-                             onHide={this.onHide}/>
+                {/*<DialogModal header={this.state.modalProps.modalHeader}*/}
+                {/*             textBody={this.state.modalProps.modalMessage}*/}
+                {/*             hasYesNotButtons={false}*/}
+                {/*             modalType={this.state.modalProps.modalType}*/}
+                {/*             visible={this.state.modalProps.visible}*/}
+                {/*             selectedObject={this.state.selectedRow}*/}
+                {/*             onHide={this.onHide}/>*/}
 
                 <ClienteNaturalModal visible={this.state.showModal}
                                      onHide={this.onHideModal}
@@ -335,7 +309,7 @@ export default class ClienteNatural extends React.Component {
                                      onClickYesButton={this.onClickYesButton}
                                      ref={this.ClienteModal}/>
 
-                <Toast ref={this.toast} position="top-left"/>
+                <Toast ref={this.toast} position={this.right()}/>
             </Fragment>
 
         );

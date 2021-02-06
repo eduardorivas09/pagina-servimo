@@ -3,20 +3,30 @@ import {Button} from "primereact/button";
 import {Dialog} from "primereact/dialog";
 
 /**
+ * @author Josue David Reyes Molina
+ * @version 1.0
  * @class GenericModal es una clase que permite mostrar una pantalla en forma de modal.
+ *
  * @export default GenericModal
  * @export Component
  */
 export default class GenericModal extends React.Component{
 
-
-    constructor(props) {
-        super(props);
-        this.props = props;
-        this.renderFooter = this.renderFooter.bind(this);
+    /**
+     * Constructor de la clase
+     * @since 1.0
+     */
+    constructor() {
+        super();
     }
 
-    renderFooter = () => {
+    /**
+     * Metodo privado que retorna el componente visual de footer.
+     * @since 1.0
+     *
+     * @returns {JSX.Element}
+     */
+    #renderFooter = () => {
         return (
             <div>
                 <Button label="No" icon="pi pi-times" onClick={this.props.onClickNoButton} className="p-button-text"/>
@@ -26,26 +36,44 @@ export default class GenericModal extends React.Component{
     }
 
     /**
-     * Renderiza el componente.
+     * Metodo privado que retorna un componente {Dialog}
+     * @since 1.0
+     *
+     * @param component
+     * @returns {JSX.Element}
      */
-    render() {
-        let modalType = this.props.modalType;
-        if (modalType !== 'info' && modalType !== 'warning' && modalType !== 'success'){
-            modalType = 'info';
-        }
-        console.log(this.props.body)
-
-        return(
-            <Dialog  className="p-dialog" role="alert"
-                     header={this.props.header}
-                     position="top-right"
-                     visible={this.props.visible}
-                     style={{ width: '50vw' }}
-                     footer={this.props.hasGuardarCancelarButtons ? this.renderFooter() : <React.Fragment/>}
-                     onHide={() => this.props.onHide()} >
-                {this.props.body}
-            </Dialog>
-        );
+    #renderDialog = (component) => {
+        return  <Dialog  className="p-dialog" role="alert"
+                         header={this.props.header}
+                         position="top-bottom"
+                         maximizable={true}
+                         visible={this.props.visible}
+                         style={{ width: '50vw' }}
+                         footer={this.props.hasGuardarCancelarButtons ? this.#renderFooter : <React.Fragment/>}
+                         onHide={() => this.props.onHide()} >
+            {component}
+        </Dialog>
     }
 
+    /**
+     * Metodo que contiene el cuerpo del modal y debe ser sobre-escrito desde las clases hijas
+     * @since 1.0
+     *
+     * @returns {JSX.Element}
+     */
+    toRender = () => {
+        return <h1>Aqui el contenido del sitio, no metas un render en tu pestanha</h1>
+    }
+
+    /**
+     * Renderiza el componente.
+     * @since 1.0
+     *
+     * @returns {JSX.Element}
+     */
+    render() {
+        return (
+            this.#renderDialog(this.toRender())
+        );
+    }
 }
