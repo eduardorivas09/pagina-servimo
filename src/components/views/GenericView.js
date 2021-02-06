@@ -69,7 +69,7 @@ export class GenericView extends React.Component{
      * @param mensaje cuerpo del mensaje
      */
     #mostrarMensaje = (severity, headerMessage, mensaje) => {
-        this.toast.current.show({severity:severity, summary: headerMessage, detail:mensaje, life: 5000});
+        this.toast.current.show({severity:severity, summary: headerMessage, detail:mensaje, life: 30000});
     }
 
     /**

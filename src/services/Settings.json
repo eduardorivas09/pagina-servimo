@@ -3,5 +3,6 @@
   "authenticate" : "authenticate",
   "authenticateToken" : "authenticate/token",
   "main" : "main/",
-  "admin" : "admin/"
+  "admin" : "admin/",
+  "public" : "public/"
 }

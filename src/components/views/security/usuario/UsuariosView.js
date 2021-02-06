@@ -16,13 +16,15 @@ export default class UsuariosView extends GenericView{
         super();
         this.state = {
             data : [],
-            modaVisible : false
+            modalVisible : false
         }
+
         this.addNewUser = this.addNewUser.bind(this);
         this.onRowDoubleClick = this.onRowDoubleClick.bind(this);
         this.onCloseModal = this.onCloseModal.bind(this);
         this.onClickSave = this.onClickSave.bind(this);
 
+        this.usuarioModal = React.createRef();
     }
 
     /**
@@ -35,7 +37,6 @@ export default class UsuariosView extends GenericView{
             .getAll()
             .then(resp => {
                 if ((resp instanceof Response && resp.status === 200) || resp instanceof Array){
-                    console.log(resp)
                     this.setState({
                         data: resp
                     })
@@ -80,8 +81,9 @@ export default class UsuariosView extends GenericView{
      * Metodo que abre la pantalla de modal al dar click en el boton en agregar.
      */
     addNewUser = () => {
+        this.usuarioModal.current.setUser(null);
         this.setState({
-            modaVisible : true
+            modalVisible : true
         });
     }
 
@@ -91,6 +93,10 @@ export default class UsuariosView extends GenericView{
      */
     onRowDoubleClick = (e) => {
         // LLAMA AL MODAL DE AGREGAR - EDITAR Y LE PASA EL OBJECTO e
+        this.usuarioModal.current.setUser(e)
+        this.setState({
+            modalVisible : true
+        });
     }
 
     /**
@@ -102,12 +108,37 @@ export default class UsuariosView extends GenericView{
 
     onCloseModal = () => {
         this.setState({
-            modaVisible : false
+            modalVisible : false
         });
     }
 
     onClickSave = () => {
-
+        const usuario = this.usuarioModal.current.getUser();
+        if (usuario !== null) {
+            this.onCloseModal();
+            const servicio = new UsuarioService();
+            if (usuario.id === null || usuario.id === undefined) {
+                servicio.save(usuario).then(response => {
+                    this.mostrarMensajeOk(
+                        "Usuario registrado.",
+                        `El usuario ${response.userName} se ha guardado con el rol ${response.rol.rol}`
+                    );
+                    this.loadData()
+                }).catch(e => {
+                    this.mostrarMensajeError('No se guardo el usuario', e.message);
+                });
+            } else {
+                servicio.update(usuario).then(response => {
+                    this.mostrarMensajeOk(
+                        "Usuario actualizado.",
+                        `El usuario ${response.userName} se ha actualizado con el rol ${response.rol.rol}`
+                    );
+                    this.loadData()
+                }).catch(e => {
+                    this.mostrarMensajeError('No se actualizo el usuario', e.message);
+                });
+            }
+        }
     }
 
     render() {
@@ -121,10 +152,13 @@ export default class UsuariosView extends GenericView{
 
                 <UsuarioModalView
                     header={'Usuarios'}
-                    visible={this.state.modaVisible}
+                    visible={this.state.modalVisible}
                     onHide={this.onCloseModal}
                     hasGuardarCancelarButtons={true}
-                    onClickNoButton={this.onCloseModal} onClickYesButton={this.onClickSave}/>
+                    onClickNoButton={this.onCloseModal}
+                    onClickYesButton={this.onClickSave}
+                    readOnly={false}
+                    ref={this.usuarioModal}/>
 
                 <Toast ref={this.toast} position={this.right()}/>
             </Fragment>

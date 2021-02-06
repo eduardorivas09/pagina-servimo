@@ -109,7 +109,7 @@ export class MenusService{
         });
     }
 
-    getPopUpMenuItems = () => {
+    getPopUpMenuItems = (editCallBack) => {
         return new Promise(resolve => {
            const items =[
                {
@@ -118,9 +118,9 @@ export class MenusService{
                        {
                            label: 'Editar',
                            icon: 'pi pi-user-edit',
-                           // command: () => {
-                           //     this.toast.show({ severity: 'success', summary: 'Updated', detail: 'Data Updated', life: 3000 });
-                           // }
+                           command: () => {
+                               editCallBack();
+                           }
                        },
                        {
                            label: 'Preferencias',
