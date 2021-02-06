@@ -50,13 +50,14 @@ export default class Trabajador extends React.Component {
         })
 
         if (this.state.busqueda.trim().length === 0) {
-          this.loadData();
+            this.loadData();
         }
     }
 
-    loadData(search) {
-        new TrajadoresService()
-            .getFiltered(search)
+    loadData() {
+
+        new TrabajadoresService()
+            .get()
             .then(resp => {
                 if (resp instanceof Response && resp.status === 2000 || resp instanceof Array) {
                     console.log(resp)
@@ -83,10 +84,10 @@ export default class Trabajador extends React.Component {
     }
 
 
-     componentDidMount() {
-         Session.isLogged();
-         this.loadData();
-     }
+    componentDidMount() {
+      
+        this.loadData();
+    }
 
     onHide = () => {
         this.setState({
@@ -166,12 +167,10 @@ export default class Trabajador extends React.Component {
 
         return (
             <Fragment>
-                {/* {/Tabal de Prime reac/} */}
-           
-                //colums={this.visibledColumns()}
-                //onRowDoubleClik = {this.onRowDoubleClik}
-                //entity="Trabajador"
-                />
+            
+       <h1>
+           hola puto mundo
+       </h1>
             </Fragment>
         );
 
