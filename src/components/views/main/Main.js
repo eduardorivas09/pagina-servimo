@@ -1,12 +1,9 @@
 import React, { Fragment } from 'react';
 import './main.css';
 import $ from 'jquery';
-import menu from '../../../static/icons/icons8-menu-24.png';
 import ClienteNatural from "../clientes/natural/ClienteNatural";
-import BreadCrumb from "../../panels/nav/breadcrumb/BreadCrumb";
 import ClienteJuridico from "../clientes/juridico/ClienteJuridico";
 import Trabajador from "../Trabajadores/Trabajador";
-import ContratoClientesJuridico from "../contrato/juridico/ContratoClientesJuridico";
 import { Redirect } from "react-router-dom";
 import { Session } from "../../../services/seguridad/Session";
 import { MenusService } from "../../../services/MenusService";
@@ -14,7 +11,8 @@ import { Menubar } from "primereact/menubar";
 import { Menu } from "primereact/menu";
 import { Button } from "primereact/button";
 import { Panel } from "primereact/panel";
-import Customer from "../clientes/Customer";
+import UsuariosView from "../security/usuario/UsuariosView";
+import RolesView from '../../views/security/rol/RolesView'
 
 export default class Main extends React.Component {
 
@@ -111,10 +109,10 @@ export default class Main extends React.Component {
     onClickMenuItem = (url) => {
         if (url.includes('natural')) this.setState({ currentComponent: <ClienteNatural /> })
         if (url.includes('juridico')) this.setState({ currentComponent: <ClienteJuridico /> })
-        if (url.includes('Trabajadores')) {
-            this.setState({ currentComponent: <Trabajador /> });
-            
-        }
+        if (url.includes('Trabajadores')) this.setState({ currentComponent: <Trabajador /> });
+        if (url.includes('users')) this.setState({ currentComponent: <UsuariosView /> })
+        if (url.includes('roles')) this.setState({ currentComponent: <RolesView /> })
+
         console.log(this.state.currentComponent);
     }
 
