@@ -3,10 +3,13 @@ import React, { Fragment, useState } from 'react';
 import 'bootstrap';
 import { TrabajadoresService } from "../../../services/Trabajadores/TrabajadoresService";
 import Table from "../../controls/table/Table";
-//import TrabajadorModal from "./TrabajadorModal";
-import { Alert } from 'bootstrap';
+import { Toast } from 'primereact/toast';
+import TrabajadorModal from "./TrabajadorModal";
+import { GenericView } from '../GenericView';
+import { ClienteNaturalService } from '../../../services/clientes/ClienteNaturalService';
+//import { Validation } from "../../../../util/validations/Validation";
 
-export default class Trabajador extends React.Component {
+export default class Trabajador extends GenericView {
 
     constructor(props) {
         super(props);
@@ -16,19 +19,16 @@ export default class Trabajador extends React.Component {
             data: [],
             selectedRow: null,
             rowid: -1,
-            ModalProps: {
-                modalHeader: null,
-                modalMessage: null,
-                modalType: 'info',
-                visible: false
-
-            }
+          
         }
-        // this.EmpleadoModal = React.createRef();
+        this.TrabajadorModal = React.createRef();
         this.buscar = this.buscar.bind(this)
+        this.onSearchChange = this.onSearchChange.bind(this)
         this.onHideModal = this.onHideModal.bind(this)
         this.onRowDoubleClik = this.onRowDoubleClik.bind(this)
         this.onClickNoButton = this.onClickNoButton.bind(this)
+        this.onClickYesButton = this.onClickYesButton.bind(this)
+        this.addAgregarTrabajador = this.addAgregarTrabajador.bind(this)
         this.toast = React.createRef();
 
     }
@@ -83,16 +83,80 @@ export default class Trabajador extends React.Component {
 
     }
 
+    addAgregarTrabajador = () => {
+
+        this.setState({
+            showModal: true
+        });
+        //this.TrabajadorModal.current.setState(null);
+    }
+
+    updateTrabajador = (trabajador) => {
+        console.log(trabajador)
+        const TrabajadoresService = new TrabajadoresService();
+        ClienteNaturalService.update(trabajador)
+            .then(response => {
+                this.mostrarMensajeOk(
+                    'Trabajador Actulizado',
+                    'trabajador' + response.primerNombre + '' + response.primerApellido
+
+                );
+                this.loadData();
+                this.onHideModal();
+
+            })
+            .catch(e => {
+                this.mostrarMensajeError('No se Actualizo el trabajador', e.message)
+            });
+
+
+
+    }
+
+    saveNewTrabajador = (trabajador) => {
+        console.log(trabajador)
+        const TrabajadoresService = new TrabajadoresService();
+        ClienteNaturalService.save(trabajador)
+            .then(response => {
+                this.mostrarMensajeOk(
+                    'Trabajador Ingresado',
+                    'trabajador' + response.primerNombre + '' + response.primerApellido
+
+                );
+                this.loadData();
+                this.onHideModal();
+
+            })
+            .catch(e => {
+                this.mostrarMensajeError('No se Registro  el trabajador', e.message)
+            });
+
+
+
+    }
+
+
+    onClickYesButton = () => {
+        const trabajador = this.TrabajadorModal.current.getTrabajador();
+
+        if (trabajador.id !== undefined && trabajador.id > 0) {
+           this.updateTrabajador(trabajador);
+        }else{
+          this.saveNewTrabajador(trabajador)
+
+        }
+    }
+
 
     componentDidMount() {
-      
+
         this.loadData();
     }
 
     onHide = () => {
         this.setState({
             ModalProps: {
-                visible: false
+                visible: false 
             }
         });
     }
@@ -114,23 +178,23 @@ export default class Trabajador extends React.Component {
                 sortable: false
             },
 
-            /* {
-                 field: "telefono",
-                 header: "Tefono",
-                 sortable: false
-             }, {
-                 field: "direccion",
-                 header: "Direccion",
-                 sortable: true
-             }, {
+            {
+                field: "telefono",
+                header: "Tefono",
+                sortable: false
+            }, {
+                field: "direccion",
+                header: "Direccion",
+                sortable: true
+            }, /*{
                  field: "estado",
                  header: "Estado",
                  sortable: true
-             }, {
-                 field: "cargo.nombreCargo",
-                 header: "Cargo",
-                 sortable: true
-             }*/
+             }, */{
+                field: "cargo.nombreCargo",
+                header: "Cargo",
+                sortable: true
+            }
 
 
         ]
@@ -139,7 +203,7 @@ export default class Trabajador extends React.Component {
     onHideModal = () => {
         this.setState({
             showModal: false
-        })
+        });
     }
 
     openEditMadal = (trabajador) => {
@@ -155,22 +219,37 @@ export default class Trabajador extends React.Component {
     }
 
     onClickNoButton = () => {
-        alert('Sobre, se cierra bajo su orden!')
+
         this.onHideModal();
     }
 
     onClickDeleteButton = () => {
         this.state.selectedRow.data.activo = false;
+        this.updateTrabajador(this.state.selectedRow);
     }
 
+   
     render() {
 
         return (
             <Fragment>
-            
-       <h1>
-           hola puto mundo
-       </h1>
+                <Table promise={this.state.data}
+                    columns={this.visibledColumns()}
+                    onClickAdd={this.addAgregarTrabajador}
+                    onRowDoubleClick={this.onRowDoubleClick}
+
+
+                    entity="Trabajadores" />
+
+                <TrabajadorModal visible={this.state.showModal}
+                    onHide={this.onHideModal}
+                    onClickNoButton={this.onClickNoButton}
+                    onClickYesButton={this.onClickYesButton}
+                    visible = {this.state.showModal}
+                    ref={this.TrabajadorModal}
+                />
+                <Toast ref={this.toast} position={this.right()} />
+
             </Fragment>
         );
 
