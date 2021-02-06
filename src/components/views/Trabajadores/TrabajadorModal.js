@@ -4,7 +4,7 @@ import { Button } from "primereact/button";
 import { InputText } from 'primereact/inputtext';
 import { InputTextarea } from "primereact/inputtextarea";
 import { Checkbox } from "primereact/checkbox";
-import {  Dropdown} from "primereact/dropdown";
+import { Dropdown } from "primereact/dropdown";
 import { Validation } from "../../../util/validations/Validation"
 
 export default class TrabajadorModal extends React.Component {
@@ -121,18 +121,9 @@ export default class TrabajadorModal extends React.Component {
 
                 <div className="container m-0">
 
-                 
-                <div className="row">
-                        <div className="col col-12 col-sm-12 col-md-12 col-lg-3" style={{ marginTop: '1.3em' }}>
-                            <Dropdown value={this.state.cargo} 
-                            onChange={(e) => this.setState({cargo: e.target.value })} 
-                            options={[{ name: 'Vigilante' }, { name: 'Limpieza' }]} optionLabel="name" placeholder="Cargo" />
-                        </div>
-
-
-                    </div>
 
                     <div className="row">
+
                         <div className="col col-12 col-sm-12 col-md-12 col-lg-6">
                             <span className="p-float-label" style={{ marginTop: '1.3em' }}>
                                 <InputText id="itCodigoTrabajador"
@@ -143,9 +134,11 @@ export default class TrabajadorModal extends React.Component {
                                 <label htmlhtmlFor="itCodigoTrabajador" style={{ fontSize: '0.8em' }}>Codigo del Trabakador</label>
                             </span>
                         </div>
+
                     </div>
 
                     <div className="row">
+
                         <div className="col col-12 col-sm-12 col-md-12 col-lg-6">
                             <span className="p-float-label" style={{ marginTop: '1.3em' }}>
                                 <InputText id="itNombre"
@@ -157,9 +150,6 @@ export default class TrabajadorModal extends React.Component {
                             </span>
                         </div>
 
-                    </div>
-
-                    <div className="row">
                         <div className="col col-12 col-sm-12 col-md-12 col-lg-6">
                             <span className="p-float-label" style={{ marginTop: '1.3em' }}>
                                 <InputText id="itApellido"
@@ -171,9 +161,6 @@ export default class TrabajadorModal extends React.Component {
                             </span>
                         </div>
 
-                    </div>
-
-                    <div className="row">
                         <div className="col col-12 col-sm-12 col-md-12 col-lg-6">
                             <span className="p-float-label" style={{ marginTop: '1.3em' }}>
                                 <InputText id="itTelefono"
@@ -184,7 +171,15 @@ export default class TrabajadorModal extends React.Component {
                                 <label htmlhtmlFor="itTelefono" style={{ fontSize: '0.8em' }}>Telefono</label>
                             </span>
                         </div>
+
+                        <div className="col col-12 col-sm-12 col-md-12 col-lg-3" style={{ marginTop: '1.3em' }}>
+                            <Dropdown value={this.state.cargo}
+                                onChange={(e) => this.setState({ cargo: e.target.value })}
+                                options={[{ name: 'Vigilante' }, { name: 'Limpieza' }]} optionLabel="name" placeholder="Cargo" />
+                        </div>
+
                     </div>
+
 
                     <div className="row">
 
