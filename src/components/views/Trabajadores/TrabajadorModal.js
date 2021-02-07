@@ -9,6 +9,7 @@ import { TabView, TabPanel } from 'primereact/tabview';
 import { Validation } from "../../../util/validations/Validation"
 import { CargoTrabajadorService } from "../../../services/Trabajadores/CargoTrabajadorService"
 import { Tab } from 'bootstrap';
+import { event } from 'jquery';
 
 export default class TrabajadorModal extends React.Component {
 
@@ -68,7 +69,7 @@ export default class TrabajadorModal extends React.Component {
                 id: trabajador.data.id,
                 ncedula: trabajador.data.noCedula,
                 codTrabajado: trabajador.data.codTrabajado,
-                //foto: trabajador.data.foto,
+                foto: trabajador.data.foto,
                 pnombre: trabajador.data.primerNombre,
                 snombre: trabajador.data.segundoNombre,
                 papelli: trabajador.data.primerApellido,
@@ -99,7 +100,7 @@ export default class TrabajadorModal extends React.Component {
             'telefono': this.state.telefono,
             'correo': this.state.correo,
             'direccion': this.state.direccion,
-            'cargo': this.state.correo,
+            'cargo': this.state.cargos,
             //'activo': this.state.activo
         }
 
@@ -107,6 +108,37 @@ export default class TrabajadorModal extends React.Component {
             trabajador.id = this.state.id
         }
         return trabajador;
+    }
+
+    validateTelefono = (event) => {
+        const str = /^[2|5|7|8]\d{0,7}/g;
+        const regex = new RegExp(str);
+        const value = event.target.value;
+
+        if (!regex.test(value) || value.length > 8) {
+            event.target.value = value.substr(0, value.length - 1);
+        }
+
+        this.setState({
+            telefono: event.target.value
+        })
+
+        console.log(this.state)
+    }
+
+    validateCedula = (event) => {
+        const regex = new RegExp(Validation.regexNoCedula);
+        const value = event.target.value;
+
+        if (value.length > 16) {
+            event.target.value = value.substr(0, value.length - 1);
+            // event.target.classList.add('p-invalid');
+        }
+
+        this.setState({
+            ncedula: event.target.value
+        })
+
     }
 
     componentDidMount() {
@@ -121,7 +153,6 @@ export default class TrabajadorModal extends React.Component {
             this.mostrarMensajeError('Acceso denegado', e.message);
 
         });
-
 
 
     }
@@ -195,8 +226,8 @@ export default class TrabajadorModal extends React.Component {
                                     <span className="p-float-label" style={{ marginTop: '1.3em' }}>
                                         <InputText id="itTelefono"
                                             value={this.state.telefono}
-                                            onChange={(e) => this.setState({ telefono: e.target.value })}
-                                            keyfilter={/[^\s]/}
+                                            onChange={(e) => this.validateTelefono(e)}
+
                                         />
                                         <label htmlhtmlFor="itTelefono" style={{ fontSize: '0.8em' }}>Telefono</label>
                                     </span>
@@ -221,7 +252,7 @@ export default class TrabajadorModal extends React.Component {
 
                                 <div className="col col-12 col-sm-12 col-md-12 col-lg-6" style={{ marginTop: '1.3em' }}>
                                     <Dropdown value={this.state.estadoC}
-                                        onChange={(e) => this.setState({ estadoC: e.target.value })} 
+                                        onChange={(e) => this.setState({ estadoC: e.target.value })}
                                         options={[{ name: 'Soltero' }, { name: 'Casado' }]} optionLabel="name" placeholder="Estado Civil" />
                                 </div>
 
@@ -269,15 +300,8 @@ export default class TrabajadorModal extends React.Component {
 
 
                         </TabPanel>
-                  
+
                     </TabView >
-
-
-
-
-
-
-
 
 
                 </div>

@@ -123,8 +123,6 @@ export default class Trabajador extends GenericView {
                 this.mostrarMensajeError('No se Registro  el trabajador', e.message)
             });
 
-
-
     }
 
     validarGuardar = (trabajador) => {
