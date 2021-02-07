@@ -25,7 +25,7 @@ export default class Trabajador extends GenericView {
         this.buscar = this.buscar.bind(this)
         this.onSearchChange = this.onSearchChange.bind(this)
         this.onHideModal = this.onHideModal.bind(this)
-        this.onRowDoubleClik = this.onRowDoubleClik.bind(this)
+        this.onRowDoubleClick = this.onRowDoubleClick.bind(this)
         this.onClickNoButton = this.onClickNoButton.bind(this)
         this.onClickYesButton = this.onClickYesButton.bind(this)
         this.addAgregarTrabajador = this.addAgregarTrabajador.bind(this)
@@ -82,7 +82,7 @@ export default class Trabajador extends GenericView {
         this.setState({
             showModal: true
         });
-        ///this.TrabajadorModal.current.setTrabajador(null);
+        this.TrabajadorModal.current.setTrabajador(null);
     }
 
     updateTrabajador = (trabajador) => {
@@ -102,8 +102,6 @@ export default class Trabajador extends GenericView {
             .catch(e => {
                 this.mostrarMensajeError('No se Actualizo el trabajador', e.message)
             });
-
-
 
     }
 
@@ -218,7 +216,7 @@ export default class Trabajador extends GenericView {
 
     }
 
-    onRowDoubleClik = (e) => {
+    onRowDoubleClick= (e) => {
         this.openEditMadal(e);
     }
 
