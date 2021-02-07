@@ -19,7 +19,7 @@ export default class Trabajador extends GenericView {
             data: [],
             selectedRow: null,
             rowid: -1,
-          
+
         }
         this.TrabajadorModal = React.createRef();
         this.buscar = this.buscar.bind(this)
@@ -29,6 +29,7 @@ export default class Trabajador extends GenericView {
         this.onClickNoButton = this.onClickNoButton.bind(this)
         this.onClickYesButton = this.onClickYesButton.bind(this)
         this.addAgregarTrabajador = this.addAgregarTrabajador.bind(this)
+        this.onClickDeleteButton = this.onClickDeleteButton.bind(this)
         this.toast = React.createRef();
 
     }
@@ -63,20 +64,13 @@ export default class Trabajador extends GenericView {
                     console.log(resp)
                     this.setState({
                         data: resp
-                    })
+                    });
                 }
             })
             .catch(e => {
 
                 if (e instanceof Error) {
-                    this.setState({
-                        ModalProps: {
-                            modalHeader: 'Acceso denegado',
-                            modalMessage: e.message,
-                            modalType: 'warnig',
-                            visible: true
-                        }
-                    });
+                 this.mostrarMensajeError('Acceso denegado',e.message)
                 }
 
             });
@@ -88,7 +82,7 @@ export default class Trabajador extends GenericView {
         this.setState({
             showModal: true
         });
-        //this.TrabajadorModal.current.setState(null);
+        ///this.TrabajadorModal.current.setTrabajador(null);
     }
 
     updateTrabajador = (trabajador) => {
@@ -116,7 +110,7 @@ export default class Trabajador extends GenericView {
     saveNewTrabajador = (trabajador) => {
         console.log(trabajador)
         const TrabajadoresService = new TrabajadoresService();
-        ClienteNaturalService.save(trabajador)
+        TrabajadoresService.save(trabajador)
             .then(response => {
                 this.mostrarMensajeOk(
                     'Trabajador Ingresado',
@@ -135,15 +129,25 @@ export default class Trabajador extends GenericView {
 
     }
 
+    validarGuardar = (trabajador) => {
+        if (trabajador === null || trabajador === undefined) {
+            this.mostrarMensaje('warn', 'No se ha pasado un parametro valido');
+
+        }
+
+    }
 
     onClickYesButton = () => {
         const trabajador = this.TrabajadorModal.current.getTrabajador();
 
-        if (trabajador.id !== undefined && trabajador.id > 0) {
-           this.updateTrabajador(trabajador);
-        }else{
-          this.saveNewTrabajador(trabajador)
+        if (this.validarGuardar(trabajador)) {
 
+            if (trabajador.id !== undefined && trabajador.id > 0) {
+                this.updateTrabajador(trabajador);
+            } else {
+                this.saveNewTrabajador(trabajador)
+
+            }
         }
     }
 
@@ -156,7 +160,7 @@ export default class Trabajador extends GenericView {
     onHide = () => {
         this.setState({
             ModalProps: {
-                visible: false 
+                visible: false
             }
         });
     }
@@ -228,7 +232,7 @@ export default class Trabajador extends GenericView {
         this.updateTrabajador(this.state.selectedRow);
     }
 
-   
+
     render() {
 
         return (
@@ -237,7 +241,8 @@ export default class Trabajador extends GenericView {
                     columns={this.visibledColumns()}
                     onClickAdd={this.addAgregarTrabajador}
                     onRowDoubleClick={this.onRowDoubleClick}
-
+                    deleteButto= {false}
+                     onClickDeleteButton = {this.onClickDeleteButton}
 
                     entity="Trabajadores" />
 
@@ -245,7 +250,7 @@ export default class Trabajador extends GenericView {
                     onHide={this.onHideModal}
                     onClickNoButton={this.onClickNoButton}
                     onClickYesButton={this.onClickYesButton}
-                    visible = {this.state.showModal}
+                    visible={this.state.showModal}
                     ref={this.TrabajadorModal}
                 />
                 <Toast ref={this.toast} position={this.right()} />

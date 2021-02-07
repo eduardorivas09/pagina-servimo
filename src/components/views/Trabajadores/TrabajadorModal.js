@@ -6,6 +6,7 @@ import { InputTextarea } from "primereact/inputtextarea";
 import { Checkbox } from "primereact/checkbox";
 import { Dropdown } from "primereact/dropdown";
 import { Validation } from "../../../util/validations/Validation"
+import { CargoTrabajadorService } from "../../../services/Trabajadores/CargoTrabajadorService"
 
 export default class TrabajadorModal extends React.Component {
 
@@ -26,6 +27,7 @@ export default class TrabajadorModal extends React.Component {
             correo: '',
             direccion: '',
             cargo: '',
+            cargos: [],
             activo: false
         }
 
@@ -74,7 +76,7 @@ export default class TrabajadorModal extends React.Component {
                 telefono: trabajador.data.telefono,
                 correo: trabajador.data.correo,
                 direccion: trabajador.data.direccion,
-                cargo: { name: trabajador.data.cargo },
+                cargo: trabajador.data.cargo,
                 activo: trabajador.data.activo
             }
             );
@@ -96,7 +98,7 @@ export default class TrabajadorModal extends React.Component {
             'correo': this.state.correo,
             'direccion': this.state.direccion,
             'cargo': this.state.correo,
-            'activo': this.state.activo
+            //'activo': this.state.activo
         }
 
         if (this.state.id !== undefined && this.state.id > 0) {
@@ -105,7 +107,22 @@ export default class TrabajadorModal extends React.Component {
         return trabajador;
     }
 
+    componentDidMount() {
 
+        new CargoTrabajadorService().getAll().then(response => {
+            console.log(response)
+            this.setState({
+                cargos: response
+            });
+        }).catch(e => {
+
+            this.mostrarMensajeError('Acceso denegado', e.message);
+
+        });
+
+
+
+    }
 
     render() {
         return (
@@ -175,7 +192,7 @@ export default class TrabajadorModal extends React.Component {
                         <div className="col col-12 col-sm-12 col-md-12 col-lg-3" style={{ marginTop: '1.3em' }}>
                             <Dropdown value={this.state.cargo}
                                 onChange={(e) => this.setState({ cargo: e.target.value })}
-                                options={[{ name: 'Vigilante' }, { name: 'Limpieza' }]} optionLabel="name" placeholder="Cargo" />
+                                options={{ name: 'Vigilante' }, { name: 'Limpieza' }} optionLabel="name" placeholder="Cargo" />
                         </div>
 
                     </div>
