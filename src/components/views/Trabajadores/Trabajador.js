@@ -186,15 +186,15 @@ export default class Trabajador extends GenericView {
                 field: "direccion",
                 header: "Direccion",
                 sortable: true
-            }, /*{
+            }, 
+               { field: "cargo.nombreCargo",
+                header: "Cargo",
+                sortable: true
+            },{
                  field: "estado",
                  header: "Estado",
                  sortable: true
-             }, */{
-                field: "cargo.nombreCargo",
-                header: "Cargo",
-                sortable: true
-            }
+             }, 
 
 
         ]
@@ -211,7 +211,7 @@ export default class Trabajador extends GenericView {
             showModal: true,
             selectedRow: trabajador
         });
-
+        this.TrabajadorModal.current.setTrabajador(trabajador);
     }
 
     onRowDoubleClick= (e) => {

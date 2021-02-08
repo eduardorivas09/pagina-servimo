@@ -11,6 +11,7 @@ import { CargoTrabajadorService } from "../../../services/Trabajadores/CargoTrab
 import { Tab } from 'bootstrap';
 import { event } from 'jquery';
 
+
 export default class TrabajadorModal extends React.Component {
 
     constructor() {
@@ -27,7 +28,7 @@ export default class TrabajadorModal extends React.Component {
             genero: '',
             estadoC: '',
             telefono: '',
-            correo: '',
+            //  correo: '',
             direccion: '',
             cargo: '',
             cargos: [],
@@ -50,8 +51,8 @@ export default class TrabajadorModal extends React.Component {
             this.setState({
                 id: null,
                 ncedula: null,
-                codTrabajado: null,
-                foto: null,
+                codTrabajador: null,
+                // foto: null,
                 pnombre: null,
                 snombre: nul,
                 papelli: null,
@@ -59,28 +60,28 @@ export default class TrabajadorModal extends React.Component {
                 genero: null,
                 estadoCivil: null,
                 telefono: null,
-                correo: null,
+                //correo: null,
                 direccion: null,
                 cargo: null,
-                //activo: true
+                activo: true
             });
         } else {
             this.setState({
                 id: trabajador.data.id,
                 ncedula: trabajador.data.noCedula,
-                codTrabajado: trabajador.data.codTrabajado,
-                foto: trabajador.data.foto,
+                codTrabajador: trabajador.data.codTrabajador,
+                //foto: trabajador.data.foto,
                 pnombre: trabajador.data.primerNombre,
                 snombre: trabajador.data.segundoNombre,
                 papelli: trabajador.data.primerApellido,
-                sapelli: trabajador.segundoApellido,
+                sapelli: trabajador.data.segundoApellido,
                 genero: { name: trabajador.data.sexo === 'M' ? 'Masculino ' : 'Femenino' },
-                estadoC: { name: trabajador.data.estadoCivil },
+                estadoCivil: { name: trabajador.data.estadoCivil },
                 telefono: trabajador.data.telefono,
-                correo: trabajador.data.correo,
+                //correo: trabajador.data.correo,
                 direccion: trabajador.data.direccion,
                 cargo: trabajador.data.cargo,
-                // activo: trabajador.data.activo
+                activo: trabajador.data.activo
             }
             );
         }
@@ -90,7 +91,7 @@ export default class TrabajadorModal extends React.Component {
         const trabajador = {
 
             'noCedula': this.state.ncedula,
-            'codTrabajado': this.state.codTrabajado,
+            'codTrabajador': this.state.codTrabajador,
             'primerNombre': this.state.pnombre,
             'segundoNombre': this.state.snombre,
             'primerApellido': this.state.papelli,
@@ -98,10 +99,10 @@ export default class TrabajadorModal extends React.Component {
             'sexo': this.state.genero !== null ? this.state.genero.name === 'Maculino' ? 'M' : 'F' : null,
             'estadoCivil': this.state.estadoC !== null ? this.state.estadoC.name : null,
             'telefono': this.state.telefono,
-            'correo': this.state.correo,
+            //'correo': this.state.correo,
             'direccion': this.state.direccion,
             'cargo': this.state.cargos,
-            //'activo': this.state.activo
+            'activo': this.state.activo
         }
 
         if (this.state.id !== undefined && this.state.id > 0) {
@@ -151,9 +152,7 @@ export default class TrabajadorModal extends React.Component {
         }).catch(e => {
 
             this.mostrarMensajeError('Acceso denegado', e.message);
-
         });
-
 
     }
 
@@ -168,7 +167,6 @@ export default class TrabajadorModal extends React.Component {
                 footer={this.renderFooter()}
                 onHide={() => this.props.onHide()}>
 
-
                 <div className="container m-0">
 
                     <TabView >
@@ -181,8 +179,8 @@ export default class TrabajadorModal extends React.Component {
                                 <div className="col col-12 col-sm-12 col-md-12 col-lg-6">
                                     <span className="p-float-label" style={{ marginTop: '1.3em' }}>
                                         <InputText id="itPrimerNombre"
-                                            value={this.state.primerNombre}
-                                            onChange={(e) => this.setState({ primerNombre: e.target.value })}
+                                            value={this.state.pnombre}
+                                            onChange={(e) => this.setState({ pnombre: e.target.value })}
                                             keyfilter={/[^\s]/}
                                         />
                                         <label htmlhtmlFor="itPrimerNombre" style={{ fontSize: '0.8em' }}>Primer Nombre</label>
@@ -192,8 +190,8 @@ export default class TrabajadorModal extends React.Component {
                                 <div className="col col-12 col-sm-12 col-md-12 col-lg-6">
                                     <span className="p-float-label" style={{ marginTop: '1.3em' }}>
                                         <InputText id="itSegundoNombre"
-                                            value={this.state.primerNombre}
-                                            onChange={(e) => this.setState({ segundoNombre: e.target.value })}
+                                            value={this.state.snombre}
+                                            onChange={(e) => this.setState({ snombre: e.target.value })}
                                             keyfilter={/[^\s]/}
                                         />
                                         <label htmlhtmlFor="itSegundoNombre" style={{ fontSize: '0.8em' }}>Segundo Nombre</label>
@@ -203,22 +201,22 @@ export default class TrabajadorModal extends React.Component {
                                 <div className="col col-12 col-sm-12 col-md-12 col-lg-6">
                                     <span className="p-float-label" style={{ marginTop: '1.3em' }}>
                                         <InputText id="itPrimerApellido"
-                                            value={this.state.primerApellido}
-                                            onChange={(e) => this.setState({ primerApellido: e.target.value })}
+                                            value={this.state.papelli}
+                                            onChange={(e) => this.setState({ papelli: e.target.value })}
                                             keyfilter={/[^\s]/}
                                         />
-                                        <label htmlhtmlFor="tPrimerApellido" style={{ fontSize: '0.8em' }}>Primer Apellido</label>
+                                        <label htmlhtmlFor="itPrimerApellido" style={{ fontSize: '0.8em' }}>Primer Apellido</label>
                                     </span>
                                 </div>
 
                                 <div className="col col-12 col-sm-12 col-md-12 col-lg-6">
                                     <span className="p-float-label" style={{ marginTop: '1.3em' }}>
                                         <InputText id="itSegundoApellido"
-                                            value={this.state.primerApellido}
-                                            onChange={(e) => this.setState({ segundoApellido: e.target.value })}
+                                            value={this.state.sapelli}
+                                            onChange={(e) => this.setState({ sapelli: e.target.value })}
                                             keyfilter={/[^\s]/}
                                         />
-                                        <label htmlhtmlFor="tSegundoApellido" style={{ fontSize: '0.8em' }}>Segundo Apellido</label>
+                                        <label htmlhtmlFor="itSegundoApellido" style={{ fontSize: '0.8em' }}>Segundo Apellido</label>
                                     </span>
                                 </div>
 
@@ -233,16 +231,7 @@ export default class TrabajadorModal extends React.Component {
                                     </span>
                                 </div>
 
-                                <div className="col col-12 col-sm-12 col-md-12 col-lg-6">
-                                    <span className="p-float-label" style={{ marginTop: '1.3em' }}>
-                                        <InputText id="itCorreo"
-                                            value={this.state.correo}
-                                            onChange={(e) => this.setState({ correo: e.target.value })}
-                                            keyfilter={/[^\s]/}
-                                        />
-                                        <label htmlhtmlFor="itCorreo" style={{ fontSize: '0.8em' }}>Correo</label>
-                                    </span>
-                                </div>
+
 
                                 <div className="col col-12 col-sm-12 col-md-12 col-lg-6" style={{ marginTop: '1.3em' }}>
                                     <Dropdown value={this.state.genero}
@@ -268,11 +257,11 @@ export default class TrabajadorModal extends React.Component {
                                 <div className="col col-12 col-sm-12 col-md-12 col-lg-6">
                                     <span className="p-float-label" style={{ marginTop: '1.3em' }}>
                                         <InputText id="itCodigoTrabajador"
-                                            value={this.state.codTrabajado}
-                                            onChange={(e) => this.setState({ codTrabajado: e.target.value })}
+                                            value={this.state.codTrabajador}
+                                            onChange={(e) => this.setState({ codTrabajador: e.target.value })}
                                             keyfilter={/[^\s]/}
                                         />
-                                        <label htmlhtmlFor="itCodigoTrabajador" style={{ fontSize: '0.8em' }}>Codigo del Trabakador</label>
+                                        <label htmlhtmlFor="itCodigoTrabajador" style={{ fontSize: '0.8em' }}>Codigo del Trabajador</label>
                                     </span>
                                 </div>
 
@@ -303,6 +292,20 @@ export default class TrabajadorModal extends React.Component {
 
                     </TabView >
 
+                    <div className="row">
+
+                        <div className="col col-12 col-sm-4 col-md-2 col-lg-1">
+                            <label htmlhtmlFor="cbEstado" style={{ fontSize: '0.8em' }}>Estado
+                          </label>
+                        </div>
+
+                        <div className="col col-12 col-sm-4 col-md-2 col-lg-1">
+                            <Checkbox id='cbEstado'
+                                onChange={e => this.setState({ activo: e.checked })}
+                                checked={this.state.activo} />
+                        </div>
+
+                    </div>
 
                 </div>
 
