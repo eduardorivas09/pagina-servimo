@@ -82,13 +82,13 @@ export default class Trabajador extends GenericView {
         this.setState({
             showModal: true
         });
-        this.TrabajadorModal.current.setTrabajador(null);
+      this.TrabajadorModal.current.setTrabajador(null);
     }
 
     updateTrabajador = (trabajador) => {
         console.log(trabajador)
-        const TrabajadoresService = new TrabajadoresService();
-        ClienteNaturalService.update(trabajador)
+        const trabajadoresService = new TrabajadoresService();
+        trabajadoresService.update(trabajador)
             .then(response => {
                 this.mostrarMensajeOk(
                     'Trabajador Actulizado',
@@ -107,8 +107,8 @@ export default class Trabajador extends GenericView {
 
     saveNewTrabajador = (trabajador) => {
         console.log(trabajador)
-        const TrabajadoresService = new TrabajadoresService();
-        TrabajadoresService.save(trabajador)
+        const trabajadoresService = new TrabajadoresService();
+        trabajadoresService.save(trabajador)
             .then(response => {
                 this.mostrarMensajeOk(
                     'Trabajador Ingresado',
@@ -127,7 +127,7 @@ export default class Trabajador extends GenericView {
 
     validarGuardar = (trabajador) => {
         if (trabajador === null || trabajador === undefined) {
-            this.mostrarMensaje('warn', 'No se ha pasado un parametro valido');
+            this.mostrarMensajeAdvertencia('No se ha pasado un parametro valido');
 
         }
 
@@ -135,14 +135,15 @@ export default class Trabajador extends GenericView {
 
     onClickYesButton = () => {
         const trabajador = this.TrabajadorModal.current.getTrabajador();
+         
 
-        if (this.validarGuardar(trabajador)) {
-
+        if (trabajador !== null) {
+            console.log(trabajador)
             if (trabajador.id !== undefined && trabajador.id > 0) {
                 this.updateTrabajador(trabajador);
             } else {
                 this.saveNewTrabajador(trabajador)
-
+                console.log(trabajador)
             }
         }
     }
@@ -244,6 +245,7 @@ export default class Trabajador extends GenericView {
 
                 <TrabajadorModal visible={this.state.showModal}
                     onHide={this.onHideModal}
+                    hasGuardarCancelarButtons= {true}
                     onClickNoButton={this.onClickNoButton}
                     onClickYesButton={this.onClickYesButton}
                     visible={this.state.showModal}
