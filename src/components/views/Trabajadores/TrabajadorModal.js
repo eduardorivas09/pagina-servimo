@@ -3,6 +3,7 @@ import React, { Fragment, useState } from 'react';
 import { Button } from "primereact/button";
 import { InputText } from 'primereact/inputtext';
 import { InputTextarea } from "primereact/inputtextarea";
+import { InputNumber } from 'primereact/inputnumber';
 import { Checkbox } from "primereact/checkbox";
 import { Dropdown } from "primereact/dropdown";
 import { TabView, TabPanel } from 'primereact/tabview';
@@ -10,8 +11,10 @@ import { Validation } from "../../../util/validations/Validation"
 import { CargoTrabajadorService } from "../../../services/Trabajadores/CargoTrabajadorService"
 import { Tab } from 'bootstrap';
 import { event } from 'jquery';
+import GenericModal from '../modal/GenericModal';
 
-export default class TrabajadorModal extends React.Component {
+
+export default class TrabajadorModal extends GenericModal {
 
     constructor() {
         super();
@@ -27,13 +30,11 @@ export default class TrabajadorModal extends React.Component {
             genero: '',
             estadoC: '',
             telefono: '',
-            correo: '',
             direccion: '',
             cargo: '',
             cargos: [],
-            activo: false
+            estado: false
         }
-
     }
 
     renderFooter = () => {
@@ -46,62 +47,64 @@ export default class TrabajadorModal extends React.Component {
     }
 
     setTrabajador = (trabajador) => {
+        console.log(trabajador)
         if (trabajador === undefined || trabajador === null) {
             this.setState({
                 id: null,
                 ncedula: null,
-                codTrabajado: null,
-                foto: null,
+                codTrabajador: null,
                 pnombre: null,
-                snombre: nul,
+                snombre: null,
                 papelli: null,
                 sapelli: null,
                 genero: null,
                 estadoCivil: null,
                 telefono: null,
-                correo: null,
                 direccion: null,
                 cargo: null,
-                //activo: true
+                estado: true
             });
         } else {
             this.setState({
                 id: trabajador.data.id,
                 ncedula: trabajador.data.noCedula,
-                codTrabajado: trabajador.data.codTrabajado,
-                foto: trabajador.data.foto,
+                codTrabajador: trabajador.data.codTrabajador,
                 pnombre: trabajador.data.primerNombre,
                 snombre: trabajador.data.segundoNombre,
                 papelli: trabajador.data.primerApellido,
-                sapelli: trabajador.segundoApellido,
-                genero: { name: trabajador.data.sexo === 'M' ? 'Masculino ' : 'Femenino' },
+                sapelli: trabajador.data.segundoApellido,
+                //genero: { name: trabajador.data.sexo },
+                genero: { name: trabajador.data.sexo === 'M'? 'Masculino' : 'Femenino' },
                 estadoC: { name: trabajador.data.estadoCivil },
                 telefono: trabajador.data.telefono,
-                correo: trabajador.data.correo,
                 direccion: trabajador.data.direccion,
                 cargo: trabajador.data.cargo,
-                // activo: trabajador.data.activo
+                estado: trabajador.data.estado
             }
             );
         }
     }
 
+
     getTrabajador = () => {
+
+        if (!this.validarguardar()) {
+            return null;
+        }
         const trabajador = {
 
             'noCedula': this.state.ncedula,
-            'codTrabajado': this.state.codTrabajado,
+            'codTrabajador': this.state.codTrabajador,
             'primerNombre': this.state.pnombre,
             'segundoNombre': this.state.snombre,
             'primerApellido': this.state.papelli,
             'segundoApellido': this.state.sapelli,
-            'sexo': this.state.genero !== null ? this.state.genero.name === 'Maculino' ? 'M' : 'F' : null,
+            'sexo': this.state.genero !== null ? this.state.genero.name === 'Masculino' ? 'M' : 'F' : null,
             'estadoCivil': this.state.estadoC !== null ? this.state.estadoC.name : null,
             'telefono': this.state.telefono,
-            'correo': this.state.correo,
             'direccion': this.state.direccion,
-            'cargo': this.state.cargos,
-            //'activo': this.state.activo
+            'cargo': this.state.cargo,
+            'estado': this.state.estado
         }
 
         if (this.state.id !== undefined && this.state.id > 0) {
@@ -151,163 +154,224 @@ export default class TrabajadorModal extends React.Component {
         }).catch(e => {
 
             this.mostrarMensajeError('Acceso denegado', e.message);
-
         });
-
 
     }
 
-    render() {
+    validarguardar() {
+
+        if (this.state.noCedula === null) {
+            this.mostrarMensajeAdvertencia('No se ha pasado un parametro valido');
+            return false;
+        }
+
+        if (this.state.codTrabajador === null) {
+            this.mostrarMensajeAdvertencia('No se ha pasado un parametro valido');
+            return false;
+        }
+
+        if (this.state.pnombre === null) {
+            this.mostrarMensajeAdvertencia('No se ha pasado un parametro valido');
+            return false;
+        }
+
+
+        if (this.state.snombre === null) {
+            this.mostrarMensajeAdvertencia('No se ha pasado un parametro valido');
+            return false;
+        }
+
+        if (this.state.papelli === null) {
+            this.mostrarMensajeAdvertencia('No se ha pasado un parametro valido');
+            return false;
+        }
+
+        if (this.state.sapelli === null) {
+            this.mostrarMensajeAdvertencia('No se ha pasado un parametro valido');
+            return false;
+        }
+
+        if (this.state.telefono === null) {
+            this.mostrarMensajeAdvertencia('No se ha pasado un parametro valido');
+            return false;
+        }
+
+        if (this.state.estadoC === null) {
+            this.mostrarMensajeAdvertencia('No se ha pasado un parametro valido');
+            return false;
+        }
+
+        if (this.state.sexo === null) {
+            this.mostrarMensajeAdvertencia('No se ha pasado un parametro valido');
+            return false;
+        }
+
+        if (this.state.cargos === null) {
+            this.mostrarMensajeAdvertencia('No se ha pasado un parametro valido');
+            return false;
+        }
+
+        if (this.state.direccion === null) {
+            this.mostrarMensajeAdvertencia('No se ha pasado un parametro valido');
+            return false;
+        }
+
+        return true;
+    }
+
+    toRender = () => {
         return (
-            <Dialog className='p-dialog' role='alert'
-                header={"Trabajador"}
-                position="top-bottom"
-                maximizable={true}
-                visible={this.props.visible}
-                style={{ width: '50vw' }}
-                footer={this.renderFooter()}
-                onHide={() => this.props.onHide()}>
+
+            <div className="container m-0">
+
+                <TabView >
+
+                    <TabPanel header={'Datos Personas'}>
 
 
-                <div className="container m-0">
+                        <div className="row">
 
-                    <TabView >
-
-                        <TabPanel header={'Datos Personas'}>
-
-
-                            <div className="row">
-
-                                <div className="col col-12 col-sm-12 col-md-12 col-lg-6">
-                                    <span className="p-float-label" style={{ marginTop: '1.3em' }}>
-                                        <InputText id="itPrimerNombre"
-                                            value={this.state.primerNombre}
-                                            onChange={(e) => this.setState({ primerNombre: e.target.value })}
-                                            keyfilter={/[^\s]/}
-                                        />
-                                        <label htmlhtmlFor="itPrimerNombre" style={{ fontSize: '0.8em' }}>Primer Nombre</label>
-                                    </span>
-                                </div>
-
-                                <div className="col col-12 col-sm-12 col-md-12 col-lg-6">
-                                    <span className="p-float-label" style={{ marginTop: '1.3em' }}>
-                                        <InputText id="itSegundoNombre"
-                                            value={this.state.primerNombre}
-                                            onChange={(e) => this.setState({ segundoNombre: e.target.value })}
-                                            keyfilter={/[^\s]/}
-                                        />
-                                        <label htmlhtmlFor="itSegundoNombre" style={{ fontSize: '0.8em' }}>Segundo Nombre</label>
-                                    </span>
-                                </div>
-
-                                <div className="col col-12 col-sm-12 col-md-12 col-lg-6">
-                                    <span className="p-float-label" style={{ marginTop: '1.3em' }}>
-                                        <InputText id="itPrimerApellido"
-                                            value={this.state.primerApellido}
-                                            onChange={(e) => this.setState({ primerApellido: e.target.value })}
-                                            keyfilter={/[^\s]/}
-                                        />
-                                        <label htmlhtmlFor="tPrimerApellido" style={{ fontSize: '0.8em' }}>Primer Apellido</label>
-                                    </span>
-                                </div>
-
-                                <div className="col col-12 col-sm-12 col-md-12 col-lg-6">
-                                    <span className="p-float-label" style={{ marginTop: '1.3em' }}>
-                                        <InputText id="itSegundoApellido"
-                                            value={this.state.primerApellido}
-                                            onChange={(e) => this.setState({ segundoApellido: e.target.value })}
-                                            keyfilter={/[^\s]/}
-                                        />
-                                        <label htmlhtmlFor="tSegundoApellido" style={{ fontSize: '0.8em' }}>Segundo Apellido</label>
-                                    </span>
-                                </div>
-
-                                <div className="col col-12 col-sm-12 col-md-12 col-lg-6">
-                                    <span className="p-float-label" style={{ marginTop: '1.3em' }}>
-                                        <InputText id="itTelefono"
-                                            value={this.state.telefono}
-                                            onChange={(e) => this.validateTelefono(e)}
-
-                                        />
-                                        <label htmlhtmlFor="itTelefono" style={{ fontSize: '0.8em' }}>Telefono</label>
-                                    </span>
-                                </div>
-
-                                <div className="col col-12 col-sm-12 col-md-12 col-lg-6">
-                                    <span className="p-float-label" style={{ marginTop: '1.3em' }}>
-                                        <InputText id="itCorreo"
-                                            value={this.state.correo}
-                                            onChange={(e) => this.setState({ correo: e.target.value })}
-                                            keyfilter={/[^\s]/}
-                                        />
-                                        <label htmlhtmlFor="itCorreo" style={{ fontSize: '0.8em' }}>Correo</label>
-                                    </span>
-                                </div>
-
-                                <div className="col col-12 col-sm-12 col-md-12 col-lg-6" style={{ marginTop: '1.3em' }}>
-                                    <Dropdown value={this.state.genero}
-                                        onChange={(e) => this.setState({ genero: e.target.value })}
-                                        options={[{ name: 'Masculino' }, { name: 'Femenino' }]} optionLabel="name" placeholder="Genero" />
-                                </div>
-
-                                <div className="col col-12 col-sm-12 col-md-12 col-lg-6" style={{ marginTop: '1.3em' }}>
-                                    <Dropdown value={this.state.estadoC}
-                                        onChange={(e) => this.setState({ estadoC: e.target.value })}
-                                        options={[{ name: 'Soltero' }, { name: 'Casado' }]} optionLabel="name" placeholder="Estado Civil" />
-                                </div>
-
-
+                            <div className="col col-12 col-sm-12 col-md-12 col-lg-6">
+                                <span className="p-float-label" style={{ marginTop: '1.3em' }}>
+                                    <InputText id="itPrimerNombre"
+                                        value={this.state.pnombre}
+                                        onChange={(e) => this.setState({ pnombre: e.target.value })}
+                                        keyfilter={/[^\s]/}
+                                    />
+                                    <label htmlhtmlFor="itPrimerNombre" style={{ fontSize: '0.8em' }}>Primer Nombre</label>
+                                </span>
                             </div>
 
-                        </TabPanel>
+                            <div className="col col-12 col-sm-12 col-md-12 col-lg-6">
+                                <span className="p-float-label" style={{ marginTop: '1.3em' }}>
+                                    <InputText id="itSegundoNombre"
+                                        value={this.state.snombre}
+                                        onChange={(e) => this.setState({ snombre: e.target.value })}
+                                        keyfilter={/[^\s]/}
+                                    />
+                                    <label htmlhtmlFor="itSegundoNombre" style={{ fontSize: '0.8em' }}>Segundo Nombre</label>
+                                </span>
+                            </div>
 
-                        <TabPanel header={'Datos del Empleado'}>
+                            <div className="col col-12 col-sm-12 col-md-12 col-lg-6">
+                                <span className="p-float-label" style={{ marginTop: '1.3em' }}>
+                                    <InputText id="itPrimerApellido"
+                                        value={this.state.papelli}
+                                        onChange={(e) => this.setState({ papelli: e.target.value })}
+                                        keyfilter={/[^\s]/}
+                                    />
+                                    <label htmlhtmlFor="itPrimerApellido" style={{ fontSize: '0.8em' }}>Primer Apellido</label>
+                                </span>
+                            </div>
 
-                            <div className="row">
+                            <div className="col col-12 col-sm-12 col-md-12 col-lg-6">
+                                <span className="p-float-label" style={{ marginTop: '1.3em' }}>
+                                    <InputText id="itSegundoApellido"
+                                        value={this.state.sapelli}
+                                        onChange={(e) => this.setState({ sapelli: e.target.value })}
+                                        keyfilter={/[^\s]/}
+                                    />
+                                    <label htmlhtmlFor="itSegundoApellido" style={{ fontSize: '0.8em' }}>Segundo Apellido</label>
+                                </span>
+                            </div>
 
-                                <div className="col col-12 col-sm-12 col-md-12 col-lg-6">
-                                    <span className="p-float-label" style={{ marginTop: '1.3em' }}>
-                                        <InputText id="itCodigoTrabajador"
-                                            value={this.state.codTrabajado}
-                                            onChange={(e) => this.setState({ codTrabajado: e.target.value })}
-                                            keyfilter={/[^\s]/}
-                                        />
-                                        <label htmlhtmlFor="itCodigoTrabajador" style={{ fontSize: '0.8em' }}>Codigo del Trabakador</label>
-                                    </span>
-                                </div>
+                            <div className="col col-12 col-sm-12 col-md-12 col-lg-6">
+                                <span className="p-float-label" style={{ marginTop: '1.3em' }}>
+                                    <InputText id="itTelefono"
+                                        value={this.state.telefono}
+                                        onChange={(e) => this.validateTelefono(e)}
 
-                                <div className="col col-12 col-sm-12 col-md-12 col-lg-6" style={{ marginTop: '1.3em' }}>
-                                    <Dropdown value={this.state.cargo}
-                                        onChange={(e) => this.setState({ cargo: e.target.value })}
-                                        options={this.state.cargos} optionLabel="nombreCargo" placeholder="Cargo" />
-                                </div>
+                                    />
+                                    <label htmlhtmlFor="itTelefono" style={{ fontSize: '0.8em' }}>Telefono</label>
+                                </span>
+                            </div>
 
+                            <div className="col col-12 col-sm-12 col-md-12 col-lg-6">
+                                <span className="p-float-label" style={{ marginTop: '1.3em' }}>
+                                    <InputText id="itCedula"
+                                        value={this.state.ncedula}
+                                        onChange={(e) => this.setState({ ncedula: e.target.value })}
+                                        keyfilter={/[^\s]/}
+                                    />
+                                    <label htmlhtmlFor="itCedula" style={{ fontSize: '0.8em' }}>Numero de Cedula</label>
+                                </span>
+                            </div>
 
+                            <div className="col col-12 col-sm-12 col-md-12 col-lg-6" style={{ marginTop: '1.3em' }}>
+                                <Dropdown value={this.state.genero}
+                                    onChange={(e) => this.setState({ genero: e.target.value })}
+                                    options={[{ name: 'Masculino' }, { name: 'Femenino' }]} 
+                                    optionLabel="name" placeholder="Genero" />
+                            </div>
+
+                            <div className="col col-12 col-sm-12 col-md-12 col-lg-6" style={{ marginTop: '1.3em' }}>
+                                <Dropdown value={this.state.estadoC}
+                                    onChange={(e) => this.setState({ estadoC: e.target.value })}
+                                    options={[{ name: 'Soltero' }, { name: 'Casado' }]} 
+                                    optionLabel="name" placeholder="Estado Civil" />
+                            </div>
+
+                        </div>
+
+                    </TabPanel>
+
+                    <TabPanel header={'Datos del Empleado'}>
+
+                        <div className="row">
+
+                            <div className="col col-12 col-sm-12 col-md-12 col-lg-6">
+                                <span className="p-float-label" style={{ marginTop: '1.3em' }}>
+                                    <InputNumber id="itCodigoTrabajador"
+                                        value={this.state.codTrabajador}
+                                        
+                                        max = {99999}
+                                        onChange={(e) => this.setState({ codTrabajador: e.value })}
+                                     
+                                    />
+                                    <label htmlhtmlFor="itCodigoTrabajador" style={{ fontSize: '0.8em' }}>Codigo del Trabajador</label>
+                                </span>
+                            </div>
+
+                            <div className="col col-12 col-sm-12 col-md-12 col-lg-6" style={{ marginTop: '1.3em' }}>
+                                <Dropdown value={this.state.cargo}
+                                    onChange={(e) => this.setState({ cargo: e.target.value })}
+                                    options={this.state.cargos} optionLabel="nombreCargo" placeholder="Cargo" />
                             </div>
 
 
+                        </div>
 
-                            <div className="row">
+                        <div className="row">
 
-                                <div className="col col-12 col-sm-12 col-md-12 col-lg-12" style={{ marginTop: '1.3em' }}>
-                                    <span className="p-float-label">
-                                        <InputTextarea id='itaDireccion' value={this.state.direccion} onChange={(e) => this.setState({ direccion: e.target.value })} autoResize={true} />
-                                        <label htmlhtmlFor="itaDireccion">Direccion</label>
-                                    </span>
-                                </div>
-
+                            <div className="col col-12 col-sm-12 col-md-12 col-lg-12" style={{ marginTop: '1.3em' }}>
+                                <span className="p-float-label">
+                                    <InputTextarea id='itaDireccion' value={this.state.direccion} onChange={(e) => this.setState({ direccion: e.target.value })} autoResize={true} />
+                                    <label htmlhtmlFor="itaDireccion">Direccion</label>
+                                </span>
                             </div>
 
+                        </div>
 
-                        </TabPanel>
+                    </TabPanel>
 
-                    </TabView >
+                </TabView >
 
+                <div className="row">
+
+                    <div className="col col-12 col-sm-4 col-md-2 col-lg-1">
+                        <label htmlhtmlFor="itEstado" style={{ fontSize: '0.8em' }}>Estado
+                          </label>
+                    </div>
+
+                    <div className="col col-12 col-sm-4 col-md-2 col-lg-1">
+                        <Checkbox id='itEstado'
+                            onChange={e => this.setState({ estado: e.checked })}
+                            checked={this.state.estado} />
+                    </div>
 
                 </div>
 
-            </Dialog>
-
+            </div>
 
 
         );
