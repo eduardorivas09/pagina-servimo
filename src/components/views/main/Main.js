@@ -17,6 +17,7 @@ import UsuarioModalView from "../security/usuario/UsuarioModalView";
 import {UsuarioService} from "../../../services/seguridad/UsuarioService";
 import {GenericView} from "../GenericView";
 import {Toast} from "primereact/toast";
+import {ContratoView} from "../contrato/ContratoView";
 
 export default class Main extends GenericView {
 
@@ -173,8 +174,9 @@ export default class Main extends GenericView {
         if (url.includes('natural')) this.setState({ currentComponent: <ClienteNatural /> })
         if (url.includes('juridico')) this.setState({ currentComponent: <ClienteJuridico /> })
         if (url.includes('Trabajadores')) this.setState({ currentComponent: <Trabajador /> });
-        if (url.includes('users')) this.setState({ currentComponent: <UsuariosView /> })
-        if (url.includes('roles')) this.setState({ currentComponent: <RolesView /> })
+        if (url.includes('users')) this.setState({ currentComponent: <UsuariosView /> });
+        if (url.includes('roles')) this.setState({ currentComponent: <RolesView /> });
+        if (url.includes('contrato')) this.setState({ currentComponent: <ContratoView /> });
 
         console.log(this.state.currentComponent);
     }

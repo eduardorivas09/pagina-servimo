@@ -8,10 +8,13 @@ import {GenericView} from "../../GenericView";
 import UsuarioModalView from "./UsuarioModalView";
 
 /**
- * Clase que
+ * Clase que se utiliza para administrar a los usuarios.
  */
 export default class UsuariosView extends GenericView{
 
+    /**
+     * @constructor de la clase.
+     */
     constructor() {
         super();
         this.state = {
@@ -28,6 +31,8 @@ export default class UsuariosView extends GenericView{
     }
 
     /**
+     * @since 1.0
+     *
      * Metodo que carga los datos, estos pueden proceder de una busqueda
      * @param search parametro que sirve como filtro de la busqueda.
      */
@@ -52,6 +57,8 @@ export default class UsuariosView extends GenericView{
     }
 
     /**
+     * @since 1.0
+     *
      * Metodo que retorna las columnas que puede mostrar la tabla
      * @returns {({field: string, header: string, sortable: boolean}|{field: string, header: string, sortable: boolean}|{field: string, header: string, sortable: boolean}|{field: string, header: string, sortable: boolean}|{field: string, header: string, sortable: boolean})[]}
      */
@@ -78,6 +85,8 @@ export default class UsuariosView extends GenericView{
     }
 
     /**
+     * @since 1.0
+     *
      * Metodo que abre la pantalla de modal al dar click en el boton en agregar.
      */
     addNewUser = () => {
@@ -88,6 +97,8 @@ export default class UsuariosView extends GenericView{
     }
 
     /**
+     * @since 1.0
+     *
      * Metodo que abre el modal para editar un registro al momento de dar click en una fila.
      * @param e objeto a settear al modal.
      */
@@ -100,12 +111,18 @@ export default class UsuariosView extends GenericView{
     }
 
     /**
+     * @since 1.0
+     *
      * Metodo que se ejecuta al cuando el componente fue renderizado y en este mismo se cargan los datos a la tabla.
      */
     componentDidMount() {
         this.loadData();
     }
 
+    /**
+     * @since 1.0
+     * Metodo que cierra el modal para editar agregar.
+     */
     onCloseModal = () => {
         this.setState({
             modalVisible : false

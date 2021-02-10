@@ -1,0 +1,38 @@
+.p-panel .p-panel-content{
+    border: none;
+}
+
+.steps-component {
+    /*width: auto;*/
+    /*display: flex;*/
+    /*background-color: red;*/
+    /*height: 490px;*/
+}
+
+.steps-footer {
+    margin-top: auto;
+}
+
+/*@media (max-height: 1080px) {*/
+/*    .steps-component {*/
+/*        height: 768px;*/
+/*    }*/
+/*}*/
+
+/*@media (max-height: 768px) {*/
+/*    .steps-component {*/
+/*        height: 560px;*/
+/*    }*/
+/*}*/
+
+/*@media (max-height: 640px) {*/
+/*    .steps-component {*/
+/*        height: 400px;*/
+/*    }*/
+/*}*/
+
+/*@media (max-height: 490px) {*/
+/*    .steps-component {*/
+/*        height: auto;*/
+/*    }*/
+/*}*/
