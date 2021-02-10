@@ -3,6 +3,7 @@ import React, { Fragment, useState } from 'react';
 import { Button } from "primereact/button";
 import { InputText } from 'primereact/inputtext';
 import { InputTextarea } from "primereact/inputtextarea";
+import { InputNumber } from 'primereact/inputnumber';
 import { Checkbox } from "primereact/checkbox";
 import { Dropdown } from "primereact/dropdown";
 import { TabView, TabPanel } from 'primereact/tabview';
@@ -34,7 +35,6 @@ export default class TrabajadorModal extends GenericModal {
             cargos: [],
             estado: false
         }
-
     }
 
     renderFooter = () => {
@@ -47,6 +47,7 @@ export default class TrabajadorModal extends GenericModal {
     }
 
     setTrabajador = (trabajador) => {
+        console.log(trabajador)
         if (trabajador === undefined || trabajador === null) {
             this.setState({
                 id: null,
@@ -73,16 +74,17 @@ export default class TrabajadorModal extends GenericModal {
                 papelli: trabajador.data.primerApellido,
                 sapelli: trabajador.data.segundoApellido,
                 //genero: { name: trabajador.data.sexo },
-                genero: { name: trabajador.data.sexo === 'M' ? 'Masculino ' : 'Femenino' },
+                genero: { name: trabajador.data.sexo === 'M'? 'Masculino' : 'Femenino' },
                 estadoC: { name: trabajador.data.estadoCivil },
                 telefono: trabajador.data.telefono,
                 direccion: trabajador.data.direccion,
                 cargo: trabajador.data.cargo,
-                estado: trabajador.data.esstado
+                estado: trabajador.data.estado
             }
             );
         }
     }
+
 
     getTrabajador = () => {
 
@@ -97,7 +99,7 @@ export default class TrabajadorModal extends GenericModal {
             'segundoNombre': this.state.snombre,
             'primerApellido': this.state.papelli,
             'segundoApellido': this.state.sapelli,
-            'sexo': this.state.genero !== null ? this.state.genero.name === 'Maculino' ? 'M' : 'F' : null,
+            'sexo': this.state.genero !== null ? this.state.genero.name === 'Masculino' ? 'M' : 'F' : null,
             'estadoCivil': this.state.estadoC !== null ? this.state.estadoC.name : null,
             'telefono': this.state.telefono,
             'direccion': this.state.direccion,
@@ -220,8 +222,6 @@ export default class TrabajadorModal extends GenericModal {
     toRender = () => {
         return (
 
-
-
             <div className="container m-0">
 
                 <TabView >
@@ -298,17 +298,18 @@ export default class TrabajadorModal extends GenericModal {
                             </div>
 
                             <div className="col col-12 col-sm-12 col-md-12 col-lg-6" style={{ marginTop: '1.3em' }}>
-                                <Dropdown value={this.state.sexo}
-                                    onChange={(e) => this.setState({ sexo: e.target.value })}
-                                    options={[{ name: 'Masculino' }, { name: 'Femenino' }]} optionLabel="name" placeholder="Genero" />
+                                <Dropdown value={this.state.genero}
+                                    onChange={(e) => this.setState({ genero: e.target.value })}
+                                    options={[{ name: 'Masculino' }, { name: 'Femenino' }]} 
+                                    optionLabel="name" placeholder="Genero" />
                             </div>
 
                             <div className="col col-12 col-sm-12 col-md-12 col-lg-6" style={{ marginTop: '1.3em' }}>
                                 <Dropdown value={this.state.estadoC}
                                     onChange={(e) => this.setState({ estadoC: e.target.value })}
-                                    options={[{ name: 'Soltero' }, { name: 'Casado' }]} optionLabel="name" placeholder="Estado Civil" />
+                                    options={[{ name: 'Soltero' }, { name: 'Casado' }]} 
+                                    optionLabel="name" placeholder="Estado Civil" />
                             </div>
-
 
                         </div>
 
@@ -320,10 +321,12 @@ export default class TrabajadorModal extends GenericModal {
 
                             <div className="col col-12 col-sm-12 col-md-12 col-lg-6">
                                 <span className="p-float-label" style={{ marginTop: '1.3em' }}>
-                                    <InputText id="itCodigoTrabajador"
+                                    <InputNumber id="itCodigoTrabajador"
                                         value={this.state.codTrabajador}
-                                        onChange={(e) => this.setState({ codTrabajador: e.target.value })}
-                                        keyfilter={/[^\s]/}
+                                        
+                                        max = {99999}
+                                        onChange={(e) => this.setState({ codTrabajador: e.value })}
+                                     
                                     />
                                     <label htmlhtmlFor="itCodigoTrabajador" style={{ fontSize: '0.8em' }}>Codigo del Trabajador</label>
                                 </span>
@@ -338,8 +341,6 @@ export default class TrabajadorModal extends GenericModal {
 
                         </div>
 
-
-
                         <div className="row">
 
                             <div className="col col-12 col-sm-12 col-md-12 col-lg-12" style={{ marginTop: '1.3em' }}>
@@ -350,7 +351,6 @@ export default class TrabajadorModal extends GenericModal {
                             </div>
 
                         </div>
-
 
                     </TabPanel>
 
@@ -372,9 +372,6 @@ export default class TrabajadorModal extends GenericModal {
                 </div>
 
             </div>
-
-
-
 
 
         );

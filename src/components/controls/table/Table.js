@@ -80,7 +80,7 @@ export default class Table extends React.Component {
      */
     columns(){
         return this.props.columns.map((item, i) => {
-            return item.field !== 'activo'
+            return item.field !== 'activo' && item.field !== 'estado'
                 ? <Column columnKey={i + ''}  field={item.field} header={item.header} sortable={item.sortable}/>
                 : <Column columnKey={i + ''}  field={item.field} header={item.header} sortable={item.sortable}
                           body={this.activoColumn} style={{textAlign: 'center'}}/>
@@ -88,7 +88,7 @@ export default class Table extends React.Component {
     }
 
     activoColumn = (rowData) => {
-        return <Checkbox onChange={e => rowData.activo=e.checked} checked={rowData.activo} disabled={true}/>
+        return <Checkbox onChange={e => rowData.activo=e.checked} checked={rowData.activo || rowData.estado} disabled={true}/>
     }
 
     responsiveColumns = (object) => {
