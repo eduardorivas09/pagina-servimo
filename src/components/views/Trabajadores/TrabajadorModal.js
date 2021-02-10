@@ -160,7 +160,7 @@ export default class TrabajadorModal extends GenericModal {
 
     validarguardar() {
 
-        if (this.state.noCedula === null) {
+        if (this.state.ncedula === null ||  this.state.ncedula === undefined || Validation.validarCedula(this.state.ncedula)) {
             this.mostrarMensajeAdvertencia('No se ha pasado un parametro valido');
             return false;
         }

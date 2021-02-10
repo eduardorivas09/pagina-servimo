@@ -8,8 +8,9 @@ import { InputNumber } from 'primereact/inputnumber';
 import { InputText } from 'primereact/inputtext';
 import { InputTextarea } from "primereact/inputtextarea";
 import { Checkbox } from "primereact/checkbox";
+import GenericModal from '../../modal/GenericModal';
 
-export default class ClienteJuridicoModal extends React.Component {
+export default class ClienteJuridicoModal extends GenericModal {
 
     constructor() {
         super();
@@ -24,11 +25,11 @@ export default class ClienteJuridicoModal extends React.Component {
             activo: '',
 
         }
-        this.onHide = this.onHide.bind(this);
-        this.onYesClick = this.onYesClick.bind(this);
+       // this.onHide = this.onHide.bind(this);
+        //this.onYesClick = this.onYesClick.bind(this);
     }
 
-    onHide = () => {
+   /*onHide = () => {
         this.setState({
             visible: true
         });
@@ -36,16 +37,15 @@ export default class ClienteJuridicoModal extends React.Component {
 
     onYesClick = () => {
         alert('Sin funcionalidad . Trabajando en ello')
-    }
+    }*/
 
     renderFooter = () => {
         return (
             <div style={{ marginTop: '1em' }}>
-                <Button label="No" icon="pi pi-times" onClick={this.onHide} className="p-button-text" />
-                <Button label="Yes" icon="pi pi-check" onClick={this.props.onClickYesButton} autoFocus />
+                <Button label="No" icon="pi pi-times" onClick={this.props.onClickNoButton} className="p-button-text" />
+                <Button label="Yes" icon="pi pi-check" onClick={this.props.onClicYeskButton} autoFocus />
             </div>
         )
-
 
     }
 
@@ -81,6 +81,11 @@ export default class ClienteJuridicoModal extends React.Component {
     }
 
     getCliente = () => {
+
+        if (!this.validarGuardar()) {
+            return null;
+
+        }
         const cliente = {
             'id': this.state.id,
             'noRuc': this.state.noRuc,
@@ -95,12 +100,12 @@ export default class ClienteJuridicoModal extends React.Component {
         }
         return cliente;
     }
-    
+
 
     validateTelefono = (event) => {
         const str = /^[2|5|7|8]\d{0,7}/g;
         const regex = new RegExp(str);
-         const value = event.target.value;
+        const value = event.target.value;
         if (!regex.test(value) || value.leght > 8) {
             event.target.value = value.substr(0, value.leght - 1);
         }
@@ -113,17 +118,50 @@ export default class ClienteJuridicoModal extends React.Component {
 
     }
 
+    validarGuardar = (cliente) => {
 
-    render() {
+        if (cliente === null || cliente === undefined) {
+            this.mostrarMensajeAdvertencia('No se ha pasado un objeto validado');
+            return false;
+        }
+
+        if (cliente.noRuc === null || cliente.noRuc.length < 16) {
+            this.mostrarMensajeAdvertencia('Ruc:requerida', 'Se require un nuemro Ruc valido');
+            return false;
+        }
+
+        if (cliente.nombre === null || cliente.nombre.length == 0) {
+            this.mostrarMensajeAdvertencia('Nombre:requerida', 'Se require el Nombre');
+            return false;
+        }
+
+        if (cliente.telefono === null || cliente.telefono.length == 0) {
+            this.mostrarMensajeAdvertencia('Telefono:requerida', 'Se require el Telefono');
+            return false;
+        }
+
+        if (cliente.correo === null || cliente.correo.length == 0) {
+            this.mostrarMensajeAdvertencia('Correo:requerida', 'Se require el Correo');
+            return false;
+        }
+
+        if (cliente.direccion === null || cliente.direccion.length == 0) {
+            this.mostrarMensajeAdvertencia('Direccion:requerida', 'Se require la Direccion');
+            return false;
+        }
+
+        if (cliente.activo === null || cliente.activo.length == 0) {
+            this.mostrarMensajeAdvertencia('Estado:requerida', 'Se require la D');
+            return false;
+        }
+
+    }
+
+
+
+    ToRender() {
         return (
-            <Dialog className="p-dialog" role="alert"
-                header={"Persona Juridico"}
-                position="top-bottom"
-                maximizable={true}
-                visible={this.props.visible}
-                style={{ width: '50vw' }}
-                footer={this.renderFooter()}
-                onHide={() => this.props.onHideModal()} >
+          
 
                 <div className="container m-0">
                     <div className="row">
@@ -192,12 +230,12 @@ export default class ClienteJuridicoModal extends React.Component {
                             <label htmlhtmlFor="cbEstado" style={{ fontSize: '0.8em' }}>Estado</label>
                         </div>
                         <div className="col col-12 col-sm-4 col-md-2 col-lg-1">
-                        <Checkbox id='cbEstado' onChange={e => this.setState({activo: e.checked})} 
-                        checked={this.state.activo}/>
+                            <Checkbox id='cbEstado' onChange={e => this.setState({ activo: e.checked })}
+                                checked={this.state.activo} />
                         </div>
                     </div>
                 </div>
-            </Dialog>
+        
         );
     }
 
