@@ -80,12 +80,10 @@ export default class ClienteJuridicoModal extends GenericModal {
     }
 
     getCliente = () => {
-
-        if (!this.validarGuardar()) {
-            return null;
-
-        }
+       
+       
         const cliente = {
+
             'id': this.state.id,
             'noRuc': this.state.noRuc,
             'nombre': this.state.nombre,
@@ -93,6 +91,12 @@ export default class ClienteJuridicoModal extends GenericModal {
             'telefono': this.state.telefono,
             'direccion': this.state.direccion,
             'activo': this.state.activo
+
+        }
+
+        if (!this.validarGuardar(cliente)) {
+            return null;
+
         }
         if (this.state.id !== undefined && this.state.id > 0) {
             cliente.id = this.state.id;
@@ -156,7 +160,7 @@ export default class ClienteJuridicoModal extends GenericModal {
 
     }
 
-    ToRender() {
+    toRender = () => {
         return (
 
             <div className="container m-0">
