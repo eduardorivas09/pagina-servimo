@@ -236,7 +236,6 @@ export default class Trabajador extends GenericView {
                     onRowDoubleClick={this.onRowDoubleClick}
                     deleteButto={false}
                     onClickDeleteButton={this.onClickDeleteButton}
-
                     entity="Trabajadores" />
 
                 <TrabajadorModal visible={this.state.showModal}

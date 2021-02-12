@@ -25,19 +25,19 @@ export default class ClienteJuridicoModal extends GenericModal {
             activo: '',
 
         }
-       // this.onHide = this.onHide.bind(this);
+        // this.onHide = this.onHide.bind(this);
         //this.onYesClick = this.onYesClick.bind(this);
     }
 
-   /*onHide = () => {
-        this.setState({
-            visible: true
-        });
-    }
-
-    onYesClick = () => {
-        alert('Sin funcionalidad . Trabajando en ello')
-    }*/
+    /*onHide = () => {
+         this.setState({
+             visible: true
+         });
+     }
+ 
+     onYesClick = () => {
+         alert('Sin funcionalidad . Trabajando en ello')
+     }*/
 
     renderFooter = () => {
         return (
@@ -77,7 +77,6 @@ export default class ClienteJuridicoModal extends GenericModal {
             });
 
         }
-
     }
 
     getCliente = () => {
@@ -157,85 +156,82 @@ export default class ClienteJuridicoModal extends GenericModal {
 
     }
 
-
-
     ToRender() {
         return (
-          
 
-                <div className="container m-0">
-                    <div className="row">
-                        <div className="col col-12 col-sm-12 col-md-12 col-lg-4">
-                            <spa className="p-float-label" style={{ marginTop: '1.3em' }}>
-                                <InputNumber id="itRuc"
-                                    value={this.state.noRuc}
-                                    onValueChange={(e) => this.setState({ noRuc: e.target.value })} />
+            <div className="container m-0">
+                <div className="row">
+                    <div className="col col-12 col-sm-12 col-md-12 col-lg-4">
+                        <spa className="p-float-label" style={{ marginTop: '1.3em' }}>
+                            <InputNumber id="itRuc"
+                                value={this.state.noRuc}
+                                onValueChange={(e) => this.setState({ noRuc: e.target.value })} />
 
-                                <label htmlhtmlFor="itRuc" style={{ fontSize: '0.8em' }}>Numero Ruc</label>
-                            </spa>
-                        </div>
-                    </div>
-
-                    <div className="row">
-
-                        <div className="col col-12 col-sm-12 col-md-12 col-lg-4">
-                            <spa className="p-float-label" style={{ marginTop: '1.3em' }}>
-                                <InputText id="itNombre"
-                                    value={this.state.nombre}
-                                    onChange={(e) => this.setState({ nombre: e.target.value })}
-                                    keyfilter={/[^\s]/}
-                                />
-                                <label htmlhtmlFor="itNombre" style={{ fontSize: '0.8em' }}>Nombre</label>
-                            </spa>
-                        </div>
-
-                        <div className="col col-12 col-sm-12 col-md-12 col-lg-4" >
-                            <spa className="p-float-label" style={{ marginTop: '1.3em' }}>
-                                <InputText id="itTelefono"
-                                    value={this.state.telefono}
-                                    onChange={(e) => this.setState({ telefono: e.target.value })}
-                                    keyfilter={/[^\s]/}
-                                />
-                                <label htmlhtmlFor="itTelefono" style={{ fontSize: '0.8em' }}>Telefono</label>
-                            </spa>
-                        </div>
-
-                        <div className="col col-12 col-sm-12 col-md-12 col-lg-4" >
-                            <spa className="p-float-label" style={{ marginTop: '1.3em' }}>
-                                <InputText id="itCorreo"
-                                    value={this.state.correo}
-                                    onChange={(e) => this.setState({ correo: e.target.value })}
-                                    keyfilter={/[^\s]/}
-                                />
-                                <label htmlhtmlFor="itCorreo" style={{ fontSize: '0.8em' }}>Correo</label>
-                            </spa>
-                        </div>
-
-                    </div>
-
-                    <div className="row">
-                        <div className="col col-12 col-sm-12 col-md-12 col-lg-12" style={{ marginTop: '1.3em' }}>
-                            <span>
-                                <InputTextarea id="itaDireccion" autoResize={true}
-                                    value={this.state.direccion}
-                                    onChange={(e) => this.setState({ direccion: e.target.value })}
-                                    autoResize={true}
-                                />
-                            </span>
-                        </div>
-                    </div>
-
-                    <div className="row">
-                        <div className="col col-12 col-sm-4 col-md-2 col-lg-1">
-                            <label htmlhtmlFor="cbEstado" style={{ fontSize: '0.8em' }}>Estado</label>
-                        </div>
-                        <div className="col col-12 col-sm-4 col-md-2 col-lg-1">
-                            <Checkbox id='cbEstado' onChange={e => this.setState({ activo: e.checked })}
-                                checked={this.state.activo} />
-                        </div>
+                            <label htmlhtmlFor="itRuc" style={{ fontSize: '0.8em' }}>Numero Ruc</label>
+                        </spa>
                     </div>
                 </div>
-        
+
+                <div className="row">
+
+                    <div className="col col-12 col-sm-12 col-md-12 col-lg-4">
+                        <spa className="p-float-label" style={{ marginTop: '1.3em' }}>
+                            <InputText id="itNombre"
+                                value={this.state.nombre}
+                                onChange={(e) => this.setState({ nombre: e.target.value })}
+                                keyfilter={/[^\s]/}
+                            />
+                            <label htmlhtmlFor="itNombre" style={{ fontSize: '0.8em' }}>Nombre</label>
+                        </spa>
+                    </div>
+
+                    <div className="col col-12 col-sm-12 col-md-12 col-lg-4" >
+                        <spa className="p-float-label" style={{ marginTop: '1.3em' }}>
+                            <InputText id="itTelefono"
+                                value={this.state.telefono}
+                                onChange={(e) => this.setState({ telefono: e.target.value })}
+                                keyfilter={/[^\s]/}
+                            />
+                            <label htmlhtmlFor="itTelefono" style={{ fontSize: '0.8em' }}>Telefono</label>
+                        </spa>
+                    </div>
+
+                    <div className="col col-12 col-sm-12 col-md-12 col-lg-4" >
+                        <spa className="p-float-label" style={{ marginTop: '1.3em' }}>
+                            <InputText id="itCorreo"
+                                value={this.state.correo}
+                                onChange={(e) => this.setState({ correo: e.target.value })}
+                                keyfilter={/[^\s]/}
+                            />
+                            <label htmlhtmlFor="itCorreo" style={{ fontSize: '0.8em' }}>Correo</label>
+                        </spa>
+                    </div>
+
+                </div>
+
+                <div className="row">
+                    <div className="col col-12 col-sm-12 col-md-12 col-lg-12" style={{ marginTop: '1.3em' }}>
+                        <span>
+                            <InputTextarea id="itaDireccion" autoResize={true}
+                                value={this.state.direccion}
+                                onChange={(e) => this.setState({ direccion: e.target.value })}
+                                autoResize={true}
+                            />
+                        </span>
+                    </div>
+                </div>
+
+                <div className="row">
+                    <div className="col col-12 col-sm-4 col-md-2 col-lg-1">
+                        <label htmlhtmlFor="cbEstado" style={{ fontSize: '0.8em' }}>Estado</label>
+                    </div>
+                    <div className="col col-12 col-sm-4 col-md-2 col-lg-1">
+                        <Checkbox id='cbEstado' onChange={e => this.setState({ activo: e.checked })}
+                            checked={this.state.activo} />
+                    </div>
+                </div>
+            </div>
+
         );
     }
 
