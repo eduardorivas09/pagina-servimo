@@ -1,11 +1,100 @@
-import React, {Fragment} from 'react';
-export default class ServiceView  extends React.Component{
+import { data } from 'jquery';
+import { Dialog } from 'primereact/dialog';
+import React, { Fragment } from 'react';
+import { InputText } from "primereact/inputtext";
+import GenericModal from '../modal/GenericModal';
+export default class ServiceView extends GenericModal {
 
-    render() {
-        return(
-            <Fragment>
-                por defecto
-            </Fragment>
+
+    constructor() {
+        super();
+        this.state = {
+            visible: true,
+            id: -1,
+            codigoContrato: '',
+            fechaContrato: '',
+            fechaExpira: '',
+            fechaInicio: '',
+            diaPago: '',
+            estado: '',
+            data: []
+
+        }
+
+    }
+
+
+    setServicio = (servicio) => {
+        if (servicio === undefined || servicio === null) {
+            this.setState({
+                id: null,
+                codigoContrato: null,
+                fechaContrato: null,
+                fechaExpira: null,
+                fechaInicio: null,
+                diaPago: null,
+                estado: true,
+
+
+            });
+
+        } else {
+            this.setState({
+                id: servicio.data.id,
+                codigoContrato: servicio.data.codigoContrato,
+                fechaContrato: servicio.data.fechaContrato,
+                fechaFin: servicio.data.fechaExpira,
+                fechaIncio: servicio.data.fechaInicio,
+                diaPago: servicio.data.diaPago,
+                estado: servicio.data.estado
+
+            });
+        }
+
+    }
+
+    getServicio = () => {
+        const servisio = {
+            'id': this.state.id,
+            'codigoContrato': this.state.codigoContrato,
+            'fechaContrato': this.state.fechaContrato,
+            'fechaExpira': this.state.fechaExpira,
+            'fechaInicio': this.state.fechaInicio,
+            'diaPago': this.state.diaPago,
+            'estado': this.state.estado
+
+        }
+        if (this.state.id !== undefined && this.state.id > 0) {
+            servisio.id = this.state.id;
+        }
+        return servisio;
+
+    }
+
+
+    toRender = () => {
+        return (
+
+
+            <div className="container m-0">
+                <div className="row">
+                    <div className="col col-12 col-sm-12 col-md-12 col-lg-6">
+
+                        <span className="p-float-label" style={{ marginTop: '1.3em' }}>
+                            <InputText id="itCodigoContrato"
+                                value={this.state.codigoContrato}
+                                onChange={(e) => this.setState({ codigoContrato: e.target.value })}
+                                keyfilter={/[^\s]/} />
+                            <label htmlhtmlFor="itCodigoContrato" style={{ fontSize: '0.8em' }}>Codigo del Trabajador </label>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
         );
 
     }
