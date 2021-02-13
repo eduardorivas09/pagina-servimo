@@ -23,8 +23,8 @@ export default class DialogModal extends React.Component {
     renderFooter = () => {
         return (
             <div>
-                <Button label="No" icon="pi pi-times" onClick={this.props.onClickNoButton} className="p-button-text"/>
-                <Button label="Yes" icon="pi pi-check" onClick={this.props.onClickYesButton} autoFocus/>
+                <Button label={this.props.btnNoLabel === undefined ? "No" : this.props.btnNoLabel} icon="pi pi-times" onClick={this.props.onClickNoButton} className="p-button-text"/>
+                <Button label={this.props.btnSiLabel === undefined ? "Si" : this.props.btnSiLabel} icon="pi pi-check" onClick={this.props.onClickYesButton} autoFocus/>
             </div>
         );
     }
