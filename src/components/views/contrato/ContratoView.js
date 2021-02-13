@@ -7,8 +7,10 @@ import {TabPanel} from "primereact/tabview";
 import {Button} from "primereact/button";
 import {Panel} from "primereact/panel";
 import './Contrato.css';
+import {ClienteService} from '../../../services/clientes/ClientesService'
 import {RadioButton} from "primereact/radiobutton";
 import {Dropdown} from "primereact/dropdown";
+import ServiceView from "./ServiceView";
 
 /**
  * @author Josue Reyes.
@@ -39,7 +41,8 @@ export class ContratoView extends GenericView{
             nextButtonEnabled: false,
             backButtonEnabled: true,
             currentComponent: null,
-            tipoCliente: ''
+            tipoCliente: '',
+            clientesDatos: []
         }
 
         this.index = 0;
@@ -85,13 +88,13 @@ export class ContratoView extends GenericView{
     stepsItems = () => {
         return [
             {
-                label: 'Cliente',
+                label: 'Servicios',
                 command: (event) => {
 
                 }
             },
             {
-                label: 'Servicios',
+                label: 'Cliente',
                 command: (event) => {
 
                 }
@@ -132,50 +135,70 @@ export class ContratoView extends GenericView{
         // (e => {this.setState({clienteTipo: 'natural'})})
     }
 
-    infoCliente = () => {
-        let clienteCols = [];
+    onRowDoubleClickCliente = (cliente) => {
+        console.log(cliente);
+        this.mostrarMensajeOk(`Se ha seleccionado al ${cliente.data.tipoCliente}: ${cliente.data.nombre}`);
+    }
 
-        const changeSelection = (e) => {
-            if (e.value === 'Cliente Natural'){
-                clienteCols = [
-                    {
-                        field:"primerNombre",
-                        header:"Nombre",
-                        sortable:true
-                    },{
-                        field:"primerApellido",
-                        header:"Nombre de Usuario",
-                        sortable:true
-                    },{
-                        field:"noCedula",
-                        header:"Cedula Identidad",
-                        sortable:false
-                    }
-                ]
-            }else {
-                clienteCols = [
-                        {
-                            field: "noRuc",
-                            header: "Ruc",
-                            sortable: false
-                        }, {
-                            field: "nombre",
-                            header: "Nombre ",
-                            sortable: true
-                        }
-                    ]
+    infoCliente = () => {
+        let clienteCols = [
+            {
+                field:"nombre",
+                header:"Nombre(s)",
+                sortable:true
+            },{
+                field:"telefono",
+                header:"Numero Telefonico",
+                sortable:true
+            },{
+                field:"correo",
+                header:"Correo",
+                sortable:false
+            },{
+                field:"tipoCliente",
+                header:"Tipo Cliente",
+                sortable:true
+            },{
+                field:"activo",
+                header:"Activo",
+                sortable:true
             }
-        }
+        ]
+
+        new ClienteService().getAll().then(resp => {
+            if ((resp instanceof Response && resp.status === 200) || resp instanceof Array){
+                this.setState({
+                    clientesDatos: resp
+
+                })
+            }
+
+        }).catch(e => {
+            if (e instanceof Error){
+                this.mostrarMensajeError('Acceso denegado', e.message)
+            }
+            });
 
         return (
             <Fragment>
-                <div className={'row'}>
-                    <div className="col col-12  col-md-2 col-lg-2">
-                        <Dropdown value={this.state.tipoCliente} options={[{name: 'Cliente Natural'}, {name: 'Cliente Juridico'}]} onChange={e => this.setState({tipoCliente: e.value})} optionLabel="name" editable />
-                    </div>
-                </div>
+                {/*<div className={'row'}>*/}
+                {/*    <div className="col col-12  col-md-2 col-lg-2">*/}
+                {/*        <div className="align-content-lg-end">*/}
+                {/*            <Dropdown*/}
+                {/*                value={this.state.tipoCliente}*/}
+                {/*                options={[{name: 'Cliente Natural'}, {name: 'Cliente Juridico'}]}*/}
+                {/*                onChange={e => this.setState({tipoCliente: e.value})}*/}
+                {/*                placeholder={'Tipo Cliente'}*/}
+                {/*                optionLabel="name" editable />*/}
+                {/*        </div>*/}
+                {/*    </div>*/}
+                {/*</div>*/}
                 <div className="row">
-
+                    <Table promise={this.state.clientesDatos}
+                           columns={clienteCols}
+                           onRowDoubleClick={this.onRowDoubleClickCliente}
+                           deleteButton={false}
+                           entity="Cliente" />
                 </div>
             </Fragment>
 
@@ -184,9 +207,7 @@ export class ContratoView extends GenericView{
 
     infoServicios = () => {
         return (
-            <div>
-                <h3>TEXT 2</h3>
-            </div>
+            <ServiceView />
         );
     }
 
@@ -241,9 +262,9 @@ export class ContratoView extends GenericView{
         let compo = null;
 
         if (index === 0)
-            compo = this.infoCliente();
-        if (index === 1)
             compo = this.infoServicios();
+        if (index === 1)
+            compo = this.infoCliente();
         if (index === 2)
             compo = this.infoDetallePago();
         if (index === 3)
@@ -285,7 +306,7 @@ export class ContratoView extends GenericView{
                     </div>
 
                     {/*   COMPONENTE PARA VISUALIZAR LOS MENSAJES EN PANTALLA    */}
-                    {/*<Toast ref={this.toast} position={this.right()}/>*/}
+                    <Toast ref={this.toast} position={this.right()}/>
                 </div>
             </Fragment>
         );
