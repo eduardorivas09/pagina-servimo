@@ -41,7 +41,7 @@ export class TrabajadoresService extends AbstractService {
         let url = setting.main + `empleado/${obj.id}`
         console.log(url)
         console.log(obj);
-        return new RequestService().doPost(url, JSON.stringify(obj), true)
+        return new RequestService().doPut(url, JSON.stringify(obj), true)
             .catch(e => {
 
                 if (e instanceof Error && e.message.includes('NetworkError')) {

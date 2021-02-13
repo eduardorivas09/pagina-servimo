@@ -79,6 +79,7 @@ export default class ClienteJuridicoModal extends React.Component {
         }
 
     }
+
     getCliente = () => {
         const cliente = {
             'id': this.state.id,
@@ -94,6 +95,7 @@ export default class ClienteJuridicoModal extends React.Component {
         }
         return cliente;
     }
+    
 
     validateTelefono = (event) => {
         const str = /^[2|5|7|8]\d{0,7}/g;

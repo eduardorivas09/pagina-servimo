@@ -6,7 +6,7 @@ import { AuthorizationError } from "../../util/Error/AuthorizationError";
 import { AbstractService } from "../AbstractService";
 import { SavingError } from "../../util/Error/SavingError";
 
-export class CarjoTrabajadorService extends AbstractService {
+export class CargoTrabajadorService extends AbstractService {
 
 
     getAll = () => {

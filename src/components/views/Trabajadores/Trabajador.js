@@ -19,30 +19,30 @@ export default class Trabajador extends GenericView {
             data: [],
             selectedRow: null,
             rowid: -1,
-          
         }
         this.TrabajadorModal = React.createRef();
         this.buscar = this.buscar.bind(this)
         this.onSearchChange = this.onSearchChange.bind(this)
         this.onHideModal = this.onHideModal.bind(this)
-        this.onRowDoubleClik = this.onRowDoubleClik.bind(this)
+        this.onRowDoubleClick = this.onRowDoubleClick.bind(this)
         this.onClickNoButton = this.onClickNoButton.bind(this)
         this.onClickYesButton = this.onClickYesButton.bind(this)
         this.addAgregarTrabajador = this.addAgregarTrabajador.bind(this)
+        this.onClickDeleteButton = this.onClickDeleteButton.bind(this)
         this.toast = React.createRef();
-
     }
+
 
     buscar(e) {
         e.preventDefaul();
         if (this.state.busqueda.trim().length > 0) {
             this.loadData(this.state.busqueda);
         }
-
         if (this.state.busqueda.trim().length === 0) {
             this.loadData();
         }
     }
+
 
     onSearchChange(e) {
         this.setState({
@@ -63,38 +63,31 @@ export default class Trabajador extends GenericView {
                     console.log(resp)
                     this.setState({
                         data: resp
-                    })
+                    });
                 }
             })
             .catch(e => {
 
                 if (e instanceof Error) {
-                    this.setState({
-                        ModalProps: {
-                            modalHeader: 'Acceso denegado',
-                            modalMessage: e.message,
-                            modalType: 'warnig',
-                            visible: true
-                        }
-                    });
+                    this.mostrarMensajeError('Acceso denegado', e.message)
                 }
-
             });
-
     }
+
 
     addAgregarTrabajador = () => {
 
         this.setState({
             showModal: true
         });
-        //this.TrabajadorModal.current.setState(null);
+        this.TrabajadorModal.current.setTrabajador(null);
     }
+
 
     updateTrabajador = (trabajador) => {
         console.log(trabajador)
-        const TrabajadoresService = new TrabajadoresService();
-        ClienteNaturalService.update(trabajador)
+        const trabajadoresService = new TrabajadoresService();
+        trabajadoresService.update(trabajador)
             .then(response => {
                 this.mostrarMensajeOk(
                     'Trabajador Actulizado',
@@ -108,21 +101,18 @@ export default class Trabajador extends GenericView {
             .catch(e => {
                 this.mostrarMensajeError('No se Actualizo el trabajador', e.message)
             });
-
-
-
     }
 
     saveNewTrabajador = (trabajador) => {
         console.log(trabajador)
-        const TrabajadoresService = new TrabajadoresService();
-        ClienteNaturalService.save(trabajador)
+        const trabajadoresService = new TrabajadoresService();
+        trabajadoresService.save(trabajador)
             .then(response => {
                 this.mostrarMensajeOk(
                     'Trabajador Ingresado',
                     'trabajador' + response.primerNombre + '' + response.primerApellido
-
                 );
+
                 this.loadData();
                 this.onHideModal();
 
@@ -130,36 +120,44 @@ export default class Trabajador extends GenericView {
             .catch(e => {
                 this.mostrarMensajeError('No se Registro  el trabajador', e.message)
             });
-
-
-
     }
 
+
+    validarGuardar = (trabajador) => {
+        if (trabajador === null || trabajador === undefined) {
+            this.mostrarMensajeAdvertencia('No se ha pasado un parametro valido');
+
+        }
+
+    }
 
     onClickYesButton = () => {
         const trabajador = this.TrabajadorModal.current.getTrabajador();
 
-        if (trabajador.id !== undefined && trabajador.id > 0) {
-           this.updateTrabajador(trabajador);
-        }else{
-          this.saveNewTrabajador(trabajador)
-
+        if (trabajador !== null) {
+            console.log(trabajador)
+            if (trabajador.id !== undefined && trabajador.id > 0) {
+                this.updateTrabajador(trabajador);
+            } else {
+                this.saveNewTrabajador(trabajador)
+                console.log(trabajador)
+            }
         }
     }
 
 
     componentDidMount() {
-
         this.loadData();
     }
 
     onHide = () => {
         this.setState({
             ModalProps: {
-                visible: false 
+                visible: false
             }
         });
     }
+
 
     visibledColumns = () => {
         return [
@@ -177,7 +175,6 @@ export default class Trabajador extends GenericView {
                 header: "Apellido",
                 sortable: false
             },
-
             {
                 field: "telefono",
                 header: "Tefono",
@@ -186,19 +183,20 @@ export default class Trabajador extends GenericView {
                 field: "direccion",
                 header: "Direccion",
                 sortable: true
-            }, /*{
-                 field: "estado",
-                 header: "Estado",
-                 sortable: true
-             }, */{
+            },
+            {
                 field: "cargo.nombreCargo",
                 header: "Cargo",
                 sortable: true
-            }
-
+            }, {
+                field: "estado",
+                header: "Estado",
+                sortable: true
+            },
 
         ]
     }
+    
 
     onHideModal = () => {
         this.setState({
@@ -211,10 +209,10 @@ export default class Trabajador extends GenericView {
             showModal: true,
             selectedRow: trabajador
         });
-
+        this.TrabajadorModal.current.setTrabajador(trabajador);
     }
 
-    onRowDoubleClik = (e) => {
+    onRowDoubleClick = (e) => {
         this.openEditMadal(e);
     }
 
@@ -228,7 +226,6 @@ export default class Trabajador extends GenericView {
         this.updateTrabajador(this.state.selectedRow);
     }
 
-   
     render() {
 
         return (
@@ -237,15 +234,17 @@ export default class Trabajador extends GenericView {
                     columns={this.visibledColumns()}
                     onClickAdd={this.addAgregarTrabajador}
                     onRowDoubleClick={this.onRowDoubleClick}
-
+                    deleteButto={false}
+                    onClickDeleteButton={this.onClickDeleteButton}
 
                     entity="Trabajadores" />
 
                 <TrabajadorModal visible={this.state.showModal}
                     onHide={this.onHideModal}
+                    hasGuardarCancelarButtons={true}
                     onClickNoButton={this.onClickNoButton}
                     onClickYesButton={this.onClickYesButton}
-                    visible = {this.state.showModal}
+                    visible={this.state.showModal}
                     ref={this.TrabajadorModal}
                 />
                 <Toast ref={this.toast} position={this.right()} />
