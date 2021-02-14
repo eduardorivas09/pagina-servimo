@@ -3,6 +3,7 @@ import {Session} from "./seguridad/Session";
 import {NetworkConnectionError} from "../util/Error/NetworkConnectionError";
 import {SavingError} from "../util/Error/SavingError";
 import {AuthorizationError} from "../util/Error/AuthorizationError";
+import {ServerError} from "../util/Error/ServerError";
 
 export class RequestService {
 
@@ -29,7 +30,23 @@ export class RequestService {
                     'Origin': ''
                 }
             }
-        ).then(response => response.json())
+        ).then(response => {
+            if ((response instanceof Response || response instanceof Object) && response.status === 403){//FORBIDEN
+                throw new AuthorizationError();
+            }
+
+            if ((response instanceof Response || response instanceof Object) && response.status === 500){//INTERNAL SERVER ERROR
+                console.log("Lanzando error")
+                throw new ServerError();
+            }
+
+            return response.json()
+        }).catch(e => {
+            if (e instanceof Error &&  e.message.includes('NetworkError')){
+                throw new NetworkConnectionError();
+            }
+            throw e;
+        })
     }
 
     async doPost(path, body, hasToken) {

@@ -12,6 +12,7 @@ import {RadioButton} from "primereact/radiobutton";
 import {Dropdown} from "primereact/dropdown";
 import ServiceView from "./ServiceView";
 import SelectCliente from "./selectabledComponents/selectClientes/SelectCliente";
+import DetallePagoView from "./detallePago/DetallePagoView";
 
 /**
  * @author Josue Reyes.
@@ -90,7 +91,7 @@ export class ContratoView extends GenericView{
     stepsItems = () => {
         return [
             {
-                label: 'Cliente',
+                label: 'Detalle Pago',
                 command: (event) => {
 
                 }
@@ -102,7 +103,7 @@ export class ContratoView extends GenericView{
                 }
             },
             {
-                label: 'Detalle Pago',
+                label: 'Cliente',
                 command: (event) => {
 
                 }
@@ -150,7 +151,7 @@ export class ContratoView extends GenericView{
     infoDetallePago = () => {
         return (
             <div>
-                <h3>TEXT 3</h3>
+                <DetallePagoView/>
             </div>
         );
     }
@@ -179,7 +180,6 @@ export class ContratoView extends GenericView{
     nextvent = () => {
         //  VERIFICA SI LA VISTA ACTUAL CONTIENE TODAS LOS DATOS REQUERIDOS
         if (!this.testValidations(this.index)){
-            this.mostrarMensajeAdvertencia('Aun no se ha seleccionado un cliente.');
             return;
         }
         this.index += 1;
@@ -201,23 +201,25 @@ export class ContratoView extends GenericView{
     }
 
     testValidations = (index) => {
-        if (index === 0 && (this.state.selectedCliente !=null || this.clienteView.current.getCliente() != null)) {
-            this.setState({selectedCliente: this.clienteView.current.getCliente()});
-            return true;
+        //this.setState({selectedCliente: this.clienteView.current.getCliente()});
+        if (index === 0 && (this.state.selectedCliente ==null || !this.clienteView.current.validSelection())) {
+            return false;
         }
 
-        return false;
+        return true;
     }
 
     setComponent = (index) => {
         let compo = null;
 
         if (index === 0)
-            compo = this.infoCliente();
+            compo = this.infoDetallePago();
+            // compo = this.infoCliente();
         if (index === 1)
             compo = this.infoServicios();
         if (index === 2)
-            compo = this.infoDetallePago();
+            compo = this.infoCliente();
+            // compo = this.infoDetallePago();
         if (index === 3)
             compo = this.infoResumen();
 

@@ -8,6 +8,7 @@ import ClienteJuridicoModal from "../../../clientes/juridico/ClienteJudiricoModa
 import {ClienteJuridicoService} from "../../../../../services/clientes/ClienteJuridicoService";
 import ClienteNaturalModal from "../../../clientes/natural/ClienteNaturalModal";
 import {ClienteNaturalService} from "../../../../../services/clientes/ClienteNaturalService";
+import {ServerError} from "../../../../../util/Error/ServerError";
 
 export default class SelectCliente extends GenericView{
 
@@ -27,12 +28,7 @@ export default class SelectCliente extends GenericView{
         this.clienteNaturalModal = React.createRef();
     }
 
-    onRowDoubleClickCliente = (cliente) => {
-        this.setState({
-            clienteSeleccionado: cliente
-        });
-        this.mostrarMensajeOk(`Se ha seleccionado al ${cliente.data.tipoCliente}: ${cliente.data.nombre}`);
-    }
+    //=============================METODOS PARA MANEJO Y VALIDACION DE LOS DATOS======================================
 
     getCliente = () => {
         return this.state.clienteSeleccionado;
@@ -47,6 +43,44 @@ export default class SelectCliente extends GenericView{
         }
         console.log(newNliente)
         this.onRowDoubleClickCliente(newNliente);
+    }
+
+    loadData = () => {
+        new ClienteService().getAll().then(resp => {
+            if ((resp instanceof Response && resp.status === 200) || resp instanceof Array){
+                this.setState({
+                    clientesDatos: resp
+
+                })
+            }
+
+        }).catch(e => {
+            if (e instanceof ServerError){
+                this.mostrarMensajeError('Problema al obtener los clientes', e.message);
+                return;
+            }
+            if (e instanceof Error){
+                this.mostrarMensajeError('Problema al obtener los clientes', e.message);
+            }
+        });
+    }
+
+    /**
+     * Metodo que valida la seleccion actual.
+     * @returns {boolean} que es true si la seleccion es valida, de lo contrario false.
+     */
+    validSelection = () => {
+        this.mostrarMensajeAdvertencia("Aun no se ha seleccionado un cliente.")
+        return this.getCliente() !== null && this.getCliente() !== undefined;
+    }
+
+    //=============================EVENTOS DEL USUARIO======================================
+
+    onRowDoubleClickCliente = (cliente) => {
+        this.setState({
+            clienteSeleccionado: cliente
+        });
+        this.mostrarMensajeOk(`Se ha seleccionado al ${cliente.data.tipoCliente}: ${cliente.data.nombre}`);
     }
 
     /**
@@ -140,22 +174,6 @@ export default class SelectCliente extends GenericView{
         this.loadData();
     }
 
-    loadData = () => {
-        new ClienteService().getAll().then(resp => {
-            if ((resp instanceof Response && resp.status === 200) || resp instanceof Array){
-                this.setState({
-                    clientesDatos: resp
-
-                })
-            }
-
-        }).catch(e => {
-            if (e instanceof Error){
-                this.mostrarMensajeError('Acceso denegado', e.message)
-            }
-        });
-    }
-
     addNewCliente = () => {
         this.setState({
             modalProps : {
@@ -164,9 +182,7 @@ export default class SelectCliente extends GenericView{
         });
     }
 
-    getClienteSeleccionado() {
-        return this.state.clienteSeleccionado;
-    }
+
 
     render() {
         let clienteCols = [
