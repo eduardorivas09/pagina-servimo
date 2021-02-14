@@ -3,8 +3,10 @@ import { Dialog } from 'primereact/dialog';
 import React, { Fragment } from 'react';
 import { InputText } from "primereact/inputtext";
 import GenericModal from '../modal/GenericModal';
+import { ListBox } from 'primereact/listbox';
+import PropTypes from 'prop-types'
+import { ServicioService } from "../../../services/contratos/ServicioService"
 export default class ServiceView extends GenericModal {
-
 
     constructor() {
         super();
@@ -17,12 +19,12 @@ export default class ServiceView extends GenericModal {
             fechaInicio: '',
             diaPago: '',
             estado: '',
-            data: []
+            data: [],
+            servuciosSelecionados: [],
 
         }
 
     }
-
 
     setServicio = (servicio) => {
         if (servicio === undefined || servicio === null) {
@@ -50,8 +52,8 @@ export default class ServiceView extends GenericModal {
 
             });
         }
-
     }
+
 
     getServicio = () => {
         const servisio = {
@@ -72,31 +74,49 @@ export default class ServiceView extends GenericModal {
     }
 
 
-    toRender = () => {
-        return (
+    componentDidMount() {
+        new ServicioService()
+
+            .getAll()
+            .then(resp => {
+                if ((resp instanceof Response && resp.status === 200) || resp instanceof Array) {
+                    this.setState({
+                        data: resp
+                    })
+                }
+
+            }).catch(e => {
+                if (e instanceof Error) {
+                    this.mostrarMensajeError('Acceso denegado', e.message);
+                }
+            });
+
+        toRender = () => {
+            return (
 
 
-            <div className="container m-0">
-                <div className="row">
-                    <div className="col col-12 col-sm-12 col-md-12 col-lg-6">
+                <div className="container m-0">
+                    <div className="row">
+                        <div className="col col-12 col-sm-12 col-md-12 col-lg-6">
 
-                        <span className="p-float-label" style={{ marginTop: '1.3em' }}>
-                            <InputText id="itCodigoContrato"
-                                value={this.state.codigoContrato}
-                                onChange={(e) => this.setState({ codigoContrato: e.target.value })}
-                                keyfilter={/[^\s]/} />
-                            <label htmlhtmlFor="itCodigoContrato" style={{ fontSize: '0.8em' }}>Codigo del Trabajador </label>
-                        </span>
+                            <span className="p-float-label" style={{ marginTop: '1.3em' }}>
+                                <ListBox id="itCodigoContrato"
+                                    value={this.state.servuciosSelecionados}
+                                    options={this.state.data}
+                                />
+                                <label htmlhtmlFor="itCodigoContrato" style={{ fontSize: '0.8em' }}>Codigo del Trabajador </label>
+                            </span>
+                        </div>
                     </div>
                 </div>
-            </div>
 
 
 
 
 
-        );
+            );
+
+        }
 
     }
-
 }
