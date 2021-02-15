@@ -91,12 +91,6 @@ export class ContratoView extends GenericView{
     stepsItems = () => {
         return [
             {
-                label: 'Detalle Pago',
-                command: (event) => {
-
-                }
-            },
-            {
                 label: 'Servicios',
                 command: (event) => {
 
@@ -104,6 +98,12 @@ export class ContratoView extends GenericView{
             },
             {
                 label: 'Cliente',
+                command: (event) => {
+
+                }
+            },
+            {
+                label: 'Detalle Pago',
                 command: (event) => {
 
                 }
@@ -202,8 +202,14 @@ export class ContratoView extends GenericView{
 
     testValidations = (index) => {
         //this.setState({selectedCliente: this.clienteView.current.getCliente()});
-        if (index === 0 && (this.state.selectedCliente ==null || !this.clienteView.current.validSelection())) {
+        if (index === 1 && (this.state.selectedCliente == null && !this.clienteView.current.validSelection())) {
             return false;
+        }else if(index === 1) {
+            this.setState({
+                selectedCliente: (this.state.selectedCliente == null
+                    ? this.clienteView.current.validSelection()
+                    : this.state.selectedCliente)
+            });
         }
 
         return true;
@@ -213,13 +219,15 @@ export class ContratoView extends GenericView{
         let compo = null;
 
         if (index === 0)
-            compo = this.infoDetallePago();
-            // compo = this.infoCliente();
-        if (index === 1)
-            compo = this.infoServicios();
-        if (index === 2)
-            compo = this.infoCliente();
             // compo = this.infoDetallePago();
+            // compo = this.infoCliente();
+            compo = this.infoServicios();
+        if (index === 1)
+            // compo = this.infoServicios();
+            compo = this.infoCliente();
+        if (index === 2)
+            // compo = this.infoCliente();
+            compo = this.infoDetallePago();
         if (index === 3)
             compo = this.infoResumen();
 
