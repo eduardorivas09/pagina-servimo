@@ -6,7 +6,9 @@ import GenericModal from '../modal/GenericModal';
 import { ListBox } from 'primereact/listbox';
 import PropTypes from 'prop-types'
 import { ServicioService } from "../../../services/contratos/ServicioService"
-export default class ServiceView extends GenericModal {
+import { GenericView } from '../GenericView';
+import { Toast } from "primereact/toast";
+export default class ServiceView extends GenericView {
 
     constructor() {
         super();
@@ -73,50 +75,49 @@ export default class ServiceView extends GenericModal {
 
     }
 
-
-    componentDidMount() {
+    load = () => {
         new ServicioService()
-
             .getAll()
             .then(resp => {
+                console.log(resp)
                 if ((resp instanceof Response && resp.status === 200) || resp instanceof Array) {
                     this.setState({
                         data: resp
                     })
                 }
-
             }).catch(e => {
                 if (e instanceof Error) {
                     this.mostrarMensajeError('Acceso denegado', e.message);
                 }
             });
+    }
 
-        toRender = () => {
-            return (
+    componentDidMount() {
+        this.load();
+    }
 
+    render = () => {
+        return (
 
-                <div className="container m-0">
-                    <div className="row">
-                        <div className="col col-12 col-sm-12 col-md-12 col-lg-6">
+            <div className="container m-0">
+                <div className="row">
+                    <div className="col col-12 col-sm-12 col-md-12 col-lg-6">
+                        <ListBox id="itCodigoContrato"
+                            multiple ={true}
+                            onChange ={(e)=> this.setState({servuciosSelecionados:e.value})}
+                            value={this.state.servuciosSelecionados}
+                            options={this.state.data}
+                            optionLabel={'tipoSevicio'}
 
-                            <span className="p-float-label" style={{ marginTop: '1.3em' }}>
-                                <ListBox id="itCodigoContrato"
-                                    value={this.state.servuciosSelecionados}
-                                    options={this.state.data}
-                                />
-                                <label htmlhtmlFor="itCodigoContrato" style={{ fontSize: '0.8em' }}>Codigo del Trabajador </label>
-                            </span>
-                        </div>
+                        />
                     </div>
                 </div>
+                <Toast ref={this.toast} position={this.right()} />
+            </div>
 
 
-
-
-
-            );
-
-        }
+        );
 
     }
+
 }
