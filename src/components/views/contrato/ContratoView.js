@@ -11,6 +11,8 @@ import {ClienteService} from '../../../services/clientes/ClientesService'
 import {RadioButton} from "primereact/radiobutton";
 import {Dropdown} from "primereact/dropdown";
 import ServiceView from "./ServiceView";
+import SelectCliente from "./selectabledComponents/selectClientes/SelectCliente";
+import DetallePagoView from "./detallePago/DetallePagoView";
 
 /**
  * @author Josue Reyes.
@@ -33,7 +35,7 @@ export class ContratoView extends GenericView{
         this.renderFooter = this.renderFooter.bind(this);
         this.nextvent = this.nextvent.bind(this);
         this.backEvent = this.backEvent.bind(this);
-        this.changeRarioClientes = this.changeRarioClientes.bind(this);
+        this.selectCliente = this.selectCliente.bind(this);
 
 
         this.state = {
@@ -41,9 +43,10 @@ export class ContratoView extends GenericView{
             nextButtonEnabled: false,
             backButtonEnabled: true,
             currentComponent: null,
-            tipoCliente: '',
-            clientesDatos: []
+            selectedCliente : null
         }
+
+        this.clienteView = React.createRef();
 
         this.index = 0;
     }
@@ -123,84 +126,18 @@ export class ContratoView extends GenericView{
         );
     }
 
-    changeRarioClientes = (e) => {
-        // console.log(e.value)
-        //
-        // if (e.value.includes('Natural')){
-        //     this.setState({clienteNatural: true})
-        // }else {
-        //     this.setState({clienteNatural: false})
-        // }
-        // (e => {this.setState({clienteTipo: 'juridico'})})
-        // (e => {this.setState({clienteTipo: 'natural'})})
+    selectCliente = (e) => {
+        if (e !== null ) {
+
+        }
     }
 
-    onRowDoubleClickCliente = (cliente) => {
-        console.log(cliente);
-        this.mostrarMensajeOk(`Se ha seleccionado al ${cliente.data.tipoCliente}: ${cliente.data.nombre}`);
-    }
+
 
     infoCliente = () => {
-        let clienteCols = [
-            {
-                field:"nombre",
-                header:"Nombre(s)",
-                sortable:true
-            },{
-                field:"telefono",
-                header:"Numero Telefonico",
-                sortable:true
-            },{
-                field:"correo",
-                header:"Correo",
-                sortable:false
-            },{
-                field:"tipoCliente",
-                header:"Tipo Cliente",
-                sortable:true
-            },{
-                field:"activo",
-                header:"Activo",
-                sortable:true
-            }
-        ]
-
-        new ClienteService().getAll().then(resp => {
-            if ((resp instanceof Response && resp.status === 200) || resp instanceof Array){
-                this.setState({
-                    clientesDatos: resp
-
-                })
-            }
-
-        }).catch(e => {
-            if (e instanceof Error){
-                this.mostrarMensajeError('Acceso denegado', e.message)
-            }
-            });
 
         return (
-            <Fragment>
-                {/*<div className={'row'}>*/}
-                {/*    <div className="col col-12  col-md-2 col-lg-2">*/}
-                {/*        <div className="align-content-lg-end">*/}
-                {/*            <Dropdown*/}
-                {/*                value={this.state.tipoCliente}*/}
-                {/*                options={[{name: 'Cliente Natural'}, {name: 'Cliente Juridico'}]}*/}
-                {/*                onChange={e => this.setState({tipoCliente: e.value})}*/}
-                {/*                placeholder={'Tipo Cliente'}*/}
-                {/*                optionLabel="name" editable />*/}
-                {/*        </div>*/}
-                {/*    </div>*/}
-                {/*</div>*/}
-                <div className="row">
-                    <Table promise={this.state.clientesDatos}
-                           columns={clienteCols}
-                           onRowDoubleClick={this.onRowDoubleClickCliente}
-                           deleteButton={false}
-                           entity="Cliente" />
-                </div>
-            </Fragment>
+            <SelectCliente ref={this.clienteView}/>
 
         );
     }
@@ -214,7 +151,7 @@ export class ContratoView extends GenericView{
     infoDetallePago = () => {
         return (
             <div>
-                <h3>TEXT 3</h3>
+                <DetallePagoView/>
             </div>
         );
     }
@@ -237,15 +174,20 @@ export class ContratoView extends GenericView{
 
     backEvent = () => {
         this.index -= 1;
-        this.changeIndex(this.index)
+        this.changeIndex(this.index);
     }
 
     nextvent = () => {
+        //  VERIFICA SI LA VISTA ACTUAL CONTIENE TODAS LOS DATOS REQUERIDOS
+        if (!this.testValidations(this.index)){
+            return;
+        }
         this.index += 1;
         this.changeIndex(this.index)
     }
 
     changeIndex = (index) => {
+
         this.setState({
             activeIndex: (index)
         });
@@ -258,14 +200,33 @@ export class ContratoView extends GenericView{
         });
     }
 
+    testValidations = (index) => {
+        //this.setState({selectedCliente: this.clienteView.current.getCliente()});
+        if (index === 1 && (this.state.selectedCliente == null && !this.clienteView.current.validSelection())) {
+            return false;
+        }else if(index === 1) {
+            this.setState({
+                selectedCliente: (this.state.selectedCliente == null
+                    ? this.clienteView.current.validSelection()
+                    : this.state.selectedCliente)
+            });
+        }
+
+        return true;
+    }
+
     setComponent = (index) => {
         let compo = null;
 
         if (index === 0)
+            // compo = this.infoDetallePago();
+            // compo = this.infoCliente();
             compo = this.infoServicios();
         if (index === 1)
+            // compo = this.infoServicios();
             compo = this.infoCliente();
         if (index === 2)
+            // compo = this.infoCliente();
             compo = this.infoDetallePago();
         if (index === 3)
             compo = this.infoResumen();
