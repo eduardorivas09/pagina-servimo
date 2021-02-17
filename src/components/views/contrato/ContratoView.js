@@ -45,11 +45,13 @@ export class ContratoView extends GenericView{
             backButtonEnabled: true,
             currentComponent: null,
             selectedCliente: null,
-            detallePagoObj: null
+            detallePagoObj: null,
+            contratoData: null
         }
 
         this.clienteView = React.createRef();
         this.detallePagoRef = React.createRef();
+        this.contratoRef = React.createRef();
 
         this.index = 0;
         // this.selectedCliente = null;
@@ -107,13 +109,13 @@ export class ContratoView extends GenericView{
     stepsItems = () => {
         return [
             {
-                label: 'Servicios',
+                label: 'Cliente',
                 command: (event) => {
 
                 }
             },
             {
-                label: 'Cliente',
+                label: 'Contrato',
                 command: (event) => {
 
                 }
@@ -162,13 +164,15 @@ export class ContratoView extends GenericView{
     }
 
     infoServicios = () => {
+        console.log(this.state.contratoData);
         return (
-            <ServiceView />
+            <ServiceView ref={this.contratoRef}/>
         );
     }
 
     infoDetallePago = () => {
         console.log(this.state.selectedCliente);
+        console.log(this.state.contratoData);
         const plazoEstandar = this.state.selectedCliente.tipoCliente === "Cliente Natural";
 
         // if (this.state.detallePagoObj != null) {
@@ -229,13 +233,24 @@ export class ContratoView extends GenericView{
 
     testValidations = (index) => {
         //this.setState({selectedCliente: this.clienteView.current.getCliente()});
-        if (index === 1 && (this.state.selectedCliente == null && !this.clienteView.current.validSelection())) {
+        if (index === 0 && (this.state.selectedCliente == null && !this.clienteView.current.validSelection())) {
             return false;
+        }
+
+        if (index === 1 && (this.state.contratoData == null && !this.contratoRef.current.validSelection())) {
+            return false;
+        } else if(index === 1) {
+            let contrato = (this.state.contratoData == null || this.state.contratoData === undefined
+                ? this.contratoRef.current.getServicio()
+                : this.state.contratoData);
+            console.log(contrato)
+            contrato = contrato.data;
+            this.setState({contratoData: contrato});
         }
 
         if (index === 2 && (this.state.detallePagoObj == null && !this.detallePagoRef.current.validSelection())) {
             return false;
-        }else if(index === 2) {
+        } else if(index === 2) {
             let detalle = (this.state.detallePagoObj == null || this.state.detallePagoObj === undefined
                 ? this.detallePagoRef.current.getDetalleServicio()
                 : this.state.detallePagoObj);
@@ -251,11 +266,11 @@ export class ContratoView extends GenericView{
 
         if (index === 0)
             // compo = this.infoDetallePago();
-            // compo = this.infoCliente();
-            compo = this.infoServicios();
-        if (index === 1)
-            // compo = this.infoServicios();
             compo = this.infoCliente();
+            // compo = this.infoServicios();
+        if (index === 1)
+            compo = this.infoServicios();
+            // compo = this.infoCliente();
         if (index === 2)
             // compo = this.infoCliente();
             compo = this.infoDetallePago();

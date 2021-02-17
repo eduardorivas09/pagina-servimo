@@ -17,9 +17,9 @@ export default class ServiceView extends GenericView {
             visible: true,
             id: -1,
             codigoContrato: '',
-            fechaContrato: '',
-            fechaExpira: '',
-            fechaInicio: '',
+            fechaContrato: null,
+            fechaFin: null,
+            fechaInicio: null,
             diaPago: '',
             estado: '',
             data: [],
@@ -27,6 +27,35 @@ export default class ServiceView extends GenericView {
 
         }
 
+    }
+
+    /**
+     * Metodo que valida la seleccion actual.
+     * @returns {boolean} que es true si la seleccion es valida, de lo contrario false.
+     */
+    validSelection = () => {
+        console.log(this.state.servuciosSelecionados );
+        if (this.state.servuciosSelecionados == null || this.state.servuciosSelecionados.length === 0){
+            this.mostrarMensajeAdvertencia("No se ha seleccionado ningun servicio")
+            return false;
+        }
+
+        if (this.state.fechaInicio == null){
+            this.mostrarMensajeAdvertencia("No se ha seleccionado la fecha de inicio")
+            return false;
+        }
+
+        // if (this.state.fechaContrato == null){
+        //     this.mostrarMensajeAdvertencia("No se ha seleccionado la de creacion del contrato")
+        //     return false;
+        // }
+
+        if (this.state.fechaFin == null){
+            this.mostrarMensajeAdvertencia("No se ha seleccionado la fecha fin")
+            return false;
+        }
+
+        return true;
     }
 
     setServicio = (servicio) => {
@@ -60,17 +89,11 @@ export default class ServiceView extends GenericView {
 
     getServicio = () => {
         const servisio = {
-            'id': this.state.id,
-            'codigoContrato': this.state.codigoContrato,
+            servicios: this.state.servuciosSelecionados,
             'fechaContrato': this.state.fechaContrato,
             'fechaExpira': this.state.fechaExpira,
-            'fechaInicio': this.state.fechaInicio,
-            'diaPago': this.state.diaPago,
-            'estado': this.state.estado
+            'fechaInicio': this.state.fechaInicio
 
-        }
-        if (this.state.id !== undefined && this.state.id > 0) {
-            servisio.id = this.state.id;
         }
         return servisio;
 
@@ -102,7 +125,7 @@ export default class ServiceView extends GenericView {
 
             <div className="container m-0">
                 <div className="row">
-                    <div className="col col-12 col-sm-12 col-md-12 col-lg-6">
+                    <div className="col col-12 col-sm-12 col-md-12 col-lg-12">
                         <h4> Selecione el servicio</h4>
                         <ListBox id="itCodigoContrato"
                             multiple={true}
@@ -113,10 +136,9 @@ export default class ServiceView extends GenericView {
                         />
                     </div>
                 </div>
-
-                <div className="row">
+                <div className="row mt-5">
                     <div className="col col-12 col-sm-12 col-md-12 col-lg-6">
-                        <h4>Fceha Inicio</h4>
+                        <h4>Fecha Inicio</h4>
                         <Calendar id="itfechaInicio"
                             onChange={(e) => this.setState({ fechaInicio: e.value })}
                             showIcon
@@ -125,12 +147,8 @@ export default class ServiceView extends GenericView {
                         />
                     </div>
 
-
-                </div>
-
-                <div className="row">
                     <div className="col col-12 col-sm-12 col-md-12 col-lg-6">
-                        <h4>Fceha Fin</h4>
+                        <h4>Fecha Fin</h4>
                         <Calendar id="itfechaFin"
                             onChange={(e) => this.setState({ fechaFin: e.value })}
                             showIcon
@@ -138,18 +156,16 @@ export default class ServiceView extends GenericView {
                             value={this.state.fechaFin}
                         />
                     </div>
-                </div>
 
-                <div className="row">
-                    <div className="col col-12 col-sm-12 col-md-12 col-lg-6">
-                        <h4>Fecha de Contrato</h4>
-                        <Calendar id="itfechaContrato"
-                            onChange={(e) => this.setState({ fechaContrato: e.value })}
-                            showIcon
-                            showButtonBar
-                            value={this.state.fechaContrato}
-                        />
-                    </div>
+                    {/*<div className="col col-12 col-sm-12 col-md-12 col-lg-4">*/}
+                    {/*    <h4>Fecha de Contrato</h4>*/}
+                    {/*    <Calendar id="itfechaContrato"*/}
+                    {/*        onChange={(e) => this.setState({ fechaContrato: e.value })}*/}
+                    {/*        showIcon*/}
+                    {/*        showButtonBar*/}
+                    {/*        value={this.state.fechaContrato}*/}
+                    {/*    />*/}
+                    {/*</div>*/}
                 </div>
 
                 <Toast ref={this.toast} position={this.right()} />
