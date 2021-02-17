@@ -57,7 +57,6 @@ export default class ServiceView extends GenericView {
         }
     }
 
-
     getServicio = () => {
         const servisio = {
             'id': this.state.id,
