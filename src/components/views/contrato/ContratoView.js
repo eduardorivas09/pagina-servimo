@@ -24,6 +24,7 @@ import DetallePagoView from "./detallePago/DetallePagoView";
  */
 export class ContratoView extends GenericView{
 
+
     /**
      * @constructor de la clase.
      * Se inicializan las propiedades.
@@ -43,12 +44,27 @@ export class ContratoView extends GenericView{
             nextButtonEnabled: false,
             backButtonEnabled: true,
             currentComponent: null,
-            selectedCliente : null
+            selectedCliente: null,
+            detallePagoObj: null
         }
 
         this.clienteView = React.createRef();
+        this.detallePagoRef = React.createRef();
 
         this.index = 0;
+        // this.selectedCliente = null;
+        // this.detallePagoObj = null;
+
+        this.setCliente = this.setCliente.bind(this);
+        this.setDetallePago = this.setDetallePago.bind(this);
+    }
+
+    setCliente = (e) => {
+        this.setState({selectedCliente: e});
+    }
+
+    setDetallePago = (e) => {
+        this.setState({selectedCliente: e});
     }
 
     /**
@@ -132,12 +148,15 @@ export class ContratoView extends GenericView{
         }
     }
 
-
-
     infoCliente = () => {
+        console.log(this.state.selectedCliente);
+
+        if (this.state.clienteView != null) {
+            this.clienteView.current.setCliente(this.state.selectedCliente);
+        }
 
         return (
-            <SelectCliente ref={this.clienteView}/>
+            <SelectCliente ref={this.clienteView}  setCliente={this.setCliente}/>
 
         );
     }
@@ -149,9 +168,17 @@ export class ContratoView extends GenericView{
     }
 
     infoDetallePago = () => {
+        console.log(this.state.selectedCliente);
+        const plazoEstandar = this.state.selectedCliente.tipoCliente === "Cliente Natural";
+
+        // if (this.state.detallePagoObj != null) {
+        //     this.detallePagoRef.current.setDetalleServicio(this.state.detallePagoObj);
+        // }
+
+        console.log(plazoEstandar);
         return (
             <div>
-                <DetallePagoView/>
+                <DetallePagoView plazoEstandar={plazoEstandar} ref={this.state.detallePagoRef}/>
             </div>
         );
     }
@@ -204,12 +231,16 @@ export class ContratoView extends GenericView{
         //this.setState({selectedCliente: this.clienteView.current.getCliente()});
         if (index === 1 && (this.state.selectedCliente == null && !this.clienteView.current.validSelection())) {
             return false;
-        }else if(index === 1) {
-            this.setState({
-                selectedCliente: (this.state.selectedCliente == null
-                    ? this.clienteView.current.validSelection()
-                    : this.state.selectedCliente)
-            });
+        }
+
+        if (index === 2 && (this.state.detallePagoObj == null && !this.detallePagoRef.current.validSelection())) {
+            return false;
+        }else if(index === 2) {
+            let detalle = (this.state.detallePagoObj == null || this.state.detallePagoObj === undefined
+                ? this.detallePagoRef.current.getDetalleServicio()
+                : this.state.detallePagoObj);
+            detalle = detalle.data;
+            this.setState({detallePagoObj: detalle});
         }
 
         return true;
