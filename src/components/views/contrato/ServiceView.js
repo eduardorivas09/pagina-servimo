@@ -98,7 +98,7 @@ export default class ServiceView extends GenericView {
 
     render = () => {
         return (
-
+            
             <div className="container m-0">
                 <div className="row">
                     <div className="col col-12 col-sm-12 col-md-12 col-lg-6">
