@@ -116,6 +116,14 @@ export default class HorarioWiew extends GenericView {
         })
     }
 
+    openEditModal = (horario) => {
+        this.setState({
+            showModal: true,
+            selectedRow: horario
+        });
+       // this.ClienteModal.current.setCliente(cliente);
+    }
+
     render() {
         return (
 
