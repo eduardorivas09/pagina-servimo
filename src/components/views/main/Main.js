@@ -177,7 +177,7 @@ export default class Main extends GenericView {
         if (url.includes('users')) this.setState({ currentComponent: <UsuariosView /> });
         if (url.includes('roles')) this.setState({ currentComponent: <RolesView /> });
         if (url.includes('contrato')) this.setState({ currentComponent: <ContratoView /> });
-        if (url.includes('Horario')) this.setState({ currentComponent: <HorarioView /> });
+        if (url.includes('Horarios')) this.setState({ currentComponent: <HorarioView /> });
 
         console.log(this.state.currentComponent);
     }

@@ -2,6 +2,7 @@ import GenericModal from "../modal/GenericModal";
 import React from "react";
 import { Dialog } from "primereact/dialog";
 import { TabView } from "primereact/tabview";
+import { HorariosService } from "../../../services/Horarios/HorariosService";
 
 
 export default class HorarioModal extends GenericModal {
@@ -10,10 +11,13 @@ export default class HorarioModal extends GenericModal {
         super();
         this.state = {
             id: -1,
+            codigoContrato: '',
             CodigoTrabajador: '',
+            NombreTrabajador: '',
             HoraEntrada: '',
             HoraSalida: '',
             Turno: '',
+            clienteIdentificador: '',
             TipoCliente: '',
             Nombrecliente: '',
             TrabajadorInactivo: [],
@@ -32,15 +36,68 @@ export default class HorarioModal extends GenericModal {
     }
 
     setHorario = (horario) => {
+        if (horario === undefined || horario === null) {
+            this.setState({
+                id: null,
+                CodigoTrabajador: null,
+                codigoContrato: null,
+                NombreTrabajador: null,
+                HoraEntrada: null,
+                HoraSalida: null,
+                Turno: null,
+                clienteIdentificador: null,
+                TipoCliente: null,
+                Nombrecliente: null,
+                // TrabajadorInactivo: null,
+                estado: false
+            });
+        } else {
+            this.setState({
+                id: horario.data.contratoId,
+                codigoContrato: horario.data.codigoContrato,
+                CodigoTrabajador: horario.data.codigoTrabajador,
+                NombreTrabajador: horario.data.nombreTrabajador,
+                HoraEntrada: horario.data.horaEntrada,
+                HoraSalida: horario.data.horaSalida,
+                Turno: { name: horario.data.turno },
+                clienteIdentificador: horario.data.clienteIdentificador,
+                TipoCliente: { nome: horario.data.tipoCliente },
+                Nombrecliente: horario.data.clienteNombre,
+                estado: horario.data.estado
 
+            });
+        }
     }
 
     getHorario = () => {
-
+        const horario = {
+            'contratoId': this.state.id,
+            'codigoContrato': this.state.codigoContrato,
+            'codigoTrabajador': this.state.CodigoTrabajador,
+            'nombreTrabajador': this.state.NombreTrabajador,
+            'horaEntrada': this.state.HoraEntrada,
+            'horaSalida': this.state.HoraSalida,
+            'turno': this.state.Turno !== null ? this.state.Turno.name : null,
+            'clienteIdentificador': this.state.clienteIdentificador,
+            'tipoCliente': this.state.TipoCliente !== null ? this.state.TipoCliente.name : null,
+            'clienteNombre': this.state.Nombrecliente,
+            // TrabajadorInactivo: null,
+            'estado': this.state.estado
+        }
     }
 
     componentDidMount() {
+        new HorariosService()
+            .getAllInactivo()
+            .then(response => {
+                console.log(response)
+                this.setState({
+                    TrabajadorInactivo: response
+                });
+            }).catch(e => {
 
+                this.mostrarMensajeError('Acceso denegado', e.message);
+            });
     }
 
 
@@ -49,9 +106,9 @@ export default class HorarioModal extends GenericModal {
         return (
 
             <div className="container m-0">
-              <TabView>
-                  
-              </TabView>
+                <TabView>
+                   
+                </TabView>
             </div>
 
         );
