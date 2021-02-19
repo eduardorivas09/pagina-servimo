@@ -17,7 +17,8 @@ import UsuarioModalView from "../security/usuario/UsuarioModalView";
 import {UsuarioService} from "../../../services/seguridad/UsuarioService";
 import {GenericView} from "../GenericView";
 import {Toast} from "primereact/toast";
-import {ContratoView} from "../contrato/ContratoView";
+import {ContratoModalView} from "../contrato/ContratoModalView";
+import ContratoView from "../contrato/ContratoView";
 
 export default class Main extends GenericView {
 
