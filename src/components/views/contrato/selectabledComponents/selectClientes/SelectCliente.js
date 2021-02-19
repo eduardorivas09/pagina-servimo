@@ -83,7 +83,7 @@ export default class SelectCliente extends GenericView{
     //=============================EVENTOS DEL USUARIO======================================
 
     onRowDoubleClickCliente = (cliente) => {
-        this.props.setCliente(cliente)
+        this.props.setCliente(cliente.data)
         this.setState({
             clienteSeleccionado: cliente
         });

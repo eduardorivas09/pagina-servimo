@@ -55,10 +55,14 @@ export default class ServiceView extends GenericView {
             return false;
         }
 
+        const contrato = this.getServicio();
+        this.props.setContrato(contrato);
+
         return true;
     }
 
     setServicio = (servicio) => {
+        console.log(servicio);
         if (servicio === undefined || servicio === null) {
             this.setState({
                 id: null,
@@ -91,7 +95,7 @@ export default class ServiceView extends GenericView {
         const servisio = {
             servicios: this.state.servuciosSelecionados,
             'fechaContrato': this.state.fechaContrato,
-            'fechaExpira': this.state.fechaExpira,
+            'fechaFin': this.state.fechaFin,
             'fechaInicio': this.state.fechaInicio
 
         }

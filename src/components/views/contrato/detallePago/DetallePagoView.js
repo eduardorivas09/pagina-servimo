@@ -12,7 +12,7 @@ export default class DetallePagoView extends GenericView{
     constructor() {
         super();
         this.state = {
-            diaPago: -1,
+            diaPago: 1,
             plazosLst:[],
             plazoSeleccionado: null,
             costoServicio: 0
@@ -55,6 +55,9 @@ export default class DetallePagoView extends GenericView{
             return false;
         }
 
+        const detalle = this.getDetalleServicio();
+        this.props.setDetallePago(detalle);
+
         return true;
     }
 
@@ -83,8 +86,6 @@ export default class DetallePagoView extends GenericView{
 
     onPlazoChange = (e) => {
         this.setState({ plazoSeleccionado: e.target.value });
-        console.log(e.target.value);
-
         const factor = e.target.value.factor;
         const plazoMes = e.target.value.plazoMes;
 
@@ -101,7 +102,7 @@ export default class DetallePagoView extends GenericView{
                     <div className="row">
                         <div className="col col-12 col-sm-12 col-md-6 col-lg-4">
                             <span className="p-float-label" style={{ marginTop: '1.3em' }}>
-                                <InputNumber id="inDiapago" min={1} max={31}/>
+                                <InputNumber id="inDiapago" min={1} max={31} value={this.state.diaPago} onChange={(e) => {this.setState({diaPago: e.value})}}/>
                                 <label htmlFor="inDiapago"
                                        style={{ fontSize: '0.8em' }}>Dia de pago</label>
                             </span>
