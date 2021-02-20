@@ -17,7 +17,7 @@ import UsuarioModalView from "../security/usuario/UsuarioModalView";
 import { UsuarioService } from "../../../services/seguridad/UsuarioService";
 import { GenericView } from "../GenericView";
 import { Toast } from "primereact/toast";
-import { ContratoView } from "../contrato/ContratoView";
+import ContratoView from "../contrato/ContratoView";
 import HorarioView from '../Horario/HorarioView';
 
 

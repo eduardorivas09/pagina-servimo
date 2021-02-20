@@ -51,7 +51,7 @@ export default class GenericModal extends GenericView{
                      position="top-bottom"
                      maximizable={true}
                      visible={this.props.visible}
-                     style={{ width: '50vw' }}
+                     style={{ width: '90vw' }}
                      footer={this.props.hasGuardarCancelarButtons ? this.#renderFooter : <React.Fragment/>}
                      onHide={() => this.props.onHide()} >
                 {component}
