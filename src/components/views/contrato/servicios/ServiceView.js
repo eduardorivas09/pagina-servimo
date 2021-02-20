@@ -90,7 +90,6 @@ export default class ServiceView extends GenericView {
         }
     }
 
-
     getServicio = () => {
         const servisio = {
             servicios: this.state.servuciosSelecionados,
@@ -126,7 +125,7 @@ export default class ServiceView extends GenericView {
 
     render = () => {
         return (
-
+            
             <div className="container m-0">
                 <div className="row">
                     <div className="col col-12 col-sm-12 col-md-12 col-lg-12">

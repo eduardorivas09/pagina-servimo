@@ -14,11 +14,13 @@ import { Panel } from "primereact/panel";
 import UsuariosView from "../security/usuario/UsuariosView";
 import RolesView from '../../views/security/rol/RolesView'
 import UsuarioModalView from "../security/usuario/UsuarioModalView";
-import {UsuarioService} from "../../../services/seguridad/UsuarioService";
-import {GenericView} from "../GenericView";
-import {Toast} from "primereact/toast";
-import {ContratoModalView} from "../contrato/ContratoModalView";
-import ContratoView from "../contrato/ContratoView";
+import { UsuarioService } from "../../../services/seguridad/UsuarioService";
+import { GenericView } from "../GenericView";
+import { Toast } from "primereact/toast";
+import { ContratoView } from "../contrato/ContratoView";
+import HorarioView from '../Horario/HorarioView';
+
+
 
 export default class Main extends GenericView {
 
@@ -71,13 +73,13 @@ export default class Main extends GenericView {
         console.log(user)
         this.usuarioModal.current.setUser(user);
         this.setState({
-            modalVisible : true
+            modalVisible: true
         });
     }
 
     onCloseModal = () => {
         this.setState({
-            modalVisible : false
+            modalVisible: false
         });
     }
 
@@ -108,7 +110,7 @@ export default class Main extends GenericView {
     }
 
 
-        render() {
+    render() {
 
         return (
             (this.state.redirect)
@@ -136,8 +138,8 @@ export default class Main extends GenericView {
                         onClickNoButton={this.onCloseModal}
                         onClickYesButton={this.onClickSave}
                         readOnly={true}
-                        ref={this.usuarioModal}/>
-                    <Toast ref={this.toast} position={this.right()}/>
+                        ref={this.usuarioModal} />
+                    <Toast ref={this.toast} position={this.right()} />
                 </Fragment>
         );
     }
@@ -154,7 +156,7 @@ export default class Main extends GenericView {
 
     loadMenu = async (service) => {
         try {
-            if (await Session.isLogged()){
+            if (await Session.isLogged()) {
                 await service.getMainMenuItems(this.onClickMenuItem).then(resp => {
                     this.setState({ menuItems: resp });
                 });
@@ -178,6 +180,7 @@ export default class Main extends GenericView {
         if (url.includes('users')) this.setState({ currentComponent: <UsuariosView /> });
         if (url.includes('roles')) this.setState({ currentComponent: <RolesView /> });
         if (url.includes('contrato')) this.setState({ currentComponent: <ContratoView /> });
+        if (url.includes('horario')) this.setState({ currentComponent: <HorarioView/> });
 
         console.log(this.state.currentComponent);
     }

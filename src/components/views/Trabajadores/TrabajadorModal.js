@@ -85,7 +85,6 @@ export default class TrabajadorModal extends GenericModal {
         }
     }
 
-
     getTrabajador = () => {
 
         if (!this.validarguardar()) {
@@ -323,7 +322,6 @@ export default class TrabajadorModal extends GenericModal {
                                 <span className="p-float-label" style={{ marginTop: '1.3em' }}>
                                     <InputNumber id="itCodigoTrabajador"
                                         value={this.state.codTrabajador}
-                                        
                                         max = {99999}
                                         onChange={(e) => this.setState({ codTrabajador: e.value })}
                                      

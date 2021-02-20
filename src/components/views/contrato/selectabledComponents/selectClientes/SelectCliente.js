@@ -1,16 +1,16 @@
-import React, {Fragment} from 'react';
-import {ClienteService} from "../../../../../services/clientes/ClientesService";
+import React, { Fragment } from 'react';
+import { ClienteService } from "../../../../../services/clientes/ClientesService";
 import Table from "../../../../controls/table/Table";
-import {GenericView} from "../../../GenericView";
-import {Toast} from "primereact/toast";
+import { GenericView } from "../../../GenericView";
+import { Toast } from "primereact/toast";
 import DialogModal from "../../../alerts/DialogModal";
 import ClienteJuridicoModal from "../../../clientes/juridico/ClienteJudiricoModal";
-import {ClienteJuridicoService} from "../../../../../services/clientes/ClienteJuridicoService";
+import { ClienteJuridicoService } from "../../../../../services/clientes/ClienteJuridicoService";
 import ClienteNaturalModal from "../../../clientes/natural/ClienteNaturalModal";
-import {ClienteNaturalService} from "../../../../../services/clientes/ClienteNaturalService";
-import {ServerError} from "../../../../../util/Error/ServerError";
+import { ClienteNaturalService } from "../../../../../services/clientes/ClienteNaturalService";
+import { ServerError } from "../../../../../util/Error/ServerError";
 
-export default class SelectCliente extends GenericView{
+export default class SelectCliente extends GenericView {
 
     constructor() {
         super();
@@ -19,8 +19,8 @@ export default class SelectCliente extends GenericView{
             clienteSeleccionado: null,
             visibledJuridico: false,
             visibledNatural: false,
-            modalProps : {
-                visible : false     //  Propiedad de tipo boolean que si es true el modal se muestra.
+            modalProps: {
+                visible: false     //  Propiedad de tipo boolean que si es true el modal se muestra.
             }
         }
 
@@ -34,7 +34,7 @@ export default class SelectCliente extends GenericView{
         return this.state.clienteSeleccionado;
     }
 
-    setSelectConverToNatural(cliente){
+    setSelectConverToNatural(cliente) {
         const newNliente = {
             id: cliente.data.id,
             nombre: cliente.data.primerNombre + ' ' + cliente.data.primerApellido,
@@ -45,21 +45,20 @@ export default class SelectCliente extends GenericView{
         this.onRowDoubleClickCliente(newNliente);
     }
 
+
     loadData = () => {
         new ClienteService().getAll().then(resp => {
-            if ((resp instanceof Response && resp.status === 200) || resp instanceof Array){
+            if ((resp instanceof Response && resp.status === 200) || resp instanceof Array) {
                 this.setState({
                     clientesDatos: resp
-
                 })
             }
-
         }).catch(e => {
-            if (e instanceof ServerError){
+            if (e instanceof ServerError) {
                 this.mostrarMensajeError('Problema al obtener los clientes', e.message);
                 return;
             }
-            if (e instanceof Error){
+            if (e instanceof Error) {
                 this.mostrarMensajeError('Problema al obtener los clientes', e.message);
             }
         });
@@ -96,7 +95,7 @@ export default class SelectCliente extends GenericView{
     onClickNoButton = () => {
         this.setState({
             visibledNatural: true
-        });this.onHide();
+        }); this.onHide();
     }
 
     /**
@@ -123,7 +122,6 @@ export default class SelectCliente extends GenericView{
         this.onHideModalNatural();
     }
 
-
     /**
      * Al seleccionar cliente juridico
      */
@@ -134,8 +132,8 @@ export default class SelectCliente extends GenericView{
                 this.mostrarMensajeOk('Se ha guardado el cliente juridico ' + response.nombre);
                 this.loadData();
                 this.onHideModalJuridico();
-        }).catch(error => {
-            this.mostrarMensajeError(`Cliente Juridico no guardado: ${error.message}`);
+            }).catch(error => {
+                this.mostrarMensajeError(`Cliente Juridico no guardado: ${error.message}`);
             });
     }
 
@@ -146,21 +144,23 @@ export default class SelectCliente extends GenericView{
         const cliente = this.clienteNaturalModal.current.getCliente();
         new ClienteNaturalService().save(cliente)
             .then(response => {
-                this.mostrarMensajeOk('Se ha guardado el cliente juridico ' + response.primerNombre);
+                this.mostrarMensajeOk('Se ha guardado el cliente juridico ' +
+                    response.primerNombre);
                 this.loadData();
                 this.onHideModalNatural();
-        }).catch(error => {
-            this.mostrarMensajeError(`Cliente Natural no guardado: ${error.message}`);
+            }).catch(error => {
+                this.mostrarMensajeError(`Cliente Natural no guardado: ${error.message}`);
             });
     }
+
 
     /**
      * El metodo que oculta el modal cambiando el estado del mismo a visible false
      */
     onHide = () => {
         this.setState({
-            modalProps : {
-                visible : false
+            modalProps: {
+                visible: false
             }
         });
     }
@@ -183,79 +183,78 @@ export default class SelectCliente extends GenericView{
 
     addNewCliente = () => {
         this.setState({
-            modalProps : {
-                visible : true
+            modalProps: {
+                visible: true
             }
         });
     }
 
-
-
     render() {
         let clienteCols = [
             {
-                field:"nombre",
-                header:"Nombre(s)",
-                sortable:true
-            },{
-                field:"telefono",
-                header:"Numero Telefonico",
-                sortable:true
-            },{
-                field:"correo",
-                header:"Correo",
-                sortable:false
-            },{
-                field:"tipoCliente",
-                header:"Tipo Cliente",
-                sortable:true
-            },{
-                field:"activo",
-                header:"Activo",
-                sortable:true
+                field: "nombre",
+                header: "Nombre(s)",
+                sortable: true
+            }, {
+                field: "telefono",
+                header: "Numero Telefonico",
+                sortable: true
+            }, {
+                field: "correo",
+                header: "Correo",
+                sortable: false
+            }, {
+                field: "tipoCliente",
+                header: "Tipo Cliente",
+                sortable: true
+            }, {
+                field: "activo",
+                header: "Activo",
+                sortable: true
             }
         ]
 
-        return(
+        return (
             <Fragment>
+
                 <div className="row">
                     <Table promise={this.state.clientesDatos}
-                           columns={clienteCols}
-                           onRowDoubleClick={this.onRowDoubleClickCliente}
-                           deleteButton={false}
-                           onClickAdd={this.addNewCliente}
-                           entity="Cliente" />
+                        columns={clienteCols}
+                        onRowDoubleClick={this.onRowDoubleClickCliente}
+                        deleteButton={false}
+                        onClickAdd={this.addNewCliente}
+                        entity="Cliente" />
                 </div>
 
                 {/*Mensajes*/}
-                <Toast ref={this.toast} position={this.right()}/>
+                <Toast ref={this.toast} position={this.right()} />
 
                 {/*Selecciona del tipo de cliente, natural o juridico*/}
                 <DialogModal header={'Tipo de cliente'}
-                             textBody={'Eliga el tipo de cliente'}
-                             hasYesNotButtons={true}
-                             btnNoLabel={'Natural'}
-                             btnSiLabel={'Juridico'}
-                             modalType={'info'}
-                             visible={this.state.modalProps.visible}
-                             onClickNoButton={this.onClickNoButton}
-                             onClickYesButton={this.onClickYesButton}
-                             onHide={this.onHide}/>
+                    textBody={'Eliga el tipo de cliente'}
+                    hasYesNotButtons={true}
+                    btnNoLabel={'Natural'}
+                    btnSiLabel={'Juridico'}
+                    modalType={'info'}
+                    visible={this.state.modalProps.visible}
+                    onClickNoButton={this.onClickNoButton}
+                    onClickYesButton={this.onClickYesButton}
+                    onHide={this.onHide} />
 
-            {/*      Modal cliente natural           */}
+                {/*      Modal cliente natural           */}
                 <ClienteNaturalModal visible={this.state.visibledNatural}
-                                     onHide={this.onHideModalNatural}
-                                     onClickNoButton={this.onClickNoButtonNatural}
-                                     onClickYesButton={this.onClickYesButtonNatural}
-                                     ref={this.clienteNaturalModal}/>
+                    onHide={this.onHideModalNatural}
+                    onClickNoButton={this.onClickNoButtonNatural}
+                    onClickYesButton={this.onClickYesButtonNatural}
+                    ref={this.clienteNaturalModal} />
 
-            {/*Cliente Juridico*/}
-            <ClienteJuridicoModal
-                visible={this.state.visibledJuridico}
-                onClickNoButton={this.onClickNoButtonJuridico}
-                onClickYesButton={this.onClickYesButtonJuridico}
-                onHideModal={this.onHideModalJuridico}
-                ref={this.modalJuridico}/>
+                {/*Cliente Juridico*/}
+                <ClienteJuridicoModal
+                    visible={this.state.visibledJuridico}
+                    onClickNoButton={this.onClickNoButtonJuridico}
+                    onClickYesButton={this.onClickYesButtonJuridico}
+                    onHideModal={this.onHideModalJuridico}
+                    ref={this.modalJuridico} />
             </Fragment>
         );
     }
