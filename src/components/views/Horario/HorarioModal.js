@@ -2,6 +2,8 @@ import GenericModal from "../modal/GenericModal";
 import React from "react";
 import { Dialog } from "primereact/dialog";
 import { TabPanel, TabView } from "primereact/tabview";
+import { Dropdown } from "primereact/dropdown"
+import { Calendar } from 'primereact/calendar';
 import { HorariosService } from "../../../services/Horarios/HorariosService";
 
 
@@ -86,7 +88,7 @@ export default class HorarioModal extends GenericModal {
         }
 
         if (this.state.id !== undefined && this.state.state > 0) {
-              horario.id = this.state.id;
+            horario.id = this.state.id;
         }
         return horario;
     }
@@ -107,19 +109,46 @@ export default class HorarioModal extends GenericModal {
 
 
 
-    toRender = () =>{
+    toRender = () => {
         return (
-         
-                <div className="container m-0">
+
+            <div className="container m-0">
                 <TabView>
                     <TabPanel header={'Horarios'}>
+                        <div className="row">
+
+                            <div className="col col-12 col-sm-12 col-md-12 col-lg-6" style={{ marginTop: '1.3em' }}>
+                                <Dropdown value={this.state.codigoTrabajador}
+                                    onChange={(e) => this.setState({ codigoTrabajador: e.target.value })}
+                                    options={this.state.TrabajadorInactivo}
+                                    optionLabel=" codigoTrabajador"
+                                    placeholder="Trabajador Inactivo" />
+                            </div>
+
+                            <div className="col col-12 col-sm-12 col-md-12 col-lg-6" style={{ marginTop: '1.3em' }}>
+                                <Dropdown value={this.state.Turno}
+                                    onChange={(e) => this.setState({ Turno: e.target.value })}
+                                    options={this.state.Turno}
+                                    optionLabel="turno"
+                                    placeholder="Turnos" />
+                            </div>
+
+                            <div className="p-field p-col-12 p-md-4">
+                                <Calendar value={this.state.HoraEntrada}
+                                    onChange={(e) =>this.setState({ horaEntrada: e.target.value })} 
+                                    showTime 
+                                    hourFormat="12"
+                                    placeholder="Hora de Entrada"
+                                />
+                            </div>
+                        </div>
 
                     </TabPanel>
                 </TabView>
             </div>
-            
 
-           
+
+
 
         );
 
