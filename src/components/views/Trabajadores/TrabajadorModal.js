@@ -85,7 +85,6 @@ export default class TrabajadorModal extends GenericModal {
         }
     }
 
-
     getTrabajador = () => {
 
         if (!this.validarguardar()) {

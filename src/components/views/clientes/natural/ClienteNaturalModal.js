@@ -161,7 +161,7 @@ export default class ClienteNaturalModal extends React.Component {
                                     value={this.state.noCedula}
                                     onChange={(e) => this.setState({ ncedula: e.target.value })}
                                     keyfilter={/[^\s]/} />
-                                <label htmlhtmlFor="itCedula" style={{ fontSize: '0.8em' }}>Numero de Cedula</label>
+                                <label htmlFor="itCedula" style={{ fontSize: '0.8em' }}>Numero de Cedula</label>
                             </span>
                         </div>
 
@@ -173,7 +173,7 @@ export default class ClienteNaturalModal extends React.Component {
                                     value={this.state.primerNombre}
                                     onChange={(e) => this.setState({ pnombre: e.target.value })}
                                     keyfilter={/[^\s]/} />
-                                <label htmlhtmlFor="itPrimerNombre" style={{ fontSize: '0.8em' }}>Primer Nombre</label>
+                                <label htmlFor="itPrimerNombre" style={{ fontSize: '0.8em' }}>Primer Nombre</label>
                             </span>
                         </div>
                         <div className="col col-12 col-sm-12 col-md-12 col-lg-3" style={{ marginTop: '1.3em' }}>
@@ -183,7 +183,7 @@ export default class ClienteNaturalModal extends React.Component {
                                     value={this.state.snombre}
                                     onChange={(e) => this.setState({ snombre: e.target.value })}
                                     keyfilter={/[^\s]/} />
-                                <label htmlhtmlFor="in" style={{ fontSize: '0.8em' }}>Segundo Nombre</label>
+                                <label htmlFor="in" style={{ fontSize: '0.8em' }}>Segundo Nombre</label>
                             </span>
                         </div>
                         <div className="col col-12 col-sm-12 col-md-12 col-lg-3">
@@ -192,7 +192,7 @@ export default class ClienteNaturalModal extends React.Component {
                                     value={this.state.papelli}
                                     onChange={(e) => this.setState({ papelli: e.target.value })}
                                     keyfilter={/[^\s]/} />
-                                <label htmlhtmlFor="itPrimerApellido" style={{ fontSize: '0.8em' }}>Primer Apellido</label>
+                                <label htmlFor="itPrimerApellido" style={{ fontSize: '0.8em' }}>Primer Apellido</label>
                             </span>
                         </div>
                         <div className="col col-12 col-sm-12 col-md-12 col-lg-3 " style={{ marginTop: '1.3em' }}>
@@ -201,7 +201,7 @@ export default class ClienteNaturalModal extends React.Component {
                                     value={this.state.sapelli}
                                     onChange={(e) => this.setState({ sapelli: e.target.value })}
                                     keyfilter={/[^\s]/} />
-                                <label htmlhtmlFor="itSegundoApellido" style={{ fontSize: '0.8em' }}>Segundo Apellido</label>
+                                <label htmlFor="itSegundoApellido" style={{ fontSize: '0.8em' }}>Segundo Apellido</label>
                             </span>
                         </div>
                     </div>
@@ -224,7 +224,7 @@ export default class ClienteNaturalModal extends React.Component {
                                     keyfilter={'pint'}
                                     value={this.state.telefono}
                                     onChange={(e) => this.validateTelefono(e)} />
-                                <label htmlhtmlFor="itTelefono" style={{ fontSize: '0.8em' }}>Telefono</label>
+                                <label htmlFor="itTelefono" style={{ fontSize: '0.8em' }}>Telefono</label>
                             </span>
                         </div>
 
@@ -234,7 +234,7 @@ export default class ClienteNaturalModal extends React.Component {
                                     value={this.state.correo}
                                     keyfilter={'email'}
                                     onChange={(e) => this.setState({ correo: e.target.value })} />
-                                <label htmlhtmlFor="itCorreo" style={{ fontSize: '0.8em' }}>Correo</label>
+                                <label htmlFor="itCorreo" style={{ fontSize: '0.8em' }}>Correo</label>
                             </span>
                         </div>
                     </div>
@@ -243,14 +243,14 @@ export default class ClienteNaturalModal extends React.Component {
                         <div className="col col-12 col-sm-12 col-md-12 col-lg-12" style={{ marginTop: '1.3em' }}>
                             <span className="p-float-label">
                                 <InputTextarea id='itaDireccion' value={this.state.direccion} onChange={(e) => this.setState({ direccion: e.target.value })} autoResize={true} />
-                                <label htmlhtmlFor="itaDireccion">Direccion</label>
+                                <label htmlFor="itaDireccion">Direccion</label>
                             </span>
                         </div>
                     </div>
                     <div className="row">
                        
                         <div className="col col-12 col-sm-4 col-md-2 col-lg-1">
-                            <label htmlhtmlFor="cbEstado" style={{ fontSize: '0.8em' }}>Estado</label>
+                            <label htmlFor="cbEstado" style={{ fontSize: '0.8em' }}>Estado</label>
                         </div>
                         
                         <div className="col col-12 col-sm-4 col-md-2 col-lg-1">

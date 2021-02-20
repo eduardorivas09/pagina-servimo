@@ -99,8 +99,6 @@ export default class ContratoClientesJuridico extends React.Component {
             delete c.estado;
             delete c.noRuc;
 
-
-
             return c;
         });
 

@@ -3,7 +3,7 @@ import setting from "../Settings.json";
 export class ServicioService  extends AbstractService{
 
     getAll = () => {
-        let url = setting.main + "/main/contrato/servicio"
+        let url = setting.main + "contrato/servicio"
         return this.doGet(url);
 
     }
