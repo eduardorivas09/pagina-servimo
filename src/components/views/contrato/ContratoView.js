@@ -53,7 +53,6 @@ export default class ContratoView extends GenericView{
         return (
             <Fragment>
                 <ContratoTable
-                        onClickAdd={this.addContrato}
                         onRowDoubleClick={this.onRowDoubleClick}
                         addContrato={this.addContrato}/>
 
