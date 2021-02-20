@@ -18,6 +18,9 @@ import { UsuarioService } from "../../../services/seguridad/UsuarioService";
 import { GenericView } from "../GenericView";
 import { Toast } from "primereact/toast";
 import { ContratoView } from "../contrato/ContratoView";
+import HorarioView from '../Horario/HorarioView';
+
+
 
 export default class Main extends GenericView {
 
@@ -177,7 +180,7 @@ export default class Main extends GenericView {
         if (url.includes('users')) this.setState({ currentComponent: <UsuariosView /> });
         if (url.includes('roles')) this.setState({ currentComponent: <RolesView /> });
         if (url.includes('contrato')) this.setState({ currentComponent: <ContratoView /> });
-        if (url.includes('Horarios')) this.setState({ currentComponent: <HorarioView /> });
+        if (url.includes('horario')) this.setState({ currentComponent: <HorarioView/> });
 
         console.log(this.state.currentComponent);
     }

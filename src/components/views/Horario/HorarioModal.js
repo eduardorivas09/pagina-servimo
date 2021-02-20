@@ -1,7 +1,7 @@
 import GenericModal from "../modal/GenericModal";
 import React from "react";
 import { Dialog } from "primereact/dialog";
-import { TabView } from "primereact/tabview";
+import { TabPanel, TabView } from "primereact/tabview";
 import { HorariosService } from "../../../services/Horarios/HorariosService";
 
 
@@ -49,7 +49,7 @@ export default class HorarioModal extends GenericModal {
                 TipoCliente: null,
                 Nombrecliente: null,
                 // TrabajadorInactivo: null,
-                estado: false
+                estado: true
             });
         } else {
             this.setState({
@@ -84,6 +84,11 @@ export default class HorarioModal extends GenericModal {
             // TrabajadorInactivo: null,
             'estado': this.state.estado
         }
+
+        if (this.state.id !== undefined && this.state.state > 0) {
+              horario.id = this.state.id;
+        }
+        return horario;
     }
 
     componentDidMount() {
@@ -102,14 +107,19 @@ export default class HorarioModal extends GenericModal {
 
 
 
-    toRender = () => {
+    toRender = () =>{
         return (
-
-            <div className="container m-0">
+         
+                <div className="container m-0">
                 <TabView>
-                   
+                    <TabPanel header={'Horarios'}>
+
+                    </TabPanel>
                 </TabView>
             </div>
+            
+
+           
 
         );
 
