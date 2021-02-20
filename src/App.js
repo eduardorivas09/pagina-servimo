@@ -6,7 +6,6 @@ import Contact from './components/views/contact/Contac';
 import ClienteNatural from "./components/views/clientes/natural/ClienteNatural";
 import ClienteJuridico from "./components/views/clientes/juridico/ClienteJuridico";
 import Main from "./components/views/main/Main";
-import ContratoClientesJuridico from "./components/views/contrato/juridico/ContratoClientesJuridico";
 import Login from "./components/views/security/login/Login";
 import DialogModal from "./components/views/alerts/DialogModal";
 import Customer from "./components/views/clientes/Customer";
@@ -46,10 +45,10 @@ function App() {
                     {/*<Main view={<Customer activeIndex={1}/>} />*/}
                     <Main view={<ClienteJuridico />} />
                 </Route>
-                <Route exact path="/contrato/clientes/juridico">
-                    {/*llamada a la clase contratoclientesjuridico clientes juridico*/}
-                    <ContratoClientesJuridico/>
-                </Route>
+                {/*<Route exact path="/contrato/clientes/juridico">*/}
+                {/*    /!*llamada a la clase contratoclientesjuridico clientes juridico*!/*/}
+                {/*    <ContratoClientesJuridico/>*/}
+                {/*</Route>*/}
                 <Route exact path="/test">
                     {/*llamada a la clase contratoclientesjuridico clientes juridico*/}
                     <DialogModal header="Alerta"

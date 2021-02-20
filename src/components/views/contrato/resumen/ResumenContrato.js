@@ -1,5 +1,5 @@
 import React, {Fragment} from 'react';
-import {GenericView} from "../GenericView";
+import {GenericView} from "../../GenericView";
 import {InputText} from "primereact/inputtext";
 import {ListBox} from "primereact/listbox";
 

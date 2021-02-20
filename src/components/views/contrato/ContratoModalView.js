@@ -10,10 +10,10 @@ import './Contrato.css';
 import {ClienteService} from '../../../services/clientes/ClientesService'
 import {RadioButton} from "primereact/radiobutton";
 import {Dropdown} from "primereact/dropdown";
-import ServiceView from "./ServiceView";
+import ServiceView from "./servicios/ServiceView";
 import SelectCliente from "./selectabledComponents/selectClientes/SelectCliente";
 import DetallePagoView from "./detallePago/DetallePagoView";
-import ResumenContrato from "./ResumenContrato";
+import ResumenContrato from "./resumen/ResumenContrato";
 import GenericModal from "../modal/GenericModal";
 
 /**

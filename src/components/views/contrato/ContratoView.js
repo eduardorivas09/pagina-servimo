@@ -5,6 +5,9 @@ import {ContratoModalView} from "./ContratoModalView";
 import UsuarioModalView from "../security/usuario/UsuarioModalView";
 import {UsuarioService} from "../../../services/seguridad/UsuarioService";
 import {ContratoService} from "../../../services/contratos/ContratoService";
+import {Utils} from "../../../util/Utils";
+import {Toast} from "primereact/toast";
+import ContratoTable from "./contratoTable/ContratoTable";
 
 export default class ContratoView extends GenericView{
 
@@ -16,33 +19,6 @@ export default class ContratoView extends GenericView{
         }
         this.addContrato = this.addContrato.bind(this);
         this.contratoRef = React.createRef();
-    }
-
-
-
-    loadData() {
-
-        new ContratoService()
-            .getAll()
-            .then(resp => {
-                console.log(resp);
-                if ((resp instanceof Response && resp.status === 200) || resp instanceof Array){
-                    this.setState({
-                        data: resp
-                    })
-                }
-
-            }).catch(e => {
-
-            if (e instanceof Error){
-                this.mostrarMensajeError('Acceso denegado', e.message);
-            }
-        });
-
-    }
-
-    componentDidMount() {
-        this.loadData();
     }
 
     addContrato = () => {
@@ -67,72 +43,28 @@ export default class ContratoView extends GenericView{
             modalVisible : false
         });
     }
-    /**
-     * {
-  "id": 101,
-  "codigoContrato": "65608",
-  "fechaContrato": [
-    2020,
-    11,
-    6
-  ],
-  "fechaInicio": [
-    2020,
-    11,
-    6
-  ],
-  "fechaExpira": [
-    2022,
-    10,
-    3
-  ],
-  "diaPago": 1,
-  "estado": "ACTIVO"
-}
-     */
-    visibledColumns = () => {
-        return [
-            {
-                field:"codigoContrato",
-                header:"Codigo contrato",
-                sortable:true
-            },{
-                field:"fechaContrato",
-                header:"Fecha inicio",
-                sortable:true
-            },{
-                field:"fechaExpira",
-                header:"Fecha Expira",
-                sortable:true
-            },{
-                field:"diaPago",
-                header:"Dia pago",
-                sortable:true
-            }
-        ]
-    }
 
-    onRowDoubleClick = () => {
-
+    onRowDoubleClick = (e) => {
+        console.log(e)
+        this.mostrarMensajeInformacion('Contrato pertenece al cliente: ' + e.clienteNombre);
     }
 
     render() {
         return (
             <Fragment>
-                <Table promise={this.state.data}
-                       columns={this.visibledColumns()}
+                <ContratoTable
                         onClickAdd={this.addContrato}
-                       onRowDoubleClick={this.onRowDoubleClick}
-                       entity="Rol"/>
+                        onRowDoubleClick={this.onRowDoubleClick}
+                        addContrato={this.addContrato}/>
 
-                       <ContratoModalView header={'Usuarios'}
+                       <ContratoModalView header={'Contrato'}
                                           visible={this.state.modalVisible}
                                           onHide={this.onCloseModal}
                                           hasGuardarCancelarButtons={true}
                                           onClickNoButton={this.onCloseModal}
                                           onClickYesButton={this.onClickSave}
-                                          ref={this.contratoRef}
-                                          />
+                                          ref={this.contratoRef} />
+                <Toast ref={this.toast} position={this.right()}/>
             </Fragment>
         )
     }

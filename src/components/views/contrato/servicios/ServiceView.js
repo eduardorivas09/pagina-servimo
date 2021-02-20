@@ -2,11 +2,11 @@ import { data } from 'jquery';
 import { Dialog } from 'primereact/dialog';
 import React, { Fragment } from 'react';
 import { InputText } from "primereact/inputtext";
-import GenericModal from '../modal/GenericModal';
+import GenericModal from '../../modal/GenericModal';
 import { ListBox } from 'primereact/listbox';
 import PropTypes from 'prop-types'
-import { ServicioService } from "../../../services/contratos/ServicioService"
-import { GenericView } from '../GenericView';
+import { ServicioService } from "../../../../services/contratos/ServicioService"
+import { GenericView } from '../../GenericView';
 import { Toast } from "primereact/toast";
 import { Calendar } from 'primereact/calendar';
 export default class ServiceView extends GenericView {
