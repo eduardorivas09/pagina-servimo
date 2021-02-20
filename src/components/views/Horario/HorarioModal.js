@@ -19,6 +19,7 @@ export default class HorarioModal extends GenericModal {
             HoraEntrada: '',
             HoraSalida: '',
             Turno: '',
+            Turnos:[],
             clienteIdentificador: '',
             TipoCliente: '',
             Nombrecliente: '',
@@ -128,7 +129,7 @@ export default class HorarioModal extends GenericModal {
                             <div className="col col-12 col-sm-12 col-md-12 col-lg-6" style={{ marginTop: '1.3em' }}>
                                 <Dropdown value={this.state.Turno}
                                     onChange={(e) => this.setState({ Turno: e.target.value })}
-                                    options={this.state.Turno}
+                                    options={this.state.Turnos}
                                     optionLabel="turno"
                                     placeholder="Turnos" />
                             </div>
