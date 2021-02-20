@@ -1,14 +1,17 @@
-import { Fragment } from "react";
-import { GenericView } from "../../GenericView";
+
+import React ,{ Fragment } from "react";
+import 'bootstrap';
+import { GenericView } from "../GenericView"
 import Table from "../../controls/table/Table"
 import { HorariosService } from "../../../services/Horarios/HorariosService";
 import { Session } from "../../../services/seguridad/Session";
-import HorarioModal from "./HorarioModal";
+import HorarioModal from "../Horario/HorarioModal";
 import { Toast } from 'primereact/toast';
-export default class HorarioWiew extends GenericView {
 
-    constructor() {
-        super();
+export default class HorarioView extends GenericView {
+
+    constructor(props) {
+        super(props);
         this.state = {
             showModal: false,
             busqueda: "",
@@ -16,11 +19,13 @@ export default class HorarioWiew extends GenericView {
             selectedRow: null,
 
         }
-        this.HorarioModal = React.createRef();
+        this.horarioModal = React.createRef();
         this.buscar = this.buscar.bind(this);
         this.onSearchChange = this.onSearchChange.bind(this);
         this.addNewHorarioTrabajador = this.addNewHorarioTrabajador.bind(this);
         this.onHideModal = this.onHideModal.bind(this);
+        this.onRowDoubleClick = this.onRowDoubleClick.bind(this)
+        this.onClickNoButton = this.onClickNoButton.bind(this)
         this.toast = React.createRef();
     }
 
@@ -35,10 +40,9 @@ export default class HorarioWiew extends GenericView {
     }
 
     componenDidMoud() {
-        Session.isgged();
+        Session.isLogged()
         this.loadData();
     }
-
 
     loadData() {
         new HorariosService()
@@ -73,27 +77,27 @@ export default class HorarioWiew extends GenericView {
     visibledColumns = () => {
         return [
             {
-                // field:"primerNombre",
+                field: "codigoContrato",
                 header: "Codigo del Trabajador",
                 sortable: true
             }, {
-                // field:"primerNombre",
+                field: "horaEntrada",
                 header: "Hora de Entrada",
                 sortable: true
             }, {
-                // field:"primerNombre",
+                field: "horaSalida",
                 header: "Hora de Salida",
                 sortable: true
             }, {
-                // field:"primerNombre",
+                field: "turno",
                 header: "Turno",
                 sortable: true
             }, {
-                // field:"primerNombre",
+                field: "tipoCliente",
                 header: "Tipo de Cliente",
                 sortable: true
             }, {
-                // field:"primerNombre",
+                field: "estado",
                 header: "Estado",
                 sortable: true
             },
@@ -107,7 +111,15 @@ export default class HorarioWiew extends GenericView {
         this.setState({
             showModal: true
         })
-        // this.HorarioModa.current
+        this.horarioModal.current.setHorario(null);
+    }
+
+    onHide = () => {
+        this.setState({
+            ModalProps: {
+                visible: false
+            }
+        });
     }
 
     onHideModal = () => {
@@ -116,12 +128,21 @@ export default class HorarioWiew extends GenericView {
         })
     }
 
-    openEditModal = (horario) => {
+    openEditMadal = (horario) => {
         this.setState({
             showModal: true,
             selectedRow: horario
         });
-       // this.ClienteModal.current.setCliente(cliente);
+        this.horarioModal.current.setHorario(horario);
+    }
+
+    onRowDoubleClick = (e) => {
+        this.openEditMadal(e);
+    }
+
+    onClickNoButton = () => {
+
+        this.onHideModal();
     }
 
     render() {
@@ -131,11 +152,15 @@ export default class HorarioWiew extends GenericView {
                 <Table promise={this.state.data}
                     columns={this.visibledColumns()}
                     onClickAdd={this.addNewHorarioTrabajador}
-                    entity="Horarios"
+                    onRowDoubleClick={this.onRowDoubleClick}
+                    entity="horario"
                 />
 
                 <HorarioModal visible={this.state.showModal}
                     onHide={this.onHideModal}
+                    onClickNoButton={this.onClickNoButton}
+                    visible={this.state.showModal}
+                    ref={this.horarioModal}
                 />
                 <Toast ref={this.toast} position={this.right()} />
             </Fragment>
