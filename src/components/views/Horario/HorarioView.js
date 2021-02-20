@@ -39,15 +39,16 @@ export default class HorarioView extends GenericView {
 
     }
 
-    componenDidMoud() {
-        Session.isLogged()
+    componentDidMount() {
         this.loadData();
     }
 
-    loadData() {
+    loadData() {HorariosService
         new HorariosService()
+           
             .getAll()
             .then(resp => {
+                console.log(resp)
                 if ((resp instanceof Response && resp.status === 200) || resp instanceof Array) {
                     console.log(resp)
                     this.setState({
