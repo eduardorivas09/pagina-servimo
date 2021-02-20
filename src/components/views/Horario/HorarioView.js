@@ -1,5 +1,5 @@
 
-import React ,{ Fragment } from "react";
+import React, { Fragment } from "react";
 import 'bootstrap';
 import { GenericView } from "../GenericView"
 import Table from "../../controls/table/Table"
@@ -7,6 +7,7 @@ import { HorariosService } from "../../../services/Horarios/HorariosService";
 import { Session } from "../../../services/seguridad/Session";
 import HorarioModal from "../Horario/HorarioModal";
 import { Toast } from 'primereact/toast';
+import { Utils } from "../../../util/Utils";
 
 export default class HorarioView extends GenericView {
 
@@ -26,6 +27,7 @@ export default class HorarioView extends GenericView {
         this.onHideModal = this.onHideModal.bind(this);
         this.onRowDoubleClick = this.onRowDoubleClick.bind(this)
         this.onClickNoButton = this.onClickNoButton.bind(this)
+        this.onClickYesButton = this.onClickYesButton.bind(this)
         this.toast = React.createRef();
     }
 
@@ -43,16 +45,23 @@ export default class HorarioView extends GenericView {
         this.loadData();
     }
 
-    loadData() {HorariosService
+    loadData() {
+        HorariosService
         new HorariosService()
-           
+
             .getAll()
             .then(resp => {
                 console.log(resp)
                 if ((resp instanceof Response && resp.status === 200) || resp instanceof Array) {
                     console.log(resp)
+
                     this.setState({
-                        data: resp
+                        data: resp.map(e => {
+                            e.horaEntrada = Utils.ConvertTimestampToIsoStringDateTime(e.horaEntrada)
+                            e.horaSalida = Utils.ConvertTimestampToIsoStringDateTime(e.horaSalida)
+                            return e
+                        })
+
                     });
                 }
             }).catch(e => {
@@ -103,7 +112,6 @@ export default class HorarioView extends GenericView {
                 sortable: true
             },
 
-
         ]
 
     }
@@ -146,6 +154,15 @@ export default class HorarioView extends GenericView {
         this.onHideModal();
     }
 
+    onClickYesButton = () => {
+        const horario = this.horarioModal.current.getHorario();
+        if (horario !==null) {
+            this.mostrarMensajeAdvertencia('Selecione los Campos')
+        }
+
+    }
+
+
     render() {
         return (
 
@@ -159,9 +176,13 @@ export default class HorarioView extends GenericView {
 
                 <HorarioModal visible={this.state.showModal}
                     onHide={this.onHideModal}
-                    onClickNoButton={this.onClickNoButton}
+                    //onClickNoButton={this.onClickNoButton}
+                    hasGuardarCancelarButtons={true}
                     visible={this.state.showModal}
+                    onClickNoButton={this.onClickNoButton}
+                    onClickYesButton={this.onClickYesButton}
                     ref={this.horarioModal}
+
                 />
                 <Toast ref={this.toast} position={this.right()} />
             </Fragment>
