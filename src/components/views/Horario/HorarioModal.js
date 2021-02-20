@@ -121,7 +121,7 @@ export default class HorarioModal extends GenericModal {
                                 <Dropdown value={this.state.codigoTrabajador}
                                     onChange={(e) => this.setState({ codigoTrabajador: e.target.value })}
                                     options={this.state.TrabajadorInactivo}
-                                    optionLabel=" codigoTrabajador"
+                                    optionLabel="primerNombre"
                                     placeholder="Trabajador Inactivo" />
                             </div>
 
@@ -132,13 +132,27 @@ export default class HorarioModal extends GenericModal {
                                     optionLabel="turno"
                                     placeholder="Turnos" />
                             </div>
+                        </div>
 
-                            <div className="p-field p-col-12 p-md-4">
-                                <Calendar value={this.state.HoraEntrada}
-                                    onChange={(e) =>this.setState({ horaEntrada: e.target.value })} 
-                                    showTime 
+                        <div className="row mt-3" >
+                            <div className="col col-12 col-sm-12 col-md-12 col-lg-6">
+                                <Calendar
+                                    style={{ 'width': '100%' }}
+                                    value={this.state.HoraEntrada}
+                                    onChange={(e) => this.setState({ horaEntrada: e.target.value })}
+                                    showTime
                                     hourFormat="12"
                                     placeholder="Hora de Entrada"
+                                />
+                            </div>
+
+                            <div className="col col-12 col-sm-12 col-md-12 col-lg-6 ">
+                                <Calendar style={{ 'width': '100%' }}
+                                    value={this.state.HoraSalida}
+                                    onChange={(e) => this.setState({ horaSalida: e.target.value })}
+                                    showTime
+                                    hourFormat="12"
+                                    placeholder="Hora de Salida"
                                 />
                             </div>
                         </div>
