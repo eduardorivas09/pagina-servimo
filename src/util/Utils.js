@@ -9,5 +9,12 @@ export class Utils {
     static ConvertTimestampToIsoStringDate = (value) => {
         return new Date(value).toISOString().split('T')[0];
     }
+    static ConvertTimestampToIsoStringDateTime = (value) => {
+        const fecha = new Date(value).toISOString()
+        return fecha.split('T')[0] + ' ' + fecha.split('T')[1]
+
+
+
+    }
 
 }
