@@ -21,7 +21,7 @@ export default class HorarioModal extends GenericModal {
             HoraEntrada: '',
             HoraSalida: '',
             Turno: '',
-            Turnos: [{turno: 'Tarde'},{turno: 'Noche'},{turno: 'Mañana'}],
+            Turnos: [{ turno: 'Tarde' }, { turno: 'Noche' }, { turno: 'Mañana' }],
 
             clienteIdentificador: '',
             TipoCliente: '',
@@ -139,7 +139,8 @@ export default class HorarioModal extends GenericModal {
                             </div>
 
                             <div className="col col-12 col-sm-12 col-md-12 col-lg-6" style={{ marginTop: '1.3em' }}>
-                                <Dropdown value={this.state.Turno}
+                                <Dropdown
+                                    value={this.state.Turno}
                                     onChange={(e) => this.setState({ Turno: e.target.value })}
                                     options={this.state.Turnos}
                                     optionLabel="turno"
@@ -149,10 +150,11 @@ export default class HorarioModal extends GenericModal {
 
                         <div className="row mt-3" >
                             <div className="col col-12 col-sm-12 col-md-12 col-lg-6">
-                                <Calendar
+                                <Calendar 
                                     style={{ 'width': '100%' }}
-                                    value={this.state.HoraEntrada}
+                                    value={this.state.horaEntrada}
                                     onChange={(e) => this.setState({ horaEntrada: e.target.value })}
+                                    
                                     showTime
                                     hourFormat="12"
                                     placeholder="Hora de Entrada"
@@ -175,8 +177,8 @@ export default class HorarioModal extends GenericModal {
                     <TabPanel header={'Contrato'}>
                         <ContratoTable
                             onRowDoubleClick={this.onRowDoubleClick}
-                            //onClickNoButton = {this.onClickNoButton}
-                            //onClickYesButton = {this.onClickYesButton}
+                        //onClickNoButton = {this.onClickNoButton}
+                        //onClickYesButton = {this.onClickYesButton}
                         />
 
 
