@@ -20,4 +20,28 @@ export class HorariosService extends AbstractService {
         let url = setting.main + "empleado/inactivo"
         return this.doGet(url)
     }
+
+
+    save = (obj) => {
+        let url = setting.main + ".."
+        return new RequestService().doPost(url, JSON.stringify(obj), true)
+            .catch(e => {
+
+                if (e instanceof Error && e.message.includes('NetworkError')) {
+                    throw new NetworkConnectionError();
+                }
+
+                if (e instanceof Response && e.status === 500) {
+                    throw new SavingError(e.message);
+                }
+
+                if (e instanceof Response && e.status === 409) {//CONFLICT
+                    throw new SavingError("un problema con la informacion.");
+                    // throw new AuthenticationError();
+                }
+
+                return false;
+
+            });
+    }
 }

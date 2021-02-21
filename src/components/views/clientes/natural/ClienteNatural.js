@@ -159,6 +159,7 @@ export default class ClienteNatural extends GenericView{
 
     onRowDoubleClick = (e) => {
         this.openEditModal(e);
+        
     }
 
     updateCustomer = (cliente) => {

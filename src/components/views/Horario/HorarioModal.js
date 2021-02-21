@@ -5,6 +5,8 @@ import { TabPanel, TabView } from "primereact/tabview";
 import { Dropdown } from "primereact/dropdown"
 import { Calendar } from 'primereact/calendar';
 import { HorariosService } from "../../../services/Horarios/HorariosService";
+import ContratoTable from "../contrato/contratoTable/ContratoTable";
+
 
 
 export default class HorarioModal extends GenericModal {
@@ -19,11 +21,14 @@ export default class HorarioModal extends GenericModal {
             HoraEntrada: '',
             HoraSalida: '',
             Turno: '',
+            Turnos: [{turno: 'Tarde'},{turno: 'Noche'},{turno: 'Mañana'}],
+
             clienteIdentificador: '',
             TipoCliente: '',
             Nombrecliente: '',
             TrabajadorInactivo: [],
-            estado: false
+            estado: false,
+            contratoSlecionado: '',
 
         }
     }
@@ -72,6 +77,7 @@ export default class HorarioModal extends GenericModal {
     }
 
     getHorario = () => {
+
         const horario = {
             'contratoId': this.state.id,
             'codigoContrato': this.state.codigoContrato,
@@ -107,6 +113,13 @@ export default class HorarioModal extends GenericModal {
             });
     }
 
+    onRowDoubleClick = (e) => {
+        this.mostrarMensajeInformacion('Se ha selecionado el contato')
+        this.setState({
+            contratoSlecionado: e
+
+        })
+    }
 
 
     toRender = () => {
@@ -128,7 +141,7 @@ export default class HorarioModal extends GenericModal {
                             <div className="col col-12 col-sm-12 col-md-12 col-lg-6" style={{ marginTop: '1.3em' }}>
                                 <Dropdown value={this.state.Turno}
                                     onChange={(e) => this.setState({ Turno: e.target.value })}
-                                    options={this.state.Turno}
+                                    options={this.state.Turnos}
                                     optionLabel="turno"
                                     placeholder="Turnos" />
                             </div>
@@ -158,6 +171,17 @@ export default class HorarioModal extends GenericModal {
                         </div>
 
                     </TabPanel>
+
+                    <TabPanel header={'Contrato'}>
+                        <ContratoTable
+                            onRowDoubleClick={this.onRowDoubleClick}
+                            //onClickNoButton = {this.onClickNoButton}
+                            //onClickYesButton = {this.onClickYesButton}
+                        />
+
+
+                    </TabPanel>
+
                 </TabView>
             </div>
 

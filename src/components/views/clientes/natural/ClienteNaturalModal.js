@@ -158,7 +158,7 @@ export default class ClienteNaturalModal extends React.Component {
                         <div className="col col-12 col-sm-12 col-md-12 col-lg-6">
                             <span className="p-float-label" style={{ marginTop: '1.3em' }}>
                                 <InputText id="itCedula"
-                                    value={this.state.noCedula}
+                                    value={this.state.ncedula}
                                     onChange={(e) => this.setState({ ncedula: e.target.value })}
                                     keyfilter={/[^\s]/} />
                                 <label htmlFor="itCedula" style={{ fontSize: '0.8em' }}>Numero de Cedula</label>
@@ -170,7 +170,7 @@ export default class ClienteNaturalModal extends React.Component {
                         <div className="col col-12 col-sm-12 col-md-12 col-lg-3" style={{ marginTop: '1.3em' }}>
                             <span className="p-float-label">
                                 <InputText id="itPrimerNombre"
-                                    value={this.state.primerNombre}
+                                    value={this.state.pnombre}
                                     onChange={(e) => this.setState({ pnombre: e.target.value })}
                                     keyfilter={/[^\s]/} />
                                 <label htmlFor="itPrimerNombre" style={{ fontSize: '0.8em' }}>Primer Nombre</label>
