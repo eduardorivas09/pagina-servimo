@@ -23,7 +23,7 @@ export class HorariosService extends AbstractService {
 
 
     save = (obj) => {
-        let url = setting.main + "empleado"
+        let url = setting.main + ".."
         return new RequestService().doPost(url, JSON.stringify(obj), true)
             .catch(e => {
 

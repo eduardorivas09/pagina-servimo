@@ -175,7 +175,6 @@ export default class ClienteJuridico extends React.Component {
 
         this.setState({
             showModal: true,
-
         })
         this.ClienteModal.current.setCliente(null)
     }
@@ -261,11 +260,15 @@ export default class ClienteJuridico extends React.Component {
     onClickYesButton = () => {
         const cliente = this.ClienteModal.current.getCliente();
         console.log(cliente);
-        if (cliente.id !== undefined && cliente.id > 0) {
-            this.updateCustomer(cliente);
-        } else {
-            this.saveNewCustomer(cliente);
-        }
+
+      
+            if (cliente.id !== undefined && cliente.id > 0) {
+                this.updateCustomer(cliente);
+            } else {
+                this.saveNewCustomer(cliente);
+            }
+        
+
     }
 
     validarGuardar = (cliente) => {
@@ -305,12 +308,7 @@ export default class ClienteJuridico extends React.Component {
             return false;
         }
 
-
     }
-
-
-
-
 
     onClickDeleteButton = () => {
         this.state.selectedRow.data.activo = false;
@@ -364,7 +362,7 @@ export default class ClienteJuridico extends React.Component {
                     onClickYesButton={this.onClickYesButton}
                     ref={this.ClienteModal} />
 
-                    <Toast ref={this.toast}position='top-left' />
+                <Toast ref={this.toast} position='top-left' />
             </Fragment>
 
         );
