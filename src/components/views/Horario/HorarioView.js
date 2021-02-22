@@ -57,8 +57,8 @@ export default class HorarioView extends GenericView {
 
                     this.setState({
                         data: resp.map(e => {
-                            e.horaEntrada = Utils.ConvertTimestampToIsoStringDateTime(e.horaEntrada)
-                            e.horaSalida = Utils.ConvertTimestampToIsoStringDateTime(e.horaSalida)
+                            e.horaEntradaString = Utils.ConvertTimestampToIsoStringDateTime(e.horaEntrada)
+                            e.horaSalidaString = Utils.ConvertTimestampToIsoStringDateTime(e.horaSalida)
                             return e
                         })
 
@@ -91,11 +91,11 @@ export default class HorarioView extends GenericView {
                 header: "Codigo del Trabajador",
                 sortable: true
             }, {
-                field: "horaEntrada",
+                field: "horaEntradaString",
                 header: "Hora de Entrada",
                 sortable: true
             }, {
-                field: "horaSalida",
+                field: "horaSalidaString",
                 header: "Hora de Salida",
                 sortable: true
             }, {
@@ -153,13 +153,35 @@ export default class HorarioView extends GenericView {
 
         this.onHideModal();
     }
+    
+    saveNewHorario =(horario)=>{
+        console.log(horario)
+        if(horario === null){
+            return;
+        }
+        const horariosService = new HorariosService();
+
+        horariosService.save(horario)
+            .then(response => {
+                this.mostrarMensajeOk(
+                    'Horario Ingresado',
+                    'horario' + response.codigoTrabajador
+                );
+                this.loadData();
+                this.onHideModal();
+
+            })
+            .catch(e => {
+                this.mostrarMensajeError('No se Registro el Horario', e.message)
+            });
+    }
 
     onClickYesButton = () => {
         const horario = this.horarioModal.current.getHorario();
-        if (horario !==null) {
+        
+        /*if (horario !==null) {
             this.mostrarMensajeAdvertencia('Selecione los Campos')
-        }
-
+        }*/
     }
 
 

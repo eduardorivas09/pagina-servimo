@@ -14,4 +14,12 @@ export class ContratoClienteJuridicoService extends AbstractService{
         url += (search != null && search.trim().length > 0) ? `/?search=${search}` : ""
         return this.doGet(url);
     }
+
+    save = (obj) => {
+        let url = setting.main + "contrato/clientes/juridico/"
+        return new RequestService().doPost(url,JSON.stringify(obj),true)
+            .catch(e => {
+                throw e;
+            });
+    }
 }
