@@ -9,9 +9,10 @@ import { Fragment } from "react";
 import Table from "../../../controls/table/Table";
 import ClienteJuridicoModal from './ClienteJudiricoModal';
 import { Toast } from 'primereact/toast';
+import { GenericView } from '../../GenericView';
 
 
-export default class ClienteJuridico extends React.Component {
+export default class ClienteJuridico extends GenericView {
 
     constructor(props) {
         super(props);
@@ -203,7 +204,7 @@ export default class ClienteJuridico extends React.Component {
                 this.setState({
                     modalProps: {
                         modalHeader: 'Cliente Juridico Actualizado',
-                        modalMessage: 'Cliente' + response.noRuc + ' ' + response.nombre,
+                        modalMessage: 'Cliente '  + response.nombre ,
                         modalType: 'succes',
                         visible: true
                     }
@@ -234,7 +235,7 @@ export default class ClienteJuridico extends React.Component {
                 this.setState({
                     modalProps: {
                         modalHeader: 'Registro guardado Cliente Juridico',
-                        modalMessage: 'Cliente ' + response.noRuc + ' ' + response.nombre,
+                        modalMessage: 'Cliente ' +  response.nombre,
                         modalType: 'success',
                         visible: true
                     }
@@ -261,52 +262,50 @@ export default class ClienteJuridico extends React.Component {
         const cliente = this.ClienteModal.current.getCliente();
         console.log(cliente);
 
-      
+        if (this.validarGuardar(cliente)) {
             if (cliente.id !== undefined && cliente.id > 0) {
                 this.updateCustomer(cliente);
             } else {
                 this.saveNewCustomer(cliente);
             }
-        
+        }
+
 
     }
 
     validarGuardar = (cliente) => {
-
+        console.log(cliente)
         if (cliente === null || cliente === undefined) {
-            this.mostraMesaje("warn", 'No se ha pasado un objeto validado');
+            this.mostrarMensajeAdvertencia('No se ha pasado un objeto validado');
             return false;
         }
 
-        if (cliente.noRuc === null || cliente.noRuc.length < 16) {
-            this.mostraMesaje("warn", 'Ruc:requerida', 'Se require un nuemro Ruc valido');
+        if (cliente.noRuc === null || cliente.noRuc.length < 5) {
+            this.mostrarMensajeAdvertencia('Ruc:requerida', 'Se require un nuemro Ruc valido');
             return false;
         }
 
         if (cliente.nombre === null || cliente.nombre.length == 0) {
-            this.mostraMesaje("warn", 'Nombre:requerida', 'Se require el Nombre');
+            this.mostrarMensajeAdvertencia('Nombre:requerida', 'Se require el Nombre');
             return false;
         }
 
-        if (cliente.telefono === null || cliente.telefono.length == 0) {
-            this.mostraMesaje("warn", 'Telefono:requerida', 'Se require el Telefono');
+        if (cliente.telefono === null || cliente.telefono.length < 8) {
+            this.mostrarMensajeAdvertencia('Telefono:requerida', 'Se require el Telefono');
             return false;
         }
 
         if (cliente.correo === null || cliente.correo.length == 0) {
-            this.mostraMesaje("warn", 'Correo:requerida', 'Se require el Correo');
+            this.mostrarMensajeAdvertencia('Correo:requerida', 'Se require el Correo');
             return false;
         }
 
         if (cliente.direccion === null || cliente.direccion.length == 0) {
-            this.mostraMesaje("warn", 'Direccion:requerida', 'Se require la Direccion');
+            this.mostrarMensajeAdvertencia('Direccion:requerida', 'Se require la Direccion');
             return false;
         }
-
-        if (cliente.activo === null || cliente.activo.length == 0) {
-            this.mostraMesaje("warn", 'Estado:requerida', 'Se require la D');
-            return false;
-        }
+       
+        return true;
 
     }
 
