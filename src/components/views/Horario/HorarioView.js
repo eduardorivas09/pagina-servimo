@@ -57,8 +57,10 @@ export default class HorarioView extends GenericView {
 
                     this.setState({
                         data: resp.map(e => {
-                            e.horaEntrada = Utils.ConvertTimestampToIsoStringDateTime(e.horaEntrada)
-                            e.horaSalida = Utils.ConvertTimestampToIsoStringDateTime(e.horaSalida)
+                            e.horaEntradaString = Utils.ConvertTimestampToIsoStringDateTime(e.horaEntrada)
+                            e.horaSalidaString = Utils.ConvertTimestampToIsoStringDateTime(e.horaSalida)
+                         
+
                             return e
                         })
 
@@ -91,11 +93,11 @@ export default class HorarioView extends GenericView {
                 header: "Codigo del Trabajador",
                 sortable: true
             }, {
-                field: "horaEntrada",
+                field: "horaEntradaString",
                 header: "Hora de Entrada",
                 sortable: true
             }, {
-                field: "horaSalida",
+                field: "horaSalidaString",
                 header: "Hora de Salida",
                 sortable: true
             }, {
