@@ -59,8 +59,6 @@ export default class HorarioView extends GenericView {
                         data: resp.map(e => {
                             e.horaEntradaString = Utils.ConvertTimestampToIsoStringDateTime(e.horaEntrada)
                             e.horaSalidaString = Utils.ConvertTimestampToIsoStringDateTime(e.horaSalida)
-                         
-
                             return e
                         })
 
@@ -155,13 +153,35 @@ export default class HorarioView extends GenericView {
 
         this.onHideModal();
     }
+    
+    saveNewHorario =(horario)=>{
+        console.log(horario)
+        if(horario === null){
+            return;
+        }
+        const horariosService = new HorariosService();
+
+        horariosService.save(horario)
+            .then(response => {
+                this.mostrarMensajeOk(
+                    'Horario Ingresado',
+                    'horario' + response.codigoTrabajador
+                );
+                this.loadData();
+                this.onHideModal();
+
+            })
+            .catch(e => {
+                this.mostrarMensajeError('No se Registro el Horario', e.message)
+            });
+    }
 
     onClickYesButton = () => {
         const horario = this.horarioModal.current.getHorario();
-        if (horario !==null) {
+        
+        /*if (horario !==null) {
             this.mostrarMensajeAdvertencia('Selecione los Campos')
-        }
-
+        }*/
     }
 
 

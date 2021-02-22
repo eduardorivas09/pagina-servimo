@@ -16,11 +16,11 @@ export default class HorarioModal extends GenericModal {
         this.state = {
             id: -1,
             codigoContrato: '',
-            CodigoTrabajador: '',
+            CodigoTrabajador: null,
             NombreTrabajador: '',
             HoraEntrada: '',
             HoraSalida: '',
-            Turno: '',
+            Turno: null,
             Turnos: [{ turno: 'Tarde' }, { turno: 'Noche' }, { turno: 'Mañana' }],
 
             clienteIdentificador: '',
@@ -77,14 +77,14 @@ export default class HorarioModal extends GenericModal {
     }
 
     getHorario = () => {
-        
+
         if (!this.validarguardar()) {
             return null;
         }
         const horario = {
-            'contratoId': this.state.id,
+            'contrato_id': this.state.id,
             'codigoContrato': this.state.codigoContrato,
-            'codigoTrabajador': this.state.CodigoTrabajador,
+            'codigoTrabajador': this.state.CodigoTrabajador.codigoTrabajador,
             'nombreTrabajador': this.state.NombreTrabajador,
             'horaEntrada': this.state.HoraEntrada,
             'horaSalida': this.state.HoraSalida,
@@ -96,6 +96,8 @@ export default class HorarioModal extends GenericModal {
             'estado': this.state.estado
         }
 
+        console.log(horario)
+
         if (this.state.id !== undefined && this.state.state > 0) {
             horario.id = this.state.id;
         }
@@ -104,20 +106,29 @@ export default class HorarioModal extends GenericModal {
 
     validarguardar() {
 
-        if (this.state.TrabajadorInactivo === null) {
+        if (this.state.CodigoTrabajador === null) {
             this.mostrarMensajeAdvertencia('Selecione el Trabajador')
+            return false;
         }
 
-        if (this.state.Turnos === null) {
+        if (this.state.Turno === null) {
             this.mostrarMensajeAdvertencia('Selecione el Turno')
+            return false;
         }
 
         if (this.state.HoraEntrada === null) {
             this.mostrarMensajeAdvertencia('Selecione la Hora de Entrada')
+            return false;
         }
 
         if (this.state.HoraSalida === null) {
             this.mostrarMensajeAdvertencia('Selecione la Hora de Slaida')
+            return false;
+        }
+
+        if (this.state.contratoSlecionado === null) {
+            this.mostrarMensajeAdvertencia('Selecione el contrato')
+            return false;
         }
 
 
@@ -156,8 +167,8 @@ export default class HorarioModal extends GenericModal {
                         <div className="row">
 
                             <div className="col col-12 col-sm-12 col-md-12 col-lg-6" style={{ marginTop: '1.3em' }}>
-                                <Dropdown value={this.state.codigoTrabajador}
-                                    onChange={(e) => this.setState({ codigoTrabajador: e.target.value })}
+                                <Dropdown value={this.state.CodigoTrabajador}
+                                    onChange={(e) => this.setState({ CodigoTrabajador: e.target.value })}
                                     options={this.state.TrabajadorInactivo}
                                     optionLabel="primerNombre"
                                     placeholder="Trabajador Inactivo" />

@@ -23,7 +23,7 @@ export class HorariosService extends AbstractService {
 
 
     save = (obj) => {
-        let url = setting.main + ".."
+        let url = setting.main + "horario/"
         return new RequestService().doPost(url, JSON.stringify(obj), true)
             .catch(e => {
 
@@ -43,5 +43,32 @@ export class HorariosService extends AbstractService {
                 return false;
 
             });
+    }
+
+    update = (obj) => {
+        let url = setting.main + `.../${obj.id}`
+        console.log(url)
+        console.log(obj);
+        return new RequestService().doPut(url, JSON.stringify(obj), true)
+            .catch(e => {
+
+                if (e instanceof Error && e.message.includes('NetworkError')) {
+                    throw new NetworkConnectionError();
+                }
+
+                if (e instanceof Response && e.status === 500) {
+                    throw new SavingError(e.message);
+                }
+
+                if (e instanceof Response && e.status === 409) {//CONFLICT
+                    throw new SavingError("un problema con la informacion.");
+                    // throw new AuthenticationError();
+                }
+
+                return false;
+
+            });
+
+
     }
 }
