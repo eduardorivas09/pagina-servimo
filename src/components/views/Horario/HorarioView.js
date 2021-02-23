@@ -168,6 +168,7 @@ export default class HorarioView extends GenericView {
                     'horario' + response.codigoTrabajador
                 );
                 this.loadData();
+                this.horarioModal.current.loadTrabajadores();
                 this.onHideModal();
 
             })
@@ -179,9 +180,9 @@ export default class HorarioView extends GenericView {
     onClickYesButton = () => {
         const horario = this.horarioModal.current.getHorario();
         
-        /*if (horario !==null) {
-            this.mostrarMensajeAdvertencia('Selecione los Campos')
-        }*/
+        if (horario !==null) {
+           this.saveNewHorario(horario);
+        }
     }
 
 
