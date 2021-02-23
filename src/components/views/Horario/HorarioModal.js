@@ -16,12 +16,14 @@ export default class HorarioModal extends GenericModal {
         this.state = {
             id: -1,
             codigoContrato: '',
-            CodigoTrabajador: '',
+            CodigoTrabajador: null,
             NombreTrabajador: '',
             HoraEntrada: '',
             HoraSalida: '',
+
+            Turno: null,
             Turno: '',
-            Turnos: [{turno: 'Tarde'},{turno: 'Noche'},{turno: 'Mañana'}],
+            Turnos: [{ turno: 'Tarde' }, { turno: 'Noche' }, { turno: 'Mañana' }],
 
             clienteIdentificador: '',
             TipoCliente: '',
@@ -78,10 +80,13 @@ export default class HorarioModal extends GenericModal {
 
     getHorario = () => {
 
+        if (!this.validarguardar()) {
+            return null;
+        }
         const horario = {
-            'contratoId': this.state.id,
+            'contrato_id': this.state.id,
             'codigoContrato': this.state.codigoContrato,
-            'codigoTrabajador': this.state.CodigoTrabajador,
+            'codigoTrabajador': this.state.CodigoTrabajador.codigoTrabajador,
             'nombreTrabajador': this.state.NombreTrabajador,
             'horaEntrada': this.state.HoraEntrada,
             'horaSalida': this.state.HoraSalida,
@@ -93,10 +98,43 @@ export default class HorarioModal extends GenericModal {
             'estado': this.state.estado
         }
 
+        console.log(horario)
+
         if (this.state.id !== undefined && this.state.state > 0) {
             horario.id = this.state.id;
         }
         return horario;
+    }
+
+    validarguardar() {
+
+        if (this.state.CodigoTrabajador === null) {
+            this.mostrarMensajeAdvertencia('Selecione el Trabajador')
+            return false;
+        }
+
+        if (this.state.Turno === null) {
+            this.mostrarMensajeAdvertencia('Selecione el Turno')
+            return false;
+        }
+
+        if (this.state.HoraEntrada === null) {
+            this.mostrarMensajeAdvertencia('Selecione la Hora de Entrada')
+            return false;
+        }
+
+        if (this.state.HoraSalida === null) {
+            this.mostrarMensajeAdvertencia('Selecione la Hora de Slaida')
+            return false;
+        }
+
+        if (this.state.contratoSlecionado === null) {
+            this.mostrarMensajeAdvertencia('Selecione el contrato')
+            return false;
+        }
+
+
+        return true;
     }
 
     componentDidMount() {
@@ -131,15 +169,16 @@ export default class HorarioModal extends GenericModal {
                         <div className="row">
 
                             <div className="col col-12 col-sm-12 col-md-12 col-lg-6" style={{ marginTop: '1.3em' }}>
-                                <Dropdown value={this.state.codigoTrabajador}
-                                    onChange={(e) => this.setState({ codigoTrabajador: e.target.value })}
+                                <Dropdown value={this.state.CodigoTrabajador}
+                                    onChange={(e) => this.setState({ CodigoTrabajador: e.target.value })}
                                     options={this.state.TrabajadorInactivo}
                                     optionLabel="primerNombre"
                                     placeholder="Trabajador Inactivo" />
                             </div>
 
                             <div className="col col-12 col-sm-12 col-md-12 col-lg-6" style={{ marginTop: '1.3em' }}>
-                                <Dropdown value={this.state.Turno}
+                                <Dropdown
+                                    value={this.state.Turno}
                                     onChange={(e) => this.setState({ Turno: e.target.value })}
                                     options={this.state.Turnos}
                                     optionLabel="turno"
@@ -149,10 +188,15 @@ export default class HorarioModal extends GenericModal {
 
                         <div className="row mt-3" >
                             <div className="col col-12 col-sm-12 col-md-12 col-lg-6">
-                                <Calendar
+                                <Calendar 
                                     style={{ 'width': '100%' }}
+
                                     value={this.state.HoraEntrada}
+                                    onChange={(e) => this.setState({ HoraEntrada: e.target.value })}
+                                    value={this.state.horaEntrada}
                                     onChange={(e) => this.setState({ horaEntrada: e.target.value })}
+                                    
+
                                     showTime
                                     hourFormat="12"
                                     placeholder="Hora de Entrada"
@@ -162,7 +206,7 @@ export default class HorarioModal extends GenericModal {
                             <div className="col col-12 col-sm-12 col-md-12 col-lg-6 ">
                                 <Calendar style={{ 'width': '100%' }}
                                     value={this.state.HoraSalida}
-                                    onChange={(e) => this.setState({ horaSalida: e.target.value })}
+                                    onChange={(e) => this.setState({ HoraSalida: e.target.value })}
                                     showTime
                                     hourFormat="12"
                                     placeholder="Hora de Salida"
@@ -175,8 +219,8 @@ export default class HorarioModal extends GenericModal {
                     <TabPanel header={'Contrato'}>
                         <ContratoTable
                             onRowDoubleClick={this.onRowDoubleClick}
-                            //onClickNoButton = {this.onClickNoButton}
-                            //onClickYesButton = {this.onClickYesButton}
+                        //onClickNoButton = {this.onClickNoButton}
+                        //onClickYesButton = {this.onClickYesButton}
                         />
 
 
