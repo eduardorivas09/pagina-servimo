@@ -105,6 +105,10 @@ export default class Trabajador extends GenericView {
 
     saveNewTrabajador = (trabajador) => {
         console.log(trabajador)
+        if (trabajador === null) {
+          return;
+        }
+        
         const trabajadoresService = new TrabajadoresService();
         trabajadoresService.save(trabajador)
             .then(response => {
@@ -196,7 +200,7 @@ export default class Trabajador extends GenericView {
 
         ]
     }
-    
+
 
     onHideModal = () => {
         this.setState({
