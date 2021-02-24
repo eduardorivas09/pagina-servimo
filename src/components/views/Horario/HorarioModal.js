@@ -80,18 +80,18 @@ export default class HorarioModal extends GenericModal {
 
         if (!this.validarguardar()) {
             return null;
-        } 
-        
+        }
+
         const horario = {
             'contratoId': this.state.contratoSlecionado.contratoId,//
-            'codigoContrato':  this.state.contratoSlecionado.codigoContrato,
+            'codigoContrato': this.state.contratoSlecionado.codigoContrato,
             'codigoTrabajador': this.state.CodigoTrabajador.codTrabajador,
             'nombreTrabajador': this.state.NombreTrabajador,
             'horaEntrada': this.state.HoraEntrada.getTime(),
             'horaSalida': this.state.HoraSalida.getTime(),
-            'turno':  this.state.Turno.turno ,
+            'turno': this.state.Turno.turno,
             'clienteIdentificador': this.state.clienteIdentificador,
-            'tipoCliente':  null,
+            'tipoCliente': null,
             'clienteNombre': this.state.Nombrecliente,
             // TrabajadorInactivo: null,
             'estado': 'EJECUTANDOSE'
@@ -127,7 +127,7 @@ export default class HorarioModal extends GenericModal {
             return false;
         }
 
-        if (this.state.contratoSlecionado === null  || this.state.contratoSlecionado=== undefined) {
+        if (this.state.contratoSlecionado === null || this.state.contratoSlecionado === undefined) {
             this.mostrarMensajeAdvertencia('Selecione el contrato')
             return false;
         }
@@ -193,13 +193,12 @@ export default class HorarioModal extends GenericModal {
 
                         <div className="row mt-3" >
                             <div className="col col-12 col-sm-12 col-md-12 col-lg-6">
-                                <Calendar 
+                                <Calendar
                                     style={{ 'width': '100%' }}
-
                                     value={this.state.HoraEntrada}
                                     onChange={(e) => this.setState({ HoraEntrada: e.target.value })}
-                                    value={this.state.horaEntrada}
-                             
+
+
                                     showTime
                                     hourFormat="12"
                                     placeholder="Hora de Entrada"

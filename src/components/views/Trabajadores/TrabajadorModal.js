@@ -168,27 +168,27 @@ export default class TrabajadorModal extends GenericModal {
             return false;
         }
 
-        if (this.state.pnombre === null) {
+        if (this.state.pnombre === null || this.state.pnombre.trim().length == 0) {
             this.mostrarMensajeAdvertencia('Ingrese el Primer Nombre');
             return false;
         }
 
-        if (this.state.snombre === null) {
+        if (this.state.snombre === null || this.state.snombre.trim().length == 0) {
             this.mostrarMensajeAdvertencia('Ingrese el Segundo Nombre');
             return false;
         }
 
-        if (this.state.papelli === null) {
+        if (this.state.papelli === null || this.state.papelli.trim().length == 0) {
             this.mostrarMensajeAdvertencia('Ingrese el Primer Apellido');
             return false;
         }
 
-        if (this.state.sapelli === null) {
+        if (this.state.sapelli === null || this.state.sapelli.trim().length == 0) {
             this.mostrarMensajeAdvertencia('Ingrese el Segundo Apellido');
             return false;
         }
 
-        if (this.state.telefono === null) {
+        if (this.state.telefono === null || this.state.telefono.trim().length == 0) {
             this.mostrarMensajeAdvertencia('Ingrese el Telefono');
             return false;
         }
@@ -208,7 +208,7 @@ export default class TrabajadorModal extends GenericModal {
             return false;
         }
 
-        if (this.state.direccion === null) {
+        if (this.state.direccion === null || this.state.direccion.trim().length == 0) {
             this.mostrarMensajeAdvertencia('Ingrese la Direccion');
             return false;
         }
