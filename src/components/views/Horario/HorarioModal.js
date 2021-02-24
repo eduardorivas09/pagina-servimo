@@ -7,8 +7,6 @@ import { Calendar } from 'primereact/calendar';
 import { HorariosService } from "../../../services/Horarios/HorariosService";
 import ContratoTable from "../contrato/contratoTable/ContratoTable";
 
-
-
 export default class HorarioModal extends GenericModal {
 
     constructor() {
