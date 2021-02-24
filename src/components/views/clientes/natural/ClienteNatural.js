@@ -185,14 +185,21 @@ export default class ClienteNatural extends GenericView{
         const clienteNaturalService = new ClienteNaturalService();
         clienteNaturalService.save(cliente)
             .then(response => {
+                console.log(cliente);
+                if (response.primerNombre === undefined){
+                    this.mostrarMensajeError("Ya existe una persona con el numero de cedula especificado");
+                }
 
-                this.mostrarMensajeOk(
-                    'Registro guardado Cliente Natural',
-                    'Cliente guardado: ' + response.primerNombre + ' ' + response.primerApellido
-                );
+                if (response.primerNombre !== undefined) {
+                    this.mostrarMensajeOk(
+                        'Registro guardado Cliente Natural',
+                        'Cliente guardado: ' + response.primerNombre + ' ' + response.primerApellido
+                    );
+                    this.loadData();
+                    this.onHideModal();
+                }
 
-                this.loadData();
-                this.onHideModal();
+
             })
             .catch(e => {
                 this.mostrarMensajeError('No se guardo el Cliente Natural', e.message);
