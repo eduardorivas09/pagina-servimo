@@ -73,7 +73,6 @@ export default class ServiceView extends GenericView {
                 diaPago: null,
                 estado: true,
 
-
             });
 
         } else {
@@ -96,7 +95,6 @@ export default class ServiceView extends GenericView {
             'fechaContrato': this.state.fechaContrato,
             'fechaFin': this.state.fechaFin,
             'fechaInicio': this.state.fechaInicio
-
         }
         return servisio;
 

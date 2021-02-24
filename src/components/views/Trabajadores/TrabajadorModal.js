@@ -13,7 +13,6 @@ import { Tab } from 'bootstrap';
 import { event } from 'jquery';
 import GenericModal from '../modal/GenericModal';
 
-
 export default class TrabajadorModal extends GenericModal {
 
     constructor() {
@@ -90,6 +89,7 @@ export default class TrabajadorModal extends GenericModal {
         if (!this.validarguardar()) {
             return null;
         }
+
         const trabajador = {
 
             'noCedula': this.state.ncedula,
@@ -144,18 +144,16 @@ export default class TrabajadorModal extends GenericModal {
     }
 
     componentDidMount() {
-
         new CargoTrabajadorService()
-        .getAll().then(response => {
-            console.log(response)
-            this.setState({
-                cargos: response
+            .getAll().then(response => {
+                console.log(response)
+                this.setState({
+                    cargos: response
+                });
+            }).catch(e => {
+
+                this.mostrarMensajeError('Acceso denegado', e.message);
             });
-        }).catch(e => {
-
-            this.mostrarMensajeError('Acceso denegado', e.message);
-        });
-
     }
 
     validarguardar() {
@@ -174,7 +172,6 @@ export default class TrabajadorModal extends GenericModal {
             this.mostrarMensajeAdvertencia('Ingrese el Primer Nombre');
             return false;
         }
-
 
         if (this.state.snombre === null) {
             this.mostrarMensajeAdvertencia('Ingrese el Segundo Nombre');
@@ -197,27 +194,27 @@ export default class TrabajadorModal extends GenericModal {
         }
 
         if (this.state.estadoC === null) {
-            this.mostrarMensajeAdvertencia('No se ha pasado un parametro valido');
+            this.mostrarMensajeAdvertencia('Ingrese el Estado Civil');
             return false;
         }
 
         if (this.state.sexo === null) {
-            this.mostrarMensajeAdvertencia('No se ha pasado un parametro valido');
+            this.mostrarMensajeAdvertencia('Elija ell Genero');
             return false;
         }
 
         if (this.state.cargos === null) {
-            this.mostrarMensajeAdvertencia('No se ha pasado un parametro valido');
+            this.mostrarMensajeAdvertencia('Elija el Cargo');
             return false;
         }
 
         if (this.state.direccion === null) {
-            this.mostrarMensajeAdvertencia('No se ha pasado un parametro valido');
+            this.mostrarMensajeAdvertencia('Ingrese la Direccion');
             return false;
         }
-
         return true;
     }
+
 
     toRender = () => {
         return (
@@ -227,7 +224,6 @@ export default class TrabajadorModal extends GenericModal {
                 <TabView >
 
                     <TabPanel header={'Datos Personas'}>
-
 
                         <div className="row">
 
