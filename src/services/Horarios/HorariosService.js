@@ -1,4 +1,5 @@
 import { AbstractService } from "../AbstractService";
+import { RequestService } from "../RequestService";
 import setting from "../Settings.json";
 
 export class HorariosService extends AbstractService {

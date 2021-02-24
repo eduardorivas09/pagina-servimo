@@ -18,11 +18,11 @@ export default class HorarioModal extends GenericModal {
             codigoContrato: '',
             CodigoTrabajador: null,
             NombreTrabajador: '',
-            HoraEntrada: '',
-            HoraSalida: '',
+            HoraEntrada: null,
+            HoraSalida: null,
 
             Turno: null,
-            Turno: '',
+
             Turnos: [{ turno: 'Tarde' }, { turno: 'Noche' }, { turno: 'Mañana' }],
 
             clienteIdentificador: '',
@@ -30,7 +30,7 @@ export default class HorarioModal extends GenericModal {
             Nombrecliente: '',
             TrabajadorInactivo: [],
             estado: false,
-            contratoSlecionado: '',
+            contratoSlecionado: null,
 
         }
     }
@@ -82,20 +82,21 @@ export default class HorarioModal extends GenericModal {
 
         if (!this.validarguardar()) {
             return null;
-        }
+        } 
+        
         const horario = {
-            'contrato_id': this.state.id,
-            'codigoContrato': this.state.codigoContrato,
-            'codigoTrabajador': this.state.CodigoTrabajador.codigoTrabajador,
+            'contratoId': this.state.contratoSlecionado.contratoId,//
+            'codigoContrato':  this.state.contratoSlecionado.codigoContrato,
+            'codigoTrabajador': this.state.CodigoTrabajador.codTrabajador,
             'nombreTrabajador': this.state.NombreTrabajador,
-            'horaEntrada': this.state.HoraEntrada,
-            'horaSalida': this.state.HoraSalida,
-            'turno': this.state.Turno !== null ? this.state.Turno.name : null,
+            'horaEntrada': this.state.HoraEntrada.getTime(),
+            'horaSalida': this.state.HoraSalida.getTime(),
+            'turno':  this.state.Turno.turno ,
             'clienteIdentificador': this.state.clienteIdentificador,
-            'tipoCliente': this.state.TipoCliente !== null ? this.state.TipoCliente.name : null,
+            'tipoCliente':  null,
             'clienteNombre': this.state.Nombrecliente,
             // TrabajadorInactivo: null,
-            'estado': this.state.estado
+            'estado': 'EJECUTANDOSE'
         }
 
         console.log(horario)
@@ -124,11 +125,11 @@ export default class HorarioModal extends GenericModal {
         }
 
         if (this.state.HoraSalida === null) {
-            this.mostrarMensajeAdvertencia('Selecione la Hora de Slaida')
+            this.mostrarMensajeAdvertencia('Selecione la Hora de Salida')
             return false;
         }
 
-        if (this.state.contratoSlecionado === null) {
+        if (this.state.contratoSlecionado === null  || this.state.contratoSlecionado=== undefined) {
             this.mostrarMensajeAdvertencia('Selecione el contrato')
             return false;
         }
@@ -138,6 +139,10 @@ export default class HorarioModal extends GenericModal {
     }
 
     componentDidMount() {
+        this.loadTrabajadores();
+    }
+
+    loadTrabajadores = () => {
         new HorariosService()
             .getAllInactivo()
             .then(response => {
@@ -152,9 +157,11 @@ export default class HorarioModal extends GenericModal {
     }
 
     onRowDoubleClick = (e) => {
+        console.log(e);
         this.mostrarMensajeInformacion('Se ha selecionado el contato')
         this.setState({
-            contratoSlecionado: e
+
+            contratoSlecionado: e.data
 
         })
     }
@@ -194,9 +201,7 @@ export default class HorarioModal extends GenericModal {
                                     value={this.state.HoraEntrada}
                                     onChange={(e) => this.setState({ HoraEntrada: e.target.value })}
                                     value={this.state.horaEntrada}
-                                    onChange={(e) => this.setState({ horaEntrada: e.target.value })}
-                                    
-
+                             
                                     showTime
                                     hourFormat="12"
                                     placeholder="Hora de Entrada"
