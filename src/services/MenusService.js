@@ -23,17 +23,19 @@ export class MenusService{
             })
             .catch(e => {
                 console.log(e)
-                if (e instanceof Error &&  e.message.includes('NetworkError')){
-                    throw new NetworkConnectionError();
-                }
+                // if (e instanceof Error &&  e.message.includes('NetworkError')){
+                //     throw new NetworkConnectionError();
+                // }
+                //
+                // if (e instanceof Response && e.status === 500){
+                //     throw new AuthenticationError();
+                // }
 
-                if (e instanceof Response && e.status === 500){
-                    throw new AuthenticationError();
-                }
+                // if (e instanceof AuthorizationError){// FORBIDEN
+                //     throw e;
+                // }
 
-                if (e instanceof AuthorizationError){// FORBIDEN
-                    throw e;
-                }
+                throw e;
 
             });
     }
@@ -41,7 +43,9 @@ export class MenusService{
 
     getMainMenuItems = async (onClickMenu) => {
 
-        const reponse = await this.getAll();
+        const reponse = await this.getAll().catch(e => {
+            throw e;
+        });
 
         console.log(reponse);
 

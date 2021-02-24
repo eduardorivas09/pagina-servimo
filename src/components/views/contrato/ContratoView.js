@@ -33,16 +33,19 @@ export default class ContratoView extends GenericView{
         if (contrato !== null) {
             if (contrato.cliente.tipoCliente === "Cliente Natural"){
                 const contratoClienteNatural = {
-                    fechaInicio: contrato.servicio.fechaInicio,
-                    fechaExpira: contrato.servicio.fechaFin,
-                    diaPago: contrato.detallePago.diaPago,
-                    costoSercio: contrato.detallePago.costoServicio,
-                    estado: 0,
-                    nomeda: 'NIO',
-                    plazoPago : contrato.detallePago.plazoSeleccionado,
-                    clienteNatural: {
-                        id: contrato.cliente.id,
-                    }
+                    contratoClienteNatural : {
+                        fechaInicio: contrato.servicio.fechaInicio,
+                        fechaExpira: contrato.servicio.fechaFin,
+                        diaPago: contrato.detallePago.diaPago,
+                        costoSercio: contrato.detallePago.costoServicio,
+                        estado: 0,
+                        nomeda: 'NIO',
+                        plazoPago : contrato.detallePago.plazoSeleccionado,
+                        clienteNatural: {
+                            id: contrato.cliente.id,
+                        }
+                    },
+                    servicios : contrato.servicio.servicios
                 }
                 new ContratoClienteNatural().save(contratoClienteNatural).then(resp => {
                     this.mostrarMensajeOk('Se ha generado el contrato con exito');
@@ -52,21 +55,26 @@ export default class ContratoView extends GenericView{
 
             }else if (contrato.cliente.tipoCliente === "Cliente Juridico"){
                 const contratoClienteJuridico = {
-                    fechaInicio: contrato.servicio.fechaInicio,
-                    fechaExpira: contrato.servicio.fechaFin,
-                    diaPago: contrato.detallePago.diaPago,
-                    Costoservicio: contrato.detallePago.costoServicio,
-                    estado: 0,
-                    nomeda: 'NIO',
-                    plazoPago : contrato.detallePago.plazoSeleccionado,
-                    noRuc: {
-                        id: contrato.cliente.id,
-                    }
+                    contratoClienteJuridico : {
+                        costoServicio: contrato.detallePago.costoServicio,
+                        fechaInicio: contrato.servicio.fechaInicio,
+                        fechaExpira: contrato.servicio.fechaFin,
+                        diaPago: contrato.detallePago.diaPago,
+                        estado: 0,
+                        moneda: 'NIO',
+                        plazoPago : contrato.detallePago.plazoSeleccionado,
+                        noRuc: {
+                            id: contrato.cliente.id,
+                        }
+                    },
+                    servicios : contrato.servicio.servicios
                 }
-                console.log(contratoClienteJuridico)
+                console.log(contratoClienteJuridico);
                 new ContratoClienteJuridicoService().save(contratoClienteJuridico).then(resp => {
                     this.mostrarMensajeOk('Se ha generado el contrato con exito');
                     this.onCloseModal();
+                }).catch(e => {
+                    this.mostrarMensajeError("No se ha guardado el contrato", e.message)
                 });
             }else {
                 this.mostrarMensajeAdvertencia("Cliente no siportado", 'El tipo de cliente no se guardara debido a que no es soportado.');
@@ -76,46 +84,6 @@ export default class ContratoView extends GenericView{
     }
 
     /**
-     * {
-      "cliente": {
-        "id": 3056,
-        "nombre": "Fernado Gutierres",
-        "telefono": "82872090",
-        "correo": "fernadoj@gmail.com",
-        "activo": true,
-        "tipoCliente": "Cliente Natural"
-      },
-      "servicio": {
-        "servicios": [
-          {
-            "id": 14,
-            "tipoSevicio": "Inatalacion de Sistemas de Alarmas",
-            "estadoPorEstadoId": {
-              "id": 1,
-              "codigo": "SERVI",
-              "estado": "ACTIVO"
-            }
-          }
-        ],
-        "fechaContrato": null,
-        "fechaFin": "2021-02-28T06:00:00.000Z",
-        "fechaInicio": "2021-02-01T06:00:00.000Z"
-      },
-      "detallePago": {
-        "diaPago": 15,
-        "plazoSeleccionado": {
-          "id": 3,
-          "descripcion": "TRIMESTRAL",
-          "plazoMes": 3,
-          "plazoEstandar": true,
-          "factor": 0
-        },
-        "costoServicio": 1455
-      }
-    }
-     */
-
-    /**
      * @since 1.0
      * Metodo que cierra el modal para editar agregar.
      */
@@ -123,6 +91,7 @@ export default class ContratoView extends GenericView{
         this.setState({
             modalVisible : false
         });
+        this.contratoRef.current.setContratoAll(null);
     }
 
     onRowDoubleClick = (e) => {

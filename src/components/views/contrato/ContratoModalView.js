@@ -46,7 +46,6 @@ export class ContratoModalView extends GenericModal {
             backButtonEnabled: true,
             currentComponent: null,
             selectedCliente: null,
-
             contratoData: null
         }
 
@@ -56,13 +55,12 @@ export class ContratoModalView extends GenericModal {
 
         this.index = 0;
         this.detallePagoObj = null;
-        // this.selectedCliente = null;
-        // this.detallePagoObj = null;
 
         this.setCliente = this.setCliente.bind(this);
         this.setDetallePago = this.setDetallePago.bind(this);
         this.setContrato = this.setContrato.bind(this);
     }
+
 
     getContrato = () => {
 
@@ -96,14 +94,25 @@ export class ContratoModalView extends GenericModal {
     }
 
     setDetallePago = (e) => {
-        console.log(e);
-        // this.setState({detallePagoObj: e});
         this.detallePagoObj = e;
     }
 
     setContrato = (e) => {
-        console.log(e);
         this.setState({contratoData: e});
+    }
+
+    setContratoAll = (e) => {
+        console.log(e);
+        if (e === null || e === undefined) {
+            this.setCliente(null);
+            this.setDetallePago(null);
+            this.setContrato(null);
+            this.changeIndex(0);
+        }else {
+            this.setCliente(e.selectedCliente);
+            this.setDetallePago(e.detallePagoObj);
+            this.setContrato(e.contratoData);
+        }
     }
 
     /**

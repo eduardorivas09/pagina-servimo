@@ -159,6 +159,9 @@ export default class Main extends GenericView {
             if (await Session.isLogged()) {
                 await service.getMainMenuItems(this.onClickMenuItem).then(resp => {
                     this.setState({ menuItems: resp });
+                }).catch(e => {
+                    console.log(e);
+                    this.mostrarMensajeError("Error al conectar con el servidor", e.message);
                 });
             }
         } catch (e) {
