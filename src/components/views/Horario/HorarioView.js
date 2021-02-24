@@ -69,7 +69,6 @@ export default class HorarioView extends GenericView {
                     this.mostrarMensajeError('Acceso denegado', e.message)
                 }
             });
-
     }
 
     onSearchChange(e) {
@@ -79,7 +78,6 @@ export default class HorarioView extends GenericView {
                 busqueda: e.target.value
             }
         )
-
         if (this.state.busqueda.trim().length === 0)
             this.loadData()
     }
@@ -91,20 +89,28 @@ export default class HorarioView extends GenericView {
                 header: "Codigo del Trabajador",
                 sortable: true
             }, {
-                field: "horaEntradaString",
-                header: "Hora de Entrada",
+                field: "nombreTrabajador",
+                header: "Trabajador",
                 sortable: true
-            }, {
+            },
+            {
+                field: "clienteNombre",
+                header: "Nombre Cliente",
+                sortable: true
+            },
+            {
+                field: "horaSalidaString",
+                header: "Hora de Salida",
+                sortable: true
+            },
+
+            {
                 field: "horaSalidaString",
                 header: "Hora de Salida",
                 sortable: true
             }, {
                 field: "turno",
                 header: "Turno",
-                sortable: true
-            }, {
-                field: "tipoCliente",
-                header: "Tipo de Cliente",
                 sortable: true
             }, {
                 field: "estado",
@@ -153,10 +159,10 @@ export default class HorarioView extends GenericView {
 
         this.onHideModal();
     }
-    
-    saveNewHorario =(horario)=>{
+
+    saveNewHorario = (horario) => {
         console.log(horario)
-        if(horario === null){
+        if (horario === null) {
             return;
         }
         const horariosService = new HorariosService();
@@ -179,9 +185,9 @@ export default class HorarioView extends GenericView {
 
     onClickYesButton = () => {
         const horario = this.horarioModal.current.getHorario();
-        
-        if (horario !==null) {
-           this.saveNewHorario(horario);
+
+        if (horario !== null) {
+            this.saveNewHorario(horario);
         }
     }
 

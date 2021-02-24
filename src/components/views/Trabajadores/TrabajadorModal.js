@@ -21,7 +21,7 @@ export default class TrabajadorModal extends GenericModal {
         this.state = {
             id: -1,
             ncedula: '',
-            codTrabajado: '',
+            codTrabajador: '',
             foto: '',
             pnombre: '',
             snombre: '',
@@ -74,7 +74,7 @@ export default class TrabajadorModal extends GenericModal {
                 papelli: trabajador.data.primerApellido,
                 sapelli: trabajador.data.segundoApellido,
                 //genero: { name: trabajador.data.sexo },
-                genero: { name: trabajador.data.sexo === 'M'? 'Masculino' : 'Femenino' },
+                genero: { name: trabajador.data.sexo === 'M' ? 'Masculino' : 'Femenino' },
                 estadoC: { name: trabajador.data.estadoCivil },
                 telefono: trabajador.data.telefono,
                 direccion: trabajador.data.direccion,
@@ -145,7 +145,8 @@ export default class TrabajadorModal extends GenericModal {
 
     componentDidMount() {
 
-        new CargoTrabajadorService().getAll().then(response => {
+        new CargoTrabajadorService()
+        .getAll().then(response => {
             console.log(response)
             this.setState({
                 cargos: response
@@ -159,39 +160,39 @@ export default class TrabajadorModal extends GenericModal {
 
     validarguardar() {
 
-        if (this.state.noCedula === null) {
-            this.mostrarMensajeAdvertencia('No se ha pasado un parametro valido');
+        if (this.state.ncedula === null) {
+            this.mostrarMensajeAdvertencia('Ingresela Cedula');
             return false;
         }
 
         if (this.state.codTrabajador === null) {
-            this.mostrarMensajeAdvertencia('No se ha pasado un parametro valido');
+            this.mostrarMensajeAdvertencia('Ingrese el Codigo del Trabajador');
             return false;
         }
 
         if (this.state.pnombre === null) {
-            this.mostrarMensajeAdvertencia('No se ha pasado un parametro valido');
+            this.mostrarMensajeAdvertencia('Ingrese el Primer Nombre');
             return false;
         }
 
 
         if (this.state.snombre === null) {
-            this.mostrarMensajeAdvertencia('No se ha pasado un parametro valido');
+            this.mostrarMensajeAdvertencia('Ingrese el Segundo Nombre');
             return false;
         }
 
         if (this.state.papelli === null) {
-            this.mostrarMensajeAdvertencia('No se ha pasado un parametro valido');
+            this.mostrarMensajeAdvertencia('Ingrese el Primer Apellido');
             return false;
         }
 
         if (this.state.sapelli === null) {
-            this.mostrarMensajeAdvertencia('No se ha pasado un parametro valido');
+            this.mostrarMensajeAdvertencia('Ingrese el Segundo Apellido');
             return false;
         }
 
         if (this.state.telefono === null) {
-            this.mostrarMensajeAdvertencia('No se ha pasado un parametro valido');
+            this.mostrarMensajeAdvertencia('Ingrese el Telefono');
             return false;
         }
 
@@ -299,14 +300,14 @@ export default class TrabajadorModal extends GenericModal {
                             <div className="col col-12 col-sm-12 col-md-12 col-lg-6" style={{ marginTop: '1.3em' }}>
                                 <Dropdown value={this.state.genero}
                                     onChange={(e) => this.setState({ genero: e.target.value })}
-                                    options={[{ name: 'Masculino' }, { name: 'Femenino' }]} 
+                                    options={[{ name: 'Masculino' }, { name: 'Femenino' }]}
                                     optionLabel="name" placeholder="Genero" />
                             </div>
 
                             <div className="col col-12 col-sm-12 col-md-12 col-lg-6" style={{ marginTop: '1.3em' }}>
                                 <Dropdown value={this.state.estadoC}
                                     onChange={(e) => this.setState({ estadoC: e.target.value })}
-                                    options={[{ name: 'Soltero' }, { name: 'Casado' }]} 
+                                    options={[{ name: 'Soltero' }, { name: 'Casado' }]}
                                     optionLabel="name" placeholder="Estado Civil" />
                             </div>
 
@@ -322,9 +323,9 @@ export default class TrabajadorModal extends GenericModal {
                                 <span className="p-float-label" style={{ marginTop: '1.3em' }}>
                                     <InputNumber id="itCodigoTrabajador"
                                         value={this.state.codTrabajador}
-                                        max = {99999}
+                                        max={99999}
                                         onChange={(e) => this.setState({ codTrabajador: e.value })}
-                                     
+
                                     />
                                     <label htmlhtmlFor="itCodigoTrabajador" style={{ fontSize: '0.8em' }}>Codigo del Trabajador</label>
                                 </span>
