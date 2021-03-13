@@ -224,7 +224,6 @@ export default class ClienteJuridico extends GenericView {
                 });
             });
 
-
     }
 
     saveNewCustomer = (cliente) => {
@@ -269,8 +268,6 @@ export default class ClienteJuridico extends GenericView {
                 this.saveNewCustomer(cliente);
             }
         }
-
-
     }
 
     validarGuardar = (cliente) => {
@@ -366,8 +363,5 @@ export default class ClienteJuridico extends GenericView {
 
         );
     }
-
-
-
 
 }
