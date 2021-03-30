@@ -255,8 +255,9 @@ export default class ClienteJuridico extends GenericView {
                 });
             });
 
-
     }
+
+    
     onClickYesButton = () => {
         const cliente = this.ClienteModal.current.getCliente();
         console.log(cliente);
