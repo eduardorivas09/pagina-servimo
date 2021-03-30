@@ -132,7 +132,6 @@ export default class HorarioModal extends GenericModal {
             return false;
         }
 
-
         return true;
     }
 
@@ -197,7 +196,6 @@ export default class HorarioModal extends GenericModal {
                                     style={{ 'width': '100%' }}
                                     value={this.state.HoraEntrada}
                                     onChange={(e) => this.setState({ HoraEntrada: e.target.value })}
-
 
                                     showTime
                                     hourFormat="12"

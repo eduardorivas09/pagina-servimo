@@ -1,8 +1,9 @@
 {
-  "url": "https://servimo-api.herokuapp.com/",
+  "url": "http://localhost:8080/",
   "authenticate" : "authenticate",
   "authenticateToken" : "authenticate/token",
   "main" : "main/",
   "admin" : "admin/",
   "public" : "public/"
 }
+

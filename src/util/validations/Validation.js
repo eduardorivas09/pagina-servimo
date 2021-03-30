@@ -47,5 +47,7 @@ export class Validation{
         if (letraCedula !== letra) return false;
 
         return Validation.regexNoCedula.test(cedula);
+
+        //"url": "http://localhost:8080/",
     }
 }
